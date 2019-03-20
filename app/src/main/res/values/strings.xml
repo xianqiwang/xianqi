@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">System update</string>
+
+     <string name="software_update">Software Update</string>
+     <string name="auto_update">Automatic Update Settings</string>
+     <string name="update_schedule">Update Schedule Settings</string>
+
+     <string name="update_schedule_title">Set SW Update Schedule</string>
+     <string name="toast_set_complete">Done.</string>
+
+     <string name="auto_update_on">Software Update\nON</string>
+     <string name="auto_update_off">Software Update\nOFF</string>
+
+     <string name="server_connect">Server connecting</string>
+     <string name="auto_text">If you need to update the software update, set up to update automatically to the latest software.</string>
+     <string name="unserted_card">UIM is not inserted.</string>
+     <string name="volume_insuffient">Not Enough Storage</string>
+     <string name="volume_low">We needs more space. To make space available for the download, remove any files that you no longer need.</string>
+     <string name="network_connect_error">Network connecting error(%1$s).</string>
+     <string name="confirm_latest_sw">Confirming latest SW. Please wait.</string>
+     <string name="no_latest_sw">Your phone software is latest. No update is required.</string>
+     <string name="softkey_next">Next</string>
+     <string name="dialog_preference_done">Done</string>
+     <string name="server_error">Server error</string>
+     <string name="server_error10">Server error(error 10).\nPlease retry again after a while.</string>
+     <string name="server_error20">Server error(error 20).\nPlease retry again after a while.</string>
+     <string name="server_error21">Server error(error 21).\nPlease retry again after a while.</string>
+     <string name="server_error22">Server error(error 22).\nPlease retry again after a while.</string>
+     <string name="server_error25">Server error(error 25).\nPlease retry again after a while.</string>
+     <string name="server_error26">Server error(error 26).\nPlease retry again after a while.</string>
+     <string name="server_error27">Server error(error 27).\nPlease retry again after a while.</string>
+     <string name="server_error28">Server error(error 28).\nPlease retry again after a while.</string>
+     <string name="server_error29">Server error(error 29).\nPlease retry again after a while.</string>
+     <string name="server_error30">Server error(error 30).\nPlease retry again after a while.</string>
+     <string name="server_error31">Server error(error 31).\nPlease retry again after a while.</string>
+     <string name="server_error_other">Other Errors.\nPlease retry again after a while.</string>
+
+     <string name="yes">Yes</string>
+     <string name="no">No</string>
+    <string name="cancel">Cancel</string>
+     <string name="confirmation">Confirmation</string>
+     <string name="confirmation_messages">"Update the latest software?" All functions can not be used during SW updating.</string>
+     <string name="download_info">Download the latest SW?</string>
+     <string name="download_progress">SW downloading</string>
+     <string name="cancel_download">Cancel to Download?</string>
+
+     <string name="schedule">Schedule</string>
+     <string name="update">Update</string>
+     <string name="update_done">Software is downloaded. Automatic update starts at the following date and time.All functions are not available during update.\n%1$s/%2$s %3$s:%4$s</string>
+
+     <string name="update_complete">Software update has done</string>
+     <string name="update_fail">Update latest sw fail</string>
+
+     <string name="download_fail">Failed to downloading latest SW, retry it?</string>
+     <string name="downlaod_back_idle">Switch the Idle screen?</string>
+
+     <string name="battery_low">Low battery</string>
+
+     <string name="wait_checking_delta">Firmware Confirming.</string>
+
+     <!--Fota-->
+     <string name="Notification_software_update">Software Update</string>
+     <string name="Notification_download_successed">Software download completed</string>
+     <string name="Notification_download_start">Software download start</string>
+     <string name="Notification_download_ing">Downloading software is in progress</string>
+     <string name="Notification_download_failed">Software download failed</string>
+     <string name="Notification_battery_low">Low battery</string>
+     <string name="Notification_no_simcard">software update USIM card not inserted</string>
+     <string name="Notification_storage_low">Software update Storage empty</string>
+     <string name="Notification_schedule">SW auto update schedule</string>
+     <string name="Notification_update_success">Software update completed</string>
+     <string name="Notification_update_fail">Software update faild</string>
+
+<!-- event log text-->
+     <string name="polling">[FOTA]Polling</string>
+     <string name="start">開始</string>
+
+     <string name="polling_result">[FOTA]Polling結果</string>
+     <string name="check_new_file">更新Fileあり</string>
+     <string name="check_old_file">更新Fileなし</string>
+
+     <string name="download">[FOTA]Download</string>
+     <string name="end">終了</string>
+     <string name="fail">失敗</string>
+
+     <string name="install">[FOTA]Install</string>
+     <string name="manual_install">手動Install</string>
+     <string name="auto_install">自動Install</string>
+     <string name="interval_install">中断点再開</string>
+
+     <string name="install_result">[FOTA]Install結果</string>
+     <string name="success">成功</string>
+     <string name="no_enough_battery">Battery不足</string>
+     <string name="other">Other</string>
+
+     <string name="auto_update_setting">[FOTA]自動更新設定</string>
+     <string name="update_time">YYYYMMDDHHMM</string>
+
+     <string name="polling_time_setting">[FOTA]Polling時間</string>
+     <string name="polling_time">YYYYMMDDHHMM</string>
+
+     <string name="update_result">[FOTA]更新結果</string>
+     <string name="ver_result">***/***</string>
+</resources>
