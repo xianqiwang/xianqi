@@ -23,14 +23,16 @@ allprojects {
         google()
         jcenter()
     }
-    gradle.projectsEvaluated {
+/*    gradle.projectsEvaluated {
         tasks.withType(JavaCompile) {
             options.compilerArgs.add('-Xbootclasspath/p:app/libs/framework.jar')
         }
-    }
+    }*/
 }
 dependencies {
+/*
     provided files('libs/framework.jar')
+*/
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:28.+'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
