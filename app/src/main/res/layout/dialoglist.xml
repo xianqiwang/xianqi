@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="diaog.com.diaogdemo.MainActivity">
+
+    <Button
+        android:id="@+id/normal_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="普通对话框" />
+
+    <Button
+        android:id="@+id/list_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/normal_btn"
+        android:text="列表对话框" />
+
+    <Button
+        android:id="@+id/choice_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/list_btn"
+        android:text="单选列表对话框" />
+
+    <Button
+        android:id="@+id/more_choice_btn"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/choice_btn"
+        android:layout_height="wrap_content"
+        android:text="多选列表对话框" />
+    <Button
+        android:id="@+id/editext_btn"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/more_choice_btn"
+        android:layout_height="wrap_content"
+        android:text="可编辑输入对话框" />
+</RelativeLayout>

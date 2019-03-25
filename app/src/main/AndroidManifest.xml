@@ -50,6 +50,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".SoftwareUpdate" />
+        <activity android:name=".DialogText" />
+
         <activity
             android:name=".PrepareUpdateActivity"
             android:allowTaskReparenting="true" />

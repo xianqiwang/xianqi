@@ -77,7 +77,7 @@ public class MainActivity extends Activity {
         mList.add(getString(R.string.update_schedule));
 
         dialogMothed();
-        
+
         ArrayAdapter<String> myArrayAdapter = new ItemListAdapter(this, R.layout.main_item, mList);
         mListView.setAdapter(myArrayAdapter);
         mListView.setOnItemClickListener(new ListView.OnItemClickListener() {
@@ -117,15 +117,19 @@ public class MainActivity extends Activity {
         mDefDialog.setMessage (
                 "fota is downloading from remote server ,please make sure you have correct ip address!\n Don't interupt this dialog!!");
         mDefDialog.witchNeedOnlyKey ();
-        mDefDialog.setOkClickListener (new com.nfp.update.DefDialog.OnOkListener(){
+        mDefDialog.setOkClickListener (new DefDialog.OnOkListener(){
 
             @Override
             public void onOkKey () {
-                Toast toast = Toast.makeText(MainActivity.this,"'you click me!!! please let me update!!'", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(MainActivity.this,"you click me!!! please let me update!!", Toast.LENGTH_LONG);
                 toast.show ();
+/*
+                startActivity(new Intent(com.nfp.update.MainActivity.this, com.nfp.update.DialogText.class));
+*/
             }
 
         });
+
 /*
         mDefDialog.setBackground (android.graphics.Color.GRAY, android.graphics.Color.BLACK);
 */

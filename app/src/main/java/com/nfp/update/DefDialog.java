@@ -12,6 +12,17 @@ import android.widget.Button;
 import android.view.WindowManager.LayoutParams;
 import android.app.AlertDialog;
 import android.view.KeyEvent;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
+import android.widget.SimpleAdapter;
+import android.content.DialogInterface;
+
+
 class DefDialog extends Dialog {
     TextView mTitle;
     TextView mMessage;
@@ -107,13 +118,6 @@ class DefDialog extends Dialog {
         return (String) mConfirm.getText ();
     }
 
-
-
-
-
-
-
-
     public void witchNeedOnlyKey(){
     mCancel.setVisibility (android.view.View.GONE);
     }
@@ -140,6 +144,60 @@ class DefDialog extends Dialog {
     {
         public void onOkKey();
     }
+
+    private void setListviewDialog(android.content.Context context,List data) {
+
+        //自定义一个布局文件
+        android.widget.LinearLayout linearLayoutMain = new LinearLayout(context);
+        linearLayoutMain.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+
+        //自定义一个listview
+        android.widget.ListView listView = new ListView(context);
+        listView.setFadingEdgeLength(0);
+
+        //建立一个数组存储listview上显示的数据
+        java.util.List<java.util.Map<String, String>> nameList = new java.util.ArrayList<java.util.Map<String, String>> ();
+        for (int m = 0; m < data.size(); m++) {//initData为一个list类型的数据源
+            Map<String, String> nameMap = new java.util.HashMap<String, String> ();
+            nameMap.put("name", data.get(m).toString());
+            nameList.add(nameMap);
+        }
+
+        android.widget.SimpleAdapter adapter = new SimpleAdapter(context, nameList, R.layout.main_item,
+                new String[] { "name" }, null);
+        listView.setAdapter(adapter);
+
+        linearLayoutMain.addView(listView);//往这个布局中加入listview
+
+        final AlertDialog dialog = new AlertDialog.Builder(context).setTitle("fota").setView(linearLayoutMain)//在这里把写好的这个listview的布局加载dialog中
+                .setNegativeButton("取消", new android.content.DialogInterface.OnClickListener() {
+
+
+
+                    public void onClick(android.content.DialogInterface dialog, int which) {
+
+                        dialog.cancel();
+
+                    }
+                }).create();
+
+        dialog.setCanceledOnTouchOutside(false);//使除了dialog以外的地方不能被点击
+        dialog.show();
+
+        listView.setOnItemClickListener(new ListView.OnItemClickListener() {//响应listview中的item的点击事件
+
+            @Override
+            public void onItemClick(android.widget.AdapterView<?> parent, View view, int position, long id) {
+
+                dialog.cancel();
+
+            }
+        });
+    }
+
+
+
+
     @Override
     public int hashCode () {
         return super.hashCode ();
