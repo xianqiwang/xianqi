@@ -37,9 +37,9 @@ import android.widget.AbsListView;
 public class MainActivity extends Activity {
     private ListView mListView;
     private ArrayList<String> mList = new ArrayList<String>();
-/*
-    private DefDialog mMyDialog;
-*/
+
+    private DefDialog mDefDialog;
+
 
     private static Context context;
 
@@ -77,9 +77,9 @@ public class MainActivity extends Activity {
 
 
         View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
-/*        mMyDialog = new DefDialog (this, 0, 0, view, R.style.DialogTheme);
-        mMyDialog.setCancelable(true);
-        mMyDialog.show();*/
+        mDefDialog = new DefDialog (this, 0, 0, view, R.style.DialogTheme);
+        mDefDialog.setCancelable(true);
+        mDefDialog.show();
 
         ArrayAdapter<String> myArrayAdapter = new ItemListAdapter(this, R.layout.main_item, mList);
         mListView.setAdapter(myArrayAdapter);
