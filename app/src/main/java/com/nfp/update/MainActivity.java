@@ -33,6 +33,7 @@ import android.view.ViewGroup;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.widget.AbsListView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
     private ListView mListView;
@@ -80,8 +81,19 @@ public class MainActivity extends Activity {
         mDefDialog = new DefDialog (this, 0, 0, view, R.style.styledialog);
         mDefDialog.setCancelable(true);
         mDefDialog.setTitle ("Downloading");
+
         mDefDialog.setMessage (
                 "fota is downloading from remote server ,please make sure you have correct ip address!\n Don't interupt this dialog!!");
+        mDefDialog.witchNeedOnlyKey ();
+        mDefDialog.setOkClickListener (new com.nfp.update.DefDialog.OnOkListener(){
+
+            @Override
+            public void onOkKey () {
+                Toast toast = Toast.makeText(MainActivity.this,"'you click me!!! please let me update!!'", Toast.LENGTH_LONG);
+                toast.show ();
+            }
+
+        });
 /*
         mDefDialog.setBackground (android.graphics.Color.GRAY, android.graphics.Color.BLACK);
 */

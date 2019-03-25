@@ -52,6 +52,20 @@ class DefDialog extends Dialog {
             }
 
         });
+        mConfirm.setOnClickListener (new View.OnClickListener () {
+            /**
+             * Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
+            @Override
+            public void onClick (android.view.View v) {
+
+                mOnCenterKeyListener.onOkKey();
+
+            }
+
+        });
     }
     public void setBackground(int color,int font){
         mTitle.setBackgroundColor (color);
@@ -92,24 +106,12 @@ class DefDialog extends Dialog {
     public String getButtonConfirm(){
         return (String) mConfirm.getText ();
     }
-    public void onClickOk(){
 
-        mCancel.setOnClickListener (new View.OnClickListener () {
-            /**
-             * Called when a view has been clicked.
-             *
-             * @param v The view that was clicked.
-             */
-            @Override
-            public void onClick (android.view.View v) {
 
-                mOnCenterKeyListener.onOkKey();
 
-            }
 
-        });
 
-    }
+
 
 
     public void witchNeedOnlyKey(){
