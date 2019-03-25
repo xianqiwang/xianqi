@@ -37,6 +37,9 @@ import android.widget.AbsListView;
 public class MainActivity extends Activity {
     private ListView mListView;
     private ArrayList<String> mList = new ArrayList<String>();
+/*
+    private DefDialog mMyDialog;
+*/
 
     private static Context context;
 
@@ -55,6 +58,7 @@ public class MainActivity extends Activity {
         }
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +74,12 @@ public class MainActivity extends Activity {
         mList.add(getString(R.string.software_update));
         mList.add(getString(R.string.auto_update));
         mList.add(getString(R.string.update_schedule));
+
+
+        View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
+/*        mMyDialog = new DefDialog (this, 0, 0, view, R.style.DialogTheme);
+        mMyDialog.setCancelable(true);
+        mMyDialog.show();*/
 
         ArrayAdapter<String> myArrayAdapter = new ItemListAdapter(this, R.layout.main_item, mList);
         mListView.setAdapter(myArrayAdapter);

@@ -1,10 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  Copyright (c) 2011-2012 Qualcomm Technologies, Inc.  All Rights Reserved.
  Qualcomm Technologies Proprietary and Confidential.
- -->
+-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-
     package="com.nfp.update">
 
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
@@ -16,74 +14,65 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.DEVICE_POWER" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_CACHE_FILESYSTEM"/>
-    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION"/>
-    <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER"/>
-    <uses-permission android:name="android.permission.GET_TASKS"/>
-    <uses-permission android:name="android.permission.REBOOT"/>
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_UPDATES"/>
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.DELETE_CACHE_FILES"/>
-    <uses-permission android:name="android.permission.INSTALL_PACKAGES"/>
-    <uses-permission android:name="android.permission.DELETE_PACKAGES"/>
-    <uses-permission android:name="android.permission.WRITE_MEDIA_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_CACHE_FILESYSTEM" />
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
+    <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.REBOOT" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_UPDATES" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.DELETE_CACHE_FILES" />
+    <uses-permission android:name="android.permission.INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.DELETE_PACKAGES" />
+    <uses-permission android:name="android.permission.WRITE_MEDIA_STORAGE" />
 
-    <application   android:allowBackup="true"
+    <application
+        android:allowBackup="true"
         android:icon="@drawable/icon"
         android:label="@string/software_update"
-        android:theme="@style/AppBaseTheme" >
+        android:theme="@style/AppBaseTheme">
         <activity
             android:name=".MainActivity"
             android:clearTaskOnLaunch="true"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".SoftwareUpdate"></activity>
+        <activity
+            android:name=".PrepareUpdateActivity"
+            android:allowTaskReparenting="true"></activity>
+        <activity android:name=".LowBatteryActivity"></activity>
+        <activity android:name=".AutoUpdate"></activity>
 
-        <activity android:name=".SoftwareUpdate">
-        </activity>
-
-        <activity android:name=".PrepareUpdateActivity"
-            android:allowTaskReparenting = "true">
-        </activity>
-
-
-        <activity android:name=".LowBatteryActivity">
-        </activity>
-
-        <activity android:name=".AutoUpdate">
-        </activity>
-
-<!--        <activity android:name=".ScheduleSetting"
+        <!--
+            <activity android:name=".ScheduleSetting"
             android:label="@string/update_schedule">
-        </activity>-->
+        </activity>
+        -->
 
         <activity android:name=".UpdateDialog">
             <intent-filter>
                 <action android:name="android.settings.SYSTEM_UPDATE" />
             </intent-filter>
         </activity>
+        <activity android:name=".LessVolumeActivity"></activity>
+        <activity android:name=".UpdateSuccessActivity"></activity>
+        <activity android:name=".UpdateFailActivity"></activity>
 
-        <activity android:name="com.nfp.update.LessVolumeActivity">
-        </activity>
-
-        <activity android:name="com.nfp.update.UpdateSuccessActivity">
-        </activity>
-
-        <activity android:name="com.nfp.update.UpdateFailActivity">
-        </activity>
-
-<!--        <activity android:name=". " android:theme="@style/NoDisplay">
+        <!--
+            <activity android:name=". " android:theme="@style/NoDisplay">
             <intent-filter>
                 <action android:name="com.qualcomm.update.REBOOT" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -94,25 +83,37 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:scheme="file" />
             </intent-filter>
-        </activity>-->
+        </activity>
+        -->
 
-      <!--  <activity android:name=".UpdateDialog" android:launchMode="singleInstance"/>-->
 
-        <activity android:name=".CheckDeltaProgressDialog" android:launchMode="singleInstance"/>
-        <activity android:name=".UpdateSchedule" android:launchMode="singleInstance"/>
-        <service android:name=".DebugService" android:launchMode="singleInstance"/>
-        <activity android:name=".DownloadProgress"
-            android:screenOrientation="nosensor"
-            android:allowTaskReparenting = "true"/>
+        <!-- <activity android:name=".UpdateDialog" android:launchMode="singleInstance"/> -->
 
-        <receiver android:name=".DebugReceiver"
+        <activity
+            android:name=".CheckDeltaProgressDialog"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name=".UpdateSchedule"
+            android:launchMode="singleInstance" />
+
+        <service
+            android:name=".DebugService"
+            android:launchMode="singleInstance" />
+
+        <activity
+            android:name=".DownloadProgress"
+            android:allowTaskReparenting="true"
+            android:screenOrientation="nosensor" />
+
+        <receiver
+            android:name=".DebugReceiver"
             android:process=":remote">
             <intent-filter>
                 <action android:name="com.android.nfp.updateDebug" />
             </intent-filter>
         </receiver>
-
-        <receiver android:name=".AlarmReceiver"
+        <receiver
+            android:name=".AlarmReceiver"
             android:process=":remote">
             <intent-filter>
                 <action android:name="com.nfp.update.ALARM" />
@@ -121,13 +122,10 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".AutoUpdateService">
-        </service>
+        <service android:name=".AutoUpdateService"></service>
+        <service android:name=".polling.PollingService"></service>
 
-        <service android:name="com.nfp.update.polling.PollingService">
-        </service>
-
-        <receiver android:name="com.nfp.update.polling.PollReceiver">
+        <receiver android:name=".polling.PollReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.action.NITZ" />
@@ -137,13 +135,18 @@
                 <action android:name="android.intent.action.ACTION_SHUTDOWN" />
             </intent-filter>
         </receiver>
-
-        <receiver android:name="com.nfp.update.TimeChangeReceiver" >
+        <receiver android:name=".TimeChangeReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.TIME_SET" />
             </intent-filter>
         </receiver>
-<!--        <uses-library android:name="com.nextfp.android.util"/>
-        <uses-library android:name="com.nextfp.android.app" />-->
+        <!--
+            <uses-library android:name="com.nextfp.android.util"/>
+        <uses-library android:name="com.nextfp.android.app" />
+        -->
+<!--        <meta-data
+            android:name="com.google.android.actions"
+            android:resource="@xml/dialog_bg" />-->
     </application>
+
 </manifest>

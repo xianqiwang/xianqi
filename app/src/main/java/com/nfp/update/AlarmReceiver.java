@@ -33,6 +33,8 @@ import java.io.File;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 
+import static android.os.PowerManager.*;
+
 
 public class AlarmReceiver extends BroadcastReceiver {
 
@@ -41,9 +43,11 @@ public class AlarmReceiver extends BroadcastReceiver {
     @android.support.annotation.RequiresApi (api = android.os.Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onReceive(final Context context, Intent intent) {
+
         PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-        WakeLock mWakelock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "SimpleTimer");
-        WakeLock mWake = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP|PowerManager.SCREEN_DIM_WAKE_LOCK, "SimpleT");
+        WakeLock mWakelock = pm.newWakeLock(PARTIAL_WAKE_LOCK, "SimpleTimer");
+
+        WakeLock mWake = pm.newWakeLock(ACQUIRE_CAUSES_WAKEUP|SCREEN_DIM_WAKE_LOCK, "SimpleT");
 
         if (intent.getAction().equals("com.nfp.update.ALARM")) {
             Log.d("kevin", "receive polling services broadcast");

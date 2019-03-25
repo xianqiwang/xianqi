@@ -606,6 +606,36 @@ public class UpdateUtil {
         }
 
     }
+    public static android.widget.RemoteViews getRemoteViews(Context context, String info) {
+        android.widget.RemoteViews remoteviews = new android.widget.RemoteViews (context.getPackageName(), com.nfp.update.R.layout.main_item);
+/*        remoteviews.setImageViewResource(R.id.download_promp_icon,R.mipmap.ic_launcher_round);
+        remoteviews.setTextViewText(R.id.download_title,mUpdateInfo.getAppname());
+        remoteviews.setTextViewText(R.id.download_promp_info,info);*/
+        //找到对应的控件（R.id.download_notification_root），为控件添加点击事件getPendingIntent(context)
+        remoteviews.setOnClickPendingIntent(com.nfp.update.R.string.Notification_software_update,getPendingIntent(context));
+        return remoteviews;
+    }
+
+    private static PendingIntent getPendingIntent (Context context) {
+        Intent intent = new Intent(context, com.nfp.update.UpdateDialog.class);
+        intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("msg","Test发送到Service");
+        PendingIntent pendingIntent = PendingIntent.getService(context,0,intent,0);
+        return pendingIntent;
+    }
+
+    private void getPendingIntent() {
+/*        Intent intent = new Intent(this,MainActivity.class);
+        intent.putExtra("msg","从通知栏点击进来的");
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);*/
+/*
+        return null*/
+/*pendingIntent*//*
+;
+*/
+    }
+
+
     /* type = 0, back to initial interface; type = 1, back to update interface;type = 2, back to schedule interface;*/
     @android.support.annotation.RequiresApi (api = android.os.Build.VERSION_CODES.JELLY_BEAN)
     public static void showFotaNotification (android.content.Context context, int text, int type) {
@@ -680,6 +710,7 @@ public class UpdateUtil {
     }
 
     public static boolean hasSimCard (Context context) {
+
         TelephonyManager telMgr = (TelephonyManager) context.getSystemService (context.TELEPHONY_SERVICE);
         int simState = telMgr.getSimState ();
         boolean result = true;

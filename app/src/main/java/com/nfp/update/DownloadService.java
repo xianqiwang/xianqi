@@ -14,11 +14,8 @@ import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-/**
- * @author MR.ZHANG
- * @create 2018-06-04 18:41
- */
-public class DownloadService extends android.app.Service {
+
+public class DownloadService extends Service {
 
     private static final String TAG = "DownloadService";
     //初始化

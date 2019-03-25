@@ -242,6 +242,12 @@ public class PollingService extends Service {
                                 }
                             }
 
+
+
+
+
+
+
                             if(wakeLock.isHeld())
                                 wakeLock.release();
                         }
