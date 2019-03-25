@@ -8,9 +8,22 @@
 <!--
         android:background="@drawable/dialog_bg"
 -->
+<!--    其中android:state_pressed="true"表示在组件被单击时的背景图片，
+
+    android:state_window_focused="false" 表示默认时情况下的背景图片，此外还可以设置：
+
+    android:state_focused="true"表示在获得焦点时的背景图片
+
+    android:state_selected="true"表示被选中时的背景图片
+
+            android:clickable="true" 重要
+
+    android:state_enabled="true"表示响应时的背景图片-->
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
         android:orientation="vertical">
 
         <TextView
@@ -21,7 +34,8 @@
             android:padding="20dp"
             android:text="fota"
             android:textColor="#FFD306"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:background="@drawable/textviewshape"/>
 
               <View
                     android:layout_width="match_parent"
@@ -53,7 +67,7 @@
             android:layout_weight="1"
             android:baselineAligned="false"
             android:gravity="center"
-            android:background="@drawable/shape_button"
+            android:background="@drawable/button_style"
             android:text="Cancel"
             android:textSize="17dp" />
 
@@ -68,7 +82,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:background="@drawable/shape_button"
+            android:background="@drawable/button_style"
             android:text="Ok"
             android:textSize="17dp" />
 

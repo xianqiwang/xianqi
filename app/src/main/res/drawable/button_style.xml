@@ -6,13 +6,15 @@
                 android:endColor="#99CC33"
                 android:angle="270" />
             <stroke android:width="1dip" android:color="#f403c9" />
+<!--
             <corners android:radius="2dp" />
+-->
             <padding android:left="10dp" android:top="10dp"
                 android:right="10dp" android:bottom="10dp" />
         </shape>
     </item>
 
-    <item android:state_focused="true">
+<!--    <item android:state_focused="true">
         <shape>
             <gradient android:startColor="#ffc2b7"
                 android:endColor="#ffc2b7"
@@ -22,15 +24,19 @@
             <padding android:left="10dp" android:top="10dp"
                 android:right="10dp" android:bottom="10dp" />
         </shape>
-    </item>
+    </item>-->
 
     <item>
         <shape>
             <gradient android:startColor="#336633"
                 android:endColor="#336633"
                 android:angle="180" />
+
             <stroke android:width="1dip" android:color="#f403c9" />
+
+<!--
             <corners android:radius="5dip" />
+-->
             <padding android:left="10dp" android:top="10dp"
                 android:right="10dp" android:bottom="10dp" />
         </shape>

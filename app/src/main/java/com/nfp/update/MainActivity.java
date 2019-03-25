@@ -82,7 +82,10 @@ public class MainActivity extends Activity {
         mDefDialog.setTitle ("Downloading");
         mDefDialog.setMessage (
                 "fota is downloading from remote server ,please make sure you have correct ip address!\n Don't interupt this dialog!!");
+/*
         mDefDialog.setBackground (android.graphics.Color.GRAY, android.graphics.Color.BLACK);
+*/
+
         mDefDialog.show();
 
 
