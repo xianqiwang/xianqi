@@ -49,12 +49,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SoftwareUpdate"></activity>
+        <activity android:name=".SoftwareUpdate" />
         <activity
             android:name=".PrepareUpdateActivity"
-            android:allowTaskReparenting="true"></activity>
-        <activity android:name=".LowBatteryActivity"></activity>
-        <activity android:name=".AutoUpdate"></activity>
+            android:allowTaskReparenting="true" />
+        <activity android:name=".LowBatteryActivity" />
+        <activity android:name=".AutoUpdate" />
 
         <!--
             <activity android:name=".ScheduleSetting"
@@ -67,9 +67,9 @@
                 <action android:name="android.settings.SYSTEM_UPDATE" />
             </intent-filter>
         </activity>
-        <activity android:name=".LessVolumeActivity"></activity>
-        <activity android:name=".UpdateSuccessActivity"></activity>
-        <activity android:name=".UpdateFailActivity"></activity>
+        <activity android:name=".LessVolumeActivity" />
+        <activity android:name=".UpdateSuccessActivity" />
+        <activity android:name=".UpdateFailActivity" />
 
         <!--
             <activity android:name=". " android:theme="@style/NoDisplay">
@@ -122,8 +122,8 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".AutoUpdateService"></service>
-        <service android:name=".polling.PollingService"></service>
+        <service android:name=".AutoUpdateService" />
+        <service android:name=".polling.PollingService" />
 
         <receiver android:name=".polling.PollReceiver">
             <intent-filter>
@@ -144,9 +144,14 @@
             <uses-library android:name="com.nextfp.android.util"/>
         <uses-library android:name="com.nextfp.android.app" />
         -->
+        <!--
+            <meta-data
+            android:name="com.google.android.actions"
+            android:resource="@xml/dialog_bg" />
+        -->
 <!--        <meta-data
             android:name="com.google.android.actions"
-            android:resource="@xml/dialog_bg" />-->
+            android:resource="@xml/selector_green_bg" />-->
     </application>
 
 </manifest>

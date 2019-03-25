@@ -77,9 +77,14 @@ public class MainActivity extends Activity {
 
 
         View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
-        mDefDialog = new DefDialog (this, 0, 0, view, R.style.DialogTheme);
+        mDefDialog = new DefDialog (this, 0, 0, view, R.style.styledialog);
         mDefDialog.setCancelable(true);
+        mDefDialog.setTitle ("Downloading");
+        mDefDialog.setMessage (
+                "fota is downloading from remote server ,please make sure you have correct ip address!\n Don't interupt this dialog!!");
+        mDefDialog.setBackground (android.graphics.Color.GRAY, android.graphics.Color.BLACK);
         mDefDialog.show();
+
 
         ArrayAdapter<String> myArrayAdapter = new ItemListAdapter(this, R.layout.main_item, mList);
         mListView.setAdapter(myArrayAdapter);
