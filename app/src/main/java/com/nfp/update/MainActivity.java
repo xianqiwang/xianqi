@@ -76,31 +76,8 @@ public class MainActivity extends Activity {
         mList.add(getString(R.string.auto_update));
         mList.add(getString(R.string.update_schedule));
 
-
-        View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
-        mDefDialog = new DefDialog (this, 0, 0, view, R.style.styledialog);
-        mDefDialog.setCancelable(true);
-        mDefDialog.setTitle ("Downloading");
-
-        mDefDialog.setMessage (
-                "fota is downloading from remote server ,please make sure you have correct ip address!\n Don't interupt this dialog!!");
-        mDefDialog.witchNeedOnlyKey ();
-        mDefDialog.setOkClickListener (new com.nfp.update.DefDialog.OnOkListener(){
-
-            @Override
-            public void onOkKey () {
-                Toast toast = Toast.makeText(MainActivity.this,"'you click me!!! please let me update!!'", Toast.LENGTH_LONG);
-                toast.show ();
-            }
-
-        });
-/*
-        mDefDialog.setBackground (android.graphics.Color.GRAY, android.graphics.Color.BLACK);
-*/
-
-        mDefDialog.show();
-
-
+        dialogMothed();
+        
         ArrayAdapter<String> myArrayAdapter = new ItemListAdapter(this, R.layout.main_item, mList);
         mListView.setAdapter(myArrayAdapter);
         mListView.setOnItemClickListener(new ListView.OnItemClickListener() {
@@ -128,6 +105,32 @@ public class MainActivity extends Activity {
         HttpClient.cancleRequest(true);
         UpdateUtil.judgePolState(this, 0);
 
+    }
+
+    public void dialogMothed(){
+
+        View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
+        mDefDialog = new DefDialog (this, 0, 0, view, R.style.styledialog);
+        mDefDialog.setCancelable(true);
+        mDefDialog.setTitle ("Downloading");
+
+        mDefDialog.setMessage (
+                "fota is downloading from remote server ,please make sure you have correct ip address!\n Don't interupt this dialog!!");
+        mDefDialog.witchNeedOnlyKey ();
+        mDefDialog.setOkClickListener (new com.nfp.update.DefDialog.OnOkListener(){
+
+            @Override
+            public void onOkKey () {
+                Toast toast = Toast.makeText(MainActivity.this,"'you click me!!! please let me update!!'", Toast.LENGTH_LONG);
+                toast.show ();
+            }
+
+        });
+/*
+        mDefDialog.setBackground (android.graphics.Color.GRAY, android.graphics.Color.BLACK);
+*/
+
+        mDefDialog.show();
     }
 
     @Override
