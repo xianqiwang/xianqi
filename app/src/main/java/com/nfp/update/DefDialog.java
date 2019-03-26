@@ -28,6 +28,9 @@ class DefDialog extends Dialog {
     TextView mMessage;
     Button   mConfirm;
     Button   mCancel;
+    Button   mCenter;
+    android.widget.ListView listView;
+
     android.content.Context mContext;
     OnOkListener mOnCenterKeyListener;
 
@@ -43,6 +46,8 @@ class DefDialog extends Dialog {
         mMessage=layout.findViewById (R.id.message);
         mCancel=layout.findViewById (R.id.buttoncancel);
         mConfirm=layout.findViewById (R.id.buttonconfirm);
+        mCenter=layout.findViewById (R.id.buttoncenter);
+        listView=layout.findViewById (R.id.list);
         Window window = getWindow();
         WindowManager.LayoutParams params = window.getAttributes();
         params.gravity = Gravity.BOTTOM;
@@ -77,19 +82,35 @@ class DefDialog extends Dialog {
             }
 
         });
+        mCenter.setOnClickListener (new View.OnClickListener () {
+            /**
+             * Called when a view has been clicked.
+             *
+             * @param v The view that was clicked.
+             */
+            @Override
+            public void onClick (android.view.View v) {
+
+                mOnCenterKeyListener.onCenterKey ();
+
+            }
+
+        });
     }
+
     public void setBackground(int color,int font){
         mTitle.setBackgroundColor (color);
         mTitle.setTextColor (font);
-/*
         mMessage.setBackgroundColor (color);
-*/
         mMessage.setTextColor (font);
         mConfirm.setTextColor (font);
         mCancel.setTextColor (font);
         mConfirm.setBackgroundColor (color);
         mCancel.setBackgroundColor (color);
     }
+
+
+
     public void setTitle(String title){
         mTitle.setText (title);
     }
@@ -103,7 +124,12 @@ class DefDialog extends Dialog {
     public String getMessage(){
         return (String) mMessage.getText ();
     }
-
+    public void setCenter(String title){
+        mCenter.setText (title);
+    }
+    public String getCenter(){
+        return (String) mCenter.getText ();
+    }
     public void setButtonCancel(String text){
         mCancel.setText (text);
     }
@@ -120,7 +146,17 @@ class DefDialog extends Dialog {
 
     public void witchNeedOnlyKey(){
     mCancel.setVisibility (android.view.View.GONE);
+    mCenter.setVisibility (android.view.View.GONE);
     }
+    public void witchNeedAllKey(){
+        mCancel.setVisibility (android.view.View.VISIBLE);
+        mCenter.setVisibility (android.view.View.VISIBLE);
+    }
+    public void witchNeedTwoKey(){
+        mCancel.setVisibility (android.view.View.GONE);
+    }
+
+
 
 /*    @Override
     public boolean onKeyDown(int keyCode, android.view.KeyEvent event) {
@@ -143,60 +179,71 @@ class DefDialog extends Dialog {
     public interface OnOkListener
     {
         public void onOkKey();
+        public void onCenterKey();
     }
 
-    private void setListviewDialog(android.content.Context context,List data) {
+    public void setListviewDialog(Context context, List data) {
 
         //自定义一个布局文件
-        android.widget.LinearLayout linearLayoutMain = new LinearLayout(context);
-        linearLayoutMain.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-
+      /*  android.widget.LinearLayout linearLayoutMain = new android.widget.LinearLayout(this);
+        linearLayoutMain.setLayoutParams(new android.view.WindowManager.LayoutParams(android.view.WindowManager.LayoutParams.MATCH_PARENT, android.view.WindowManager.LayoutParams.WRAP_CONTENT));
+*/
         //自定义一个listview
-        android.widget.ListView listView = new ListView(context);
+/*
+        android.widget.ListView listView = new android.widget.ListView(context);
+*/
         listView.setFadingEdgeLength(0);
 
         //建立一个数组存储listview上显示的数据
-        java.util.List<java.util.Map<String, String>> nameList = new java.util.ArrayList<java.util.Map<String, String>> ();
+
+        List<Map<String, String>> nameList = new ArrayList<Map<String, String>> ();
+
+        Map<String, String> nameMap = new HashMap<String, String> ();
+
         for (int m = 0; m < data.size(); m++) {//initData为一个list类型的数据源
-            Map<String, String> nameMap = new java.util.HashMap<String, String> ();
             nameMap.put("name", data.get(m).toString());
+
             nameList.add(nameMap);
         }
+        android.util.Log.v("yingbo2","items"+nameList);
 
-        android.widget.SimpleAdapter adapter = new SimpleAdapter(context, nameList, R.layout.main_item,
-                new String[] { "name" }, null);
+        SimpleAdapter adapter = new SimpleAdapter(context, nameList,R.layout.main_item,
+                new String[] {"name"}, new int[]{R.id.text1});
+
         listView.setAdapter(adapter);
+        listView.setDividerHeight(0);
 
+        listView.setDivider(null);
+/*
         linearLayoutMain.addView(listView);//往这个布局中加入listview
+*/
 
-        final AlertDialog dialog = new AlertDialog.Builder(context).setTitle("fota").setView(linearLayoutMain)//在这里把写好的这个listview的布局加载dialog中
+       /* final android.app.AlertDialog dialog = new android.app.AlertDialog.Builder(context).setTitle("fota").setView(linearLayoutMain)//在这里把写好的这个listview的布局加载dialog中
                 .setNegativeButton("取消", new android.content.DialogInterface.OnClickListener() {
-
-
 
                     public void onClick(android.content.DialogInterface dialog, int which) {
 
                         dialog.cancel();
 
                     }
-                }).create();
 
-        dialog.setCanceledOnTouchOutside(false);//使除了dialog以外的地方不能被点击
-        dialog.show();
+                }).create();*/
 
-        listView.setOnItemClickListener(new ListView.OnItemClickListener() {//响应listview中的item的点击事件
+/*        dialog.setCanceledOnTouchOutside(false);//使除了dialog以外的地方不能被点击
+        dialog.show();*/
+
+        listView.setOnItemClickListener(new android.widget.ListView.OnItemClickListener() {//响应listview中的item的点击事件
 
             @Override
-            public void onItemClick(android.widget.AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(android.widget.AdapterView<?> parent, android.view.View view, int position, long id) {
 
+/*
                 dialog.cancel();
+*/
 
             }
         });
     }
-
-
-
 
     @Override
     public int hashCode () {

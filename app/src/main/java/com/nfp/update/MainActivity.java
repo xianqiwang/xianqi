@@ -110,13 +110,27 @@ public class MainActivity extends Activity {
     public void dialogMothed(){
 
         View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
+
         mDefDialog = new DefDialog (this, 0, 0, view, R.style.styledialog);
         mDefDialog.setCancelable(true);
         mDefDialog.setTitle ("Downloading");
 
+        ArrayList<String> items =new ArrayList<String> ();
+
+        items.add ("1");
+        items.add ("2");
+        items.add ("3");
+        items.add ("5");
+        items.add ("7");
+        items.add ("9");
+
+
         mDefDialog.setMessage (
                 "fota is downloading from remote server ,please make sure you have correct ip address!\n Don't interupt this dialog!!");
+/*
         mDefDialog.witchNeedOnlyKey ();
+*/
+
         mDefDialog.setOkClickListener (new DefDialog.OnOkListener(){
 
             @Override
@@ -128,13 +142,23 @@ public class MainActivity extends Activity {
 */
             }
 
+            @Override
+            public void onCenterKey () {
+
+                Toast toast = Toast.makeText(MainActivity.this,"you click center key!!!  Update Stoped!!", Toast.LENGTH_LONG);
+                toast.show ();
+
+            }
+
         });
 
 /*
         mDefDialog.setBackground (android.graphics.Color.GRAY, android.graphics.Color.BLACK);
 */
+        mDefDialog.setListviewDialog (this, items);
 
         mDefDialog.show();
+
     }
 
     @Override
