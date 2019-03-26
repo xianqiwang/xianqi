@@ -33,7 +33,37 @@
      <string name="server_error30">サーバーエラー\n(error30)\nが発生しました\nしばらく経って\nから再度行って\nください 。</string>
      <string name="server_error31">サーバーエラー\n(error31)\nが発生しました\nしばらく経って\nから再度行って\nください 。</string>
      <string name="server_error_other">サーバーエラー\n(Other Errors)\nが発生しました\nしばらく経って\nから再度行って\nください 。</string>
+ <!-- lihuachun add start-->
+ <string name="Signal_prompt">我々は、例外の間、良いレセプションで場所 \n にとどまることを勧めます</string>
+    <string name="Services_unavailable">国際ローミングで利用 \nできないServivce</string>
+    <string name="been_updated">あなたの電話ソフトウ\nェアは最新です。いいえ更新が必要です</string>
+    <string name="to_update">最新バージョンの実行を更新するソフトウェア\nをアップグレードするには</string>
+    <string name="Ready_update"> スケジュールされたアップデートが開始されようとしています。\n この操作を使用すると、スケジュールされたアップデート\nがキャンセルされる可能性があります。続行しますか？</string>
+    <string name="ask_up_time">新しいソフトウェアが自動的に\ n YYYY / MM / DD（ddd）にダウンロードされます。\ n hh：mm-hh：mm \ n今すぐソフトウェアをダウンロードしますか、それとも別の日時を選択しますか？</string>
+    <string name="ask_exit"> 終了しますか？</string>
+    <string name="ask_Cancel_sch"> YYYY/MM/DD(ddd) \n hh:mm-hh:mm \n スケジュールをキャンセル?</string>
+    <string name="up_diff"> 現在使用しているハンドセ \n ットは、ソフトウェアアップデ \n ートをスケジュールしたものとは異なります。</string>
+    <string name="Cancel_sch"> スケジュール YYYY/MM/DD(ddd) \n hh:mm-hh:mm キャンセルされました.</string>
+    <string name="Cancel_soft"> ソフトウェアアップデ \n ートはキャンセルされました.</string>
+    <string name="server_busy"> サーバーは現在ビジーです。\n しばらくしてからも\nう一度試してください。</string>
+    <string name="memory_message"> メモリ不足　\nソフトウェアアップデートのアップデートがキャンセルされました。</string>
+    <string name="auto_message">
+新しいソフトウェアがダウンロードされます。\n ソフトウェアアップデート\n は、次の日時に自動的に開始されます。\n アップデート中は利用できません（開いているアプリケーションはアッ\nプデート開始前に閉じられます）。\n
+時間：hh：mm 日付：MM：dd
+    </string>
+    <string name="up_now">今すぐアップデート</string>
+    <string name="time_change">時間変更</string>
+    <string name="up_message">新しいソフトウェアがダウンロードされます。 今すぐアップデートをインストールしますか？ アップデート中は利用できません（開いているアプリケーションはアップデート開始前に閉じられます）。</string>
+    <string name="up_later">後で更新</string>
+    <string-array name="up_chose">
+        <item>1.ダウンロード中</item>
+        <item>2.日時を選択してください</item>
+        <item>3.このアップデートの詳細を見る</item>
+        <item>4.利用規約</item>
+    </string-array>
 
+
+    <!-- lihuachun add end-->
      <string name="server_connect">しばらく\nお待ちください。</string>
 
      <!--Fota Notification-->

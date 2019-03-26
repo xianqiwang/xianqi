@@ -4,7 +4,7 @@
 
      <string name="software_update">Software Update</string>
      <string name="auto_update">Automatic Update Settings</string>
-     <string name="update_schedule">Update Schedule Settings</string>
+     <string name="update_schedule">Update Time &#038; Date Settings</string>
 
      <string name="update_schedule_title">Set SW Update Schedule</string>
      <string name="toast_set_complete">Done.</string>
@@ -43,7 +43,38 @@
      <string name="server_error30">Server error(error 30).\nPlease retry again after a while.</string>
      <string name="server_error31">Server error(error 31).\nPlease retry again after a while.</string>
      <string name="server_error_other">Other Errors.\nPlease retry again after a while.</string>
+<!-- lihuachun add start-->
+    <string name="Signal_prompt">We recommend that you stay in a place \n with a good reception while exception</string>
+    <string name="Services_unavailable">The serivce in unavailable \n in International Roaming</string>
+    <string name="been_updated">your phone software is up-to-date. \n No update is required</string>
+    <string name="to_update">To upgrade software to latest version execute updating \n times</string>
+    <string name="Ready_update"> Your scheduled update is about to start.\n Use of this operation may cause your \n scheduled update to be cancelled.Continue?</string>
+    <string name="ask_up_time"> New software is automatically downloaded at \n YYYY/MM/DD(ddd) \nhh:mm-hh:mm \n Do you want to download the software now or select another day and time?</string>
+    <string name="ask_exit"> Exit?</string>
+    <string name="ask_Cancel_sch"> YYYY/MM/DD(ddd) \n hh:mm-hh:mm \n Cancel schedule?</string>
+    <string name="up_diff"> The handset you are \n currently using is \n different from the one \n from which you scheduled your software update.</string>
+    <string name="Cancel_sch"> Schedule on YYYY/MM/DD(ddd) \n hh:mm-hh:mm \n has been cancelled.</string>
+    <string name="Cancel_soft"> Software update has been cancelled.</string>
+    <string name="server_busy"> The server is busy now. \n Try again after a while.</string>
 
+    <string name="memory_message"> Insufficient memory.\n Software update update has \n been cancelled.</string>
+    <string name="auto_message">
+    New software is downloaded. \n Software Update automationally starts at \n the following time and date.\n No function is available during the update.\n (Open applications are closed before starting the update.)\n
+    Time:hh:mm. Date:MM:dd
+    </string>
+    <string name="up_now">Update Now</string>
+    <string name="time_change">Time Change</string>
+    <string name="up_later">Update Later</string>
+    <string name="up_message">New software is downloaded. \n Install the update now ? \n No function is available during the update.(Open applications \n  are closed before starting the update.)</string>
+
+    <string-array name="up_chose">
+        <item>1.Download now</item>
+        <item>2.Select the day and the time </item>
+        <item>3.View details of this update</item>
+        <item>4.Terms of Use</item>
+    </string-array>
+
+    <!-- lihuachun add end-->
      <string name="yes">Yes</string>
      <string name="no">No</string>
     <string name="cancel">Cancel</string>
