@@ -53,15 +53,46 @@
     </string>
     <string name="up_now">今すぐアップデート</string>
     <string name="time_change">時間変更</string>
-    <string name="up_message">新しいソフトウェアがダウンロードされます。 今すぐアップデートをインストールしますか？ アップデート中は利用できません（開いているアプリケーションはアップデート開始前に閉じられます）。</string>
+    <string name="up_message">新しいソフトウェア \n がダウンロードされます。\n 今すぐアップデートをインストールしますか？ \nアップデート中は利用できません（開いているアプリケ\nーションはアップデート\n開始前に閉じられます）。</string>
     <string name="up_later">後で更新</string>
+    <string name="battery_message">電池残量が少なすぎます。\n 最初にバッテリーを充電してからソフト \n ウェアアップデートを再試行してください。</string>
+    <string name="up_success">ソフトウェアは正常に更新されました。</string>
+    <string name="updating">更新しています...</string>
+    <string name="up_done_reboot">携帯を\n再起動しています...</string>
+    <string name="up_install_now">今すぐソフトウェアア\nップデートをインス\nトールします。 アップデ\nート中は利用できない\n機能に注意してください。 開いている\nアプリケーションも閉じられます。OK？</string>
+    <string name="up_install">今すぐソフトウェアア\nップデートをインス\nトールします。 アップデ\nート中は利用できない\n機能に注意してください。 開いている\nアプリケーションも閉じられます。</string>
+    <string name="set_time">ソフトウェアが更新\nされる時間を設定してください.</string>
+    <string name="already_set">ソフトウェア更新の時間が設定されています。
+01：00〜02：00</string>
+    <string name="Download_reservation">ダウンロード予約期間が終了し \n ました。今すぐダウンロードしますか？</string>
+    <string name="select_otherday">選択した日はすでに\n予約が完了しています。\n他の日を選択してください。</string>
+    <string name="schedule_time">スケジュールしたい \n 日付を選択してください.</string>
+    <string name="already_sch_time">ソフトウェアのアッ \nプデートは次の日にスケジュ \nールされています:</string>
+    <string name="session_msg">セッションがタイムアウト \nのため終了しました \n。メニューに戻ってやり直してください</string>
+    <string name="auto_up">ソフトウェアのアッ\nプデートは、パフォー\nマンスを向上させ、\n最新の機能を提供するために、\n事前定義された時間に自動\n的に開始されます。アップデート\n中は機能を使用できません（開いているアプリ\nケーションはアップデート\nを開始する前に閉じられます）。
+更新時刻は\n現在03:00に設定されています。</string>
+    <string name="Replacement">設定を変更する</string>
+    <string name="already_setting">設定が変更されました.</string>
+    <string name="not_auto_up">ソフトウェアの更新\nが必要なときはいつでもソ\nフトウェアを自動的に最新\nバージョンに更新す\nるように設定できます。
+\n現在の設定：
+\n自動的に更新しない</string>
+    <string name="is_auto_up">ソフトウェアの更新\nが必要なときはいつでもソ\nフトウェアを自動的に最新\nバージョンに更新す\nるように設定できます。
+\n現在の設定：
+\n自動的に更新する</string>
+    <string name="up_auto">自動更新</string>
+    <string name="up_noauto">自動的に更新しない</string>
     <string-array name="up_chose">
         <item>1.ダウンロード中</item>
         <item>2.日時を選択してください</item>
         <item>3.このアップデートの詳細を見る</item>
         <item>4.利用規約</item>
     </string-array>
-
+    <string-array name="set_time_arr">
+        <item>設定日</item>
+        <item>タイムゾーンを選択 </item>
+        <item>時間を選択してください</item>
+        <item>24時間表示</item>
+    </string-array>
 
     <!-- lihuachun add end-->
      <string name="server_connect">しばらく\nお待ちください。</string>

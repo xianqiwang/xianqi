@@ -66,14 +66,44 @@
     <string name="time_change">Time Change</string>
     <string name="up_later">Update Later</string>
     <string name="up_message">New software is downloaded. \n Install the update now ? \n No function is available during the update.(Open applications \n  are closed before starting the update.)</string>
+    <string name="battery_message">Your battery level is too low.\n Charge your battery first \n then retry Software Update.</string>
+    <string name="up_success">Software has been \n successfully updated.</string>
+    <string name="updating">Updating...</string>
+    <string name="up_done_reboot">Updated successfully \n Rebooting phone...</string>
+    <string name="up_install_now">Install Software Update now. \n Note that no function is \n available during the update.\n Open applications are\n also closed.OK?</string>
 
+    <string name="up_install">Install Software Update now. \n Note that no function is \n available during the update.\n Open applications are\n also closed.</string>
+    <string name="set_time">Please set time when \n the software is updated.</string>
+    <string name="already_set">Please set time when \n the software is updated.01：00-02：00</string>
+    <string name="Download_reservation">Download reservation period \n has ended.Download now?</string>
+    <string name="select_otherday">The day you hava chosen \n  is already fully booked.\n Please select other day.</string>
+    <string name="schedule_time">Select the date you \n want to schedule.</string>
+    <string name="already_sch_time">You hava scheduled \n your software update on:</string>
+    <string name="session_msg">The session has been terminated \n because of a timeout. \n Please go back to the menu and try again.</string>
+    <string name="auto_up">Software update automatically \n  starts at a predefined time to improve \n performance and bring the latest \n features.No function is available during \n the update.(Open applications are closed \n before starting the update.)
+The update time is currently set to 03:00.</string>
+    <string name="Replacement">Change the Settings</string>
+    <string name="already_setting">The setting was changed.</string>
+    <string name="not_auto_up">You can set to update \n software automatically to the latest version whenever\n software update is needed.
+     \n Current setting:
+     \n  Not autumatically update</string>
+    <string name="is_auto_up">You can set to update \n software automatically to the latest version whenever\n software update is needed.
+     \n Current setting:
+     \n   autumatically update</string>
+    <string name="up_auto">Automatically \n update</string>
+    <string name="up_noauto">Not Automatically \n update</string>
     <string-array name="up_chose">
         <item>1.Download now</item>
         <item>2.Select the day and the time </item>
         <item>3.View details of this update</item>
         <item>4.Terms of Use</item>
     </string-array>
-
+    <string-array name="set_time_arr">
+        <item>Set date</item>
+        <item>Select time zone </item>
+        <item>Select time</item>
+        <item>Use 24-hour format</item>
+    </string-array>
     <!-- lihuachun add end-->
      <string name="yes">Yes</string>
      <string name="no">No</string>
