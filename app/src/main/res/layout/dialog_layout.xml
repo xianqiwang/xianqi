@@ -59,6 +59,14 @@
                 android:layout_marginLeft="20dp"
                 android:text="fota"
                 android:textSize="20dp" />
+
+            <ProgressBar
+                android:id="@+id/down_pb"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:max="100" />
+
          <View
                 android:layout_width="match_parent"
                 android:layout_height="50dp"

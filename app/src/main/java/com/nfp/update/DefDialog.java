@@ -21,7 +21,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import android.widget.SimpleAdapter;
 import android.content.DialogInterface;
-
+import android.widget.ProgressBar;
+import android.os.Handler;
+import android.os.Message;
 
 class DefDialog extends Dialog {
     TextView mTitle;
@@ -29,7 +31,9 @@ class DefDialog extends Dialog {
     Button   mConfirm;
     Button   mCancel;
     Button   mCenter;
-    android.widget.ListView listView;
+    private ProgressBar mProgress;
+    private ListView listView;
+    private Handler mHandler;
 
     android.content.Context mContext;
     OnOkListener mOnCenterKeyListener;
@@ -48,6 +52,8 @@ class DefDialog extends Dialog {
         mConfirm=layout.findViewById (R.id.buttonconfirm);
         mCenter=layout.findViewById (R.id.buttoncenter);
         listView=layout.findViewById (R.id.list);
+        mProgress = layout.findViewById(R.id.down_pb);
+
         Window window = getWindow();
         WindowManager.LayoutParams params = window.getAttributes();
         params.gravity = Gravity.BOTTOM;
@@ -96,6 +102,69 @@ class DefDialog extends Dialog {
             }
 
         });
+
+        mHandler = new Handler (){
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                mProgress.setProgress(msg.what);
+
+            }
+        };
+        start();
+    }
+
+    private void start()
+    {
+/*        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+
+                int max = mProgress.getMax();
+                int pro=0;
+                    //子线程循环间隔消息
+                    while (pro < max) {
+                        pro += 10;
+
+                        mProgress.setProgress(pro);
+
+                    }
+
+
+	           mHandler.postDelayed(this, 2000L);
+            }
+        });*/
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int max = mProgress.getMax();
+                try {
+
+                    int pro=0;
+
+                    //子线程循环间隔消息
+                    while (pro < max) {
+                        pro += 10;
+                        Message msg = new Message();
+                        msg.what = pro;
+
+                        if(msg == null){
+
+                            mHandler.postDelayed(this, 2000L);
+
+                        }
+
+                        mHandler.sendMessage(msg);
+
+                        Thread.sleep(1000);
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
     }
 
     public void setBackground(int color,int font){
