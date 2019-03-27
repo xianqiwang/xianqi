@@ -51,12 +51,13 @@
         </activity>
         <activity android:name=".SoftwareUpdate" />
         <activity android:name=".DialogText" />
-
         <activity
             android:name=".PrepareUpdateActivity"
             android:allowTaskReparenting="true" />
         <activity android:name=".LowBatteryActivity" />
         <activity android:name=".AutoUpdate" />
+        <activity android:name=".TestProgress" />
+        <activity android:name=".ProgressActivity" />
 
         <!--
             <activity android:name=".ScheduleSetting"

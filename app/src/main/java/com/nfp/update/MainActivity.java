@@ -140,10 +140,13 @@ public class MainActivity extends Activity {
 /*
                 startActivity(new Intent(com.nfp.update.MainActivity.this, com.nfp.update.DialogText.class));
 */
+                startActivity(new Intent(com.nfp.update.MainActivity.this, com.nfp.update.TestProgress.class));
             }
 
             @Override
             public void onCenterKey () {
+
+                startActivity(new Intent(com.nfp.update.MainActivity.this, com.nfp.update.ProgressActivity.class));
 
                 Toast toast = Toast.makeText(MainActivity.this,"you click center key!!!  Update Stoped!!", Toast.LENGTH_LONG);
                 toast.show ();
@@ -155,7 +158,8 @@ public class MainActivity extends Activity {
 /*
         mDefDialog.setBackground (android.graphics.Color.GRAY, android.graphics.Color.BLACK);
 */
-        mDefDialog.setListviewDialog (this, items);
+
+        mDefDialog.setListviewDialog (this,items);
 
         mDefDialog.show();
 

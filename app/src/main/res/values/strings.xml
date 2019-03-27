@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">System update</string>
-
-     <string name="software_update">Software Update</string>
-     <string name="auto_update">Automatic Update Settings</string>
-     <string name="update_schedule">Update Time &#038; Date Settings</string>
+    <string name="pb_download">下载</string>
+    <string name="pb_continue">继续</string>
+    <string name="pb_open">打开</string>
+    <string name="software_update">Software Update</string>
+    <string name="auto_update">Automatic Update Settings</string>
+    <string name="update_schedule">Update Time &#038; Date Settings</string>
 
      <string name="update_schedule_title">Set SW Update Schedule</string>
      <string name="toast_set_complete">Done.</string>
