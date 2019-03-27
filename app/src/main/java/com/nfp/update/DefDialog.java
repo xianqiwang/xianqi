@@ -32,6 +32,7 @@ class DefDialog extends Dialog {
 
     private TextView mTitle;
     private TextView mMessage;
+    private TextView mMessageL;
     private Button   mConfirm;
     private Button   mCancel;
     private Button   mCenter;
@@ -58,7 +59,9 @@ class DefDialog extends Dialog {
         mCenter=layout.findViewById (R.id.buttoncenter);
         listView=layout.findViewById (R.id.list);
         mProgress = layout.findViewById(R.id.down_pb);
-        spinner = super.findViewById(R.id.spinner);
+        spinner = layout.findViewById(R.id.spinner);
+        mMessageL = layout.findViewById(R.id.messagel);
+
 
         Window window = getWindow();
         WindowManager.LayoutParams params = window.getAttributes();
@@ -192,6 +195,21 @@ class DefDialog extends Dialog {
     public String getMessage(){
         return (String) mMessage.getText ();
     }
+    public void setMessagel(String message){
+        mMessageL.setText (message);
+    }
+    public String getMessagel(){
+        return (String) mMessageL.getText ();
+    }
+
+    public void setMessageLGone(){
+        mMessageL.setVisibility (android.view.View.GONE);
+    }
+
+    public void setMessageLVisible(){
+        mMessageL.setVisibility (android.view.View.VISIBLE);
+    }
+
     public void setCenter(String title){
         mCenter.setText (title);
     }

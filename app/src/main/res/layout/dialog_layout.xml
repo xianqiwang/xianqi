@@ -70,12 +70,13 @@
                 android:layout_height="30dp"
                 android:max="100" />
 
-         <View
+             <View
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="0dp"
                 android:background="@null"
                 />
+
             <ListView
                 android:id="@+id/list"
                 android:layout_width="match_parent"
@@ -86,6 +87,16 @@
                 android:paddingRight="10dp"
                 android:scrollbarStyle="outsideOverlay"
                 android:scrollbars="none" />
+
+            <TextView
+                android:id="@+id/messagel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tip"
+                android:layout_marginLeft="20dp"
+                android:text="fota"
+                android:textSize="20dp" />
+
            </LinearLayout>
 
 

@@ -74,7 +74,7 @@ public class MainActivity extends Activity {
         mList.add(getString(R.string.auto_update));
         mList.add(getString(R.string.update_schedule));
 
-/*        dialogMothed(); */
+        /*dialogMothed();*/
 
         View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
 

@@ -74,6 +74,7 @@ public class DialogCategorical {
         mDefDialog.setButtonCancel (r.getString (R.string.no));
         mDefDialog.setButtonConfirm (r.getString (R.string.yes));
         mDefDialog.setSpinnerGone ();
+        mDefDialog.setMessageLGone ();
         mDefDialog.setCenterKeyGone ();
         mDefDialog.setProgressGone ();
         mDefDialog.show();
@@ -111,6 +112,7 @@ public class DialogCategorical {
        mDefDialog.setButtonCancel (r.getString (R.string.no));
        mDefDialog.setButtonConfirm (r.getString (R.string.yes));
        mDefDialog.setCenterKeyGone ();
+       mDefDialog.setMessageLGone ();
        mDefDialog.setSpinnerGone ();
        mDefDialog.show();
    }
@@ -144,6 +146,7 @@ public class DialogCategorical {
         mDefDialog.setMessage (r.getString (R.string.select_other_day));
         mDefDialog.setButtonConfirm (r.getString (R.string.ok));
         mDefDialog.setCenterKeyGone ();
+        mDefDialog.setMessageLGone ();
         mDefDialog.setSpinnerGone ();
         mDefDialog.setCancelKeyGone ();
         mDefDialog.show();
@@ -188,6 +191,7 @@ public class DialogCategorical {
         mDefDialog.setButtonConfirm (r.getString (R.string.softkey_select));
         mDefDialog.setCenterKeyGone ();
         mDefDialog.setSpinnerGone ();
+        mDefDialog.setMessageLGone ();
         mDefDialog.setCancelKeyVisible ();
         mDefDialog.setOkClickListener (new DefDialog.OnOkListener(){
 
