@@ -69,11 +69,6 @@ class DefDialog extends Dialog {
         window.setAttributes(params);
         mContext=context;
         mCancel.setOnClickListener (new View.OnClickListener () {
-            /**
-             * Called when a view has been clicked.
-             *
-             * @param v The view that was clicked.
-             */
             @Override
             public void onClick (android.view.View v) {
                 cancel ();
@@ -81,11 +76,7 @@ class DefDialog extends Dialog {
 
         });
         mConfirm.setOnClickListener (new View.OnClickListener () {
-            /**
-             * Called when a view has been clicked.
-             *
-             * @param v The view that was clicked.
-             */
+
             @Override
             public void onClick (android.view.View v) {
 
@@ -95,11 +86,7 @@ class DefDialog extends Dialog {
 
         });
         mCenter.setOnClickListener (new View.OnClickListener () {
-            /**
-             * Called when a view has been clicked.
-             *
-             * @param v The view that was clicked.
-             */
+
             @Override
             public void onClick (android.view.View v) {
 
@@ -170,57 +157,7 @@ class DefDialog extends Dialog {
                 }
             }
         }).start();
-
-
-
-
-
     }
-
-    public void setSpinner(ArrayList<entity> data){
-
-        android.util.Log.v ("yingbo","data"+data);
-
-
-        myAdadpter = new MyAdapter<entity>(data,R.layout.item_spin) {
-            @Override
-            public void bindView (com.nfp.update.MyAdapter.ViewHolder holder, entity obj) {
-                /*
-                holder.setImageResource(R.id.img_icon,obj.gethIcon());
-                 */
-
-                holder.setText(R.id.txt_name,obj.gethName());
-
-
-            }
-
-
-        };
-        spinner.setAdapter (myAdadpter);
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
-
-            @Override
-            public void onItemSelected (AdapterView<?> parent, View view, int position, long id) {
-
-
-            }
-
-
-            @Override
-            public void onNothingSelected (AdapterView<?> parent) {
-
-            }
-
-        });
-
-    }
-    public void setSpinnerIndex(int index){
-
-        spinner.setSelection(index);
-
-    }
-    
     public void setBackground(int color,int font){
         mTitle.setBackgroundColor (color);
         mTitle.setTextColor (font);
@@ -231,7 +168,6 @@ class DefDialog extends Dialog {
         mConfirm.setBackgroundColor (color);
         mCancel.setBackgroundColor (color);
     }
-
 
 
     public void setTitle(String title){
@@ -316,8 +252,53 @@ class DefDialog extends Dialog {
         mCancel.setVisibility (android.view.View.VISIBLE);
 
     }
+    public void setSpinnerVisible(){
+        spinner.setVisibility (android.view.View.VISIBLE);
+    }
+    public void setSpinnerGone(){
+        spinner.setVisibility (android.view.View.GONE);
+    }
+    public void setSpinner(ArrayList<entity> data){
+
+        myAdadpter = new MyAdapter<entity>(data,R.layout.item_spin) {
+            @Override
+            public void bindView (com.nfp.update.MyAdapter.ViewHolder holder, entity obj) {
+
+                /*
+                holder.setImageResource(R.id.img_icon,obj.gethIcon());
+                 */
+
+                holder.setText(R.id.txt_name,obj.gethName());
 
 
+            }
+
+
+        };
+        spinner.setAdapter (myAdadpter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+
+            @Override
+            public void onItemSelected (AdapterView<?> parent, View view, int position, long id) {
+
+
+            }
+
+
+            @Override
+            public void onNothingSelected (AdapterView<?> parent) {
+
+            }
+
+        });
+
+    }
+    public void setSpinnerIndex(int index){
+
+        spinner.setSelection(index);
+
+    }
 /*    @Override
     public boolean onKeyDown(int keyCode, android.view.KeyEvent event) {
         switch (keyCode) {
@@ -358,13 +339,18 @@ class DefDialog extends Dialog {
 
         List<Map<String, String>> nameList = new ArrayList<Map<String, String>> ();
 
-        Map<String, String> nameMap = new HashMap<String, String> ();
 
         for (int m = 0; m < data.size(); m++) {//initData为一个list类型的数据源
+
+            Map<String, String> nameMap = new HashMap<String, String> ();
+
             nameMap.put("name", data.get(m).toString());
+
+            android.util.Log.v("yingbo","items"+nameList);
 
             nameList.add(nameMap);
         }
+
         android.util.Log.v("yingbo2","items"+nameList);
 
         SimpleAdapter adapter = new SimpleAdapter(context, nameList,R.layout.main_item,
