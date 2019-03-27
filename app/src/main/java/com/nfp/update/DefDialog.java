@@ -24,18 +24,23 @@ import android.content.DialogInterface;
 import android.widget.ProgressBar;
 import android.os.Handler;
 import android.os.Message;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 class DefDialog extends Dialog {
-    TextView mTitle;
-    TextView mMessage;
-    Button   mConfirm;
-    Button   mCancel;
-    Button   mCenter;
+
+    private TextView mTitle;
+    private TextView mMessage;
+    private Button   mConfirm;
+    private Button   mCancel;
+    private Button   mCenter;
     private ProgressBar mProgress;
     private ListView listView;
     private Handler mHandler;
-
-    android.content.Context mContext;
+    private android.widget.BaseAdapter myAdadpter = null;
+    private Spinner spinner;
+    private Context mContext;
     OnOkListener mOnCenterKeyListener;
 
     //    style引用style样式
@@ -53,6 +58,7 @@ class DefDialog extends Dialog {
         mCenter=layout.findViewById (R.id.buttoncenter);
         listView=layout.findViewById (R.id.list);
         mProgress = layout.findViewById(R.id.down_pb);
+        spinner = super.findViewById(R.id.spinner);
 
         Window window = getWindow();
         WindowManager.LayoutParams params = window.getAttributes();
@@ -165,8 +171,56 @@ class DefDialog extends Dialog {
             }
         }).start();
 
+
+
+
+
     }
 
+    public void setSpinner(ArrayList<entity> data){
+
+        android.util.Log.v ("yingbo","data"+data);
+
+
+        myAdadpter = new MyAdapter<entity>(data,R.layout.item_spin) {
+            @Override
+            public void bindView (com.nfp.update.MyAdapter.ViewHolder holder, entity obj) {
+                /*
+                holder.setImageResource(R.id.img_icon,obj.gethIcon());
+                 */
+
+                holder.setText(R.id.txt_name,obj.gethName());
+
+
+            }
+
+
+        };
+        spinner.setAdapter (myAdadpter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+
+            @Override
+            public void onItemSelected (AdapterView<?> parent, View view, int position, long id) {
+
+
+            }
+
+
+            @Override
+            public void onNothingSelected (AdapterView<?> parent) {
+
+            }
+
+        });
+
+    }
+    public void setSpinnerIndex(int index){
+
+        spinner.setSelection(index);
+
+    }
+    
     public void setBackground(int color,int font){
         mTitle.setBackgroundColor (color);
         mTitle.setTextColor (font);

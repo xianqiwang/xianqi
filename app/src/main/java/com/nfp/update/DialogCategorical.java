@@ -65,8 +65,6 @@ public class DialogCategorical {
 
       });
 
-
-
         mDefDialog.setCancelable(cancel);
         mDefDialog.setTitle (title);
         mDefDialog.setMessage (r.getString (R.string.Download_reservation));

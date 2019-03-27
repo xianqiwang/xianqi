@@ -107,7 +107,11 @@ public class MainActivity extends Activity {
 
     }
 
+
+
     public void dialogMothed(){
+
+
 
         View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
 
@@ -154,6 +158,26 @@ public class MainActivity extends Activity {
             }
 
         });
+
+
+
+        ArrayList<entity> mData = new java.util.ArrayList<entity> ();
+
+/*        mData.add(new entity("1.Set date"));
+        mData.add(new entity("2.Select time zone"));
+        mData.add(new entity("3.Select time"));
+        mData.add(new entity("4.Use 24-hour format"));*/
+
+        mData.add(new entity("Next"));
+        mData.add(new entity("2"));
+        mData.add(new entity("3"));
+        mData.add(new entity("4"));
+        mData.add(new entity("5"));
+        mData.add(new entity("6"));
+        mData.add(new entity("7"));
+        mData.add(new entity("8"));
+
+        mDefDialog.setSpinner (mData);
 
 /*
         mDefDialog.setBackground (android.graphics.Color.GRAY, android.graphics.Color.BLACK);

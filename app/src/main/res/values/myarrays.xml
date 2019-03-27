@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="data">
+        <item>1.Download Now</item>
+        <item>2.Select the day and the time</item>
+        <item>3.View extends of this update</item>
+        <item>4.Times of use</item>
+    </string-array>
+</resources>
