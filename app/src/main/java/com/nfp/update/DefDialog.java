@@ -213,18 +213,55 @@ class DefDialog extends Dialog {
         return (String) mConfirm.getText ();
     }
 
-    public void witchNeedOnlyKey(){
-    mCancel.setVisibility (android.view.View.GONE);
-    mCenter.setVisibility (android.view.View.GONE);
+    public void setProgressGone(){
+
+        mProgress.setVisibility (android.view.View.GONE);
+
     }
-    public void witchNeedAllKey(){
-        mCancel.setVisibility (android.view.View.VISIBLE);
-        mCenter.setVisibility (android.view.View.VISIBLE);
+    public void setProgressVisible(){
+
+        mProgress.setVisibility (android.view.View.VISIBLE);
+
     }
-    public void witchNeedTwoKey(){
-        mCancel.setVisibility (android.view.View.GONE);
+    public void setProgressRate(int rate){
+        if(0 != rate){
+
+            mProgress.setProgress(rate);
+
+        }
+
     }
 
+    public void setListViewGone(){
+
+        listView.setVisibility (android.view.View.GONE);
+
+    }
+    public void setListViewVisible(){
+
+        listView.setVisibility (android.view.View.VISIBLE);
+
+    }
+    public void setCenterKeyVisible(){
+
+        mCancel.setVisibility (android.view.View.VISIBLE);
+
+    }
+    public void setCenterKeyGone(){
+
+        mCancel.setVisibility (android.view.View.GONE);
+
+    }
+    public void setCancelKeyGone(){
+
+        mCancel.setVisibility (android.view.View.GONE);
+
+    }
+    public void setCancelKeyVisible(){
+
+        mCancel.setVisibility (android.view.View.VISIBLE);
+
+    }
 
 
 /*    @Override

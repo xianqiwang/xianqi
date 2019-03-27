@@ -31,7 +31,9 @@
      <string name="confirm_latest_sw">Confirming latest SW. Please wait.</string>
      <string name="no_latest_sw">Your phone software is latest. No update is required.</string>
      <string name="softkey_next">Next</string>
-     <string name="dialog_preference_done">Done</string>
+     <string name="softkey_select">Select</string>
+
+    <string name="dialog_preference_done">Done</string>
      <string name="server_error">Server error</string>
      <string name="server_error10">Server error(error 10).\nPlease retry again after a while.</string>
      <string name="server_error20">Server error(error 20).\nPlease retry again after a while.</string>
@@ -84,6 +86,7 @@
     <string name="session_msg">The session has been terminated \n because of a timeout. \n Please go back to the menu and try again.</string>
     <string name="auto_up">Software update automatically \n  starts at a predefined time to improve \n performance and bring the latest \n features.No function is available during \n the update.(Open applications are closed \n before starting the update.)
 The update time is currently set to 03:00.</string>
+<string name="select_other_day" translatable="false">The day you have chosen is alredy fully booked.Please select other day.</string>
     <string name="Replacement">Change the Settings</string>
     <string name="already_setting">The setting was changed.</string>
     <string name="not_auto_up">You can set to update \n software automatically to the latest version whenever\n software update is needed.
@@ -107,8 +110,10 @@ The update time is currently set to 03:00.</string>
         <item>Use 24-hour format</item>
     </string-array>
     <!-- lihuachun add end-->
-     <string name="yes">Yes</string>
-     <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="ok" translatable="false">OK</string>
+
+    <string name="no">No</string>
     <string name="cancel">Cancel</string>
      <string name="confirmation">Confirmation</string>
      <string name="confirmation_messages">"Update the latest software?" All functions can not be used during SW updating.</string>
