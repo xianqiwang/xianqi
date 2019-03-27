@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">System update</string>
-    <string name="pb_download">下载</string>
-    <string name="pb_continue">继续</string>
-    <string name="pb_open">打开</string>
+    <string name="app_name" translatable="false">System update</string>
+    <string name="pb_download" translatable="false">download</string>
+    <string name="pb_continue" translatable="false">contenue</string>
+    <string name="pb_open" translatable="false">open</string>
     <string name="software_update">Software Update</string>
     <string name="auto_update">Automatic Update Settings</string>
     <string name="update_schedule">Update Time &#038; Date Settings</string>
@@ -13,15 +13,15 @@
 
      <string name="auto_update_on">Software Update\nON</string>
      <string name="auto_update_off">Software Update\nOFF</string>
-     <string name="start1">开始</string>
-     <string name="pause">暂停</string>
-     <string name="check">检测版本</string>
-     <string name="toast_network_unavailable">Network unavailable</string>
-     <string name="toast_storage_not_enough">not enough storage space</string>
-     <string name="toast_battery_low">The current power is too low and the installed refresh power needs to be greater than 30%</string>
-     <string name="toast_server_incorrect">server incorrect</string>
-     <string name="toast_fingerprint_error">current system is not correct</string>
-     <string name="toast_no_newversion">Currently is the latest version</string>
+     <string name="start1" translatable="false">start</string>
+     <string name="pause" translatable="false">stop</string>
+     <string name="check" translatable="false">check version</string>
+     <string name="toast_network_unavailable" translatable="false">Network unavailable</string>
+     <string name="toast_storage_not_enough" translatable="false">not enough storage space</string>
+     <string name="toast_battery_low" translatable="false">The current power is too low and the installed refresh power needs to be greater than 30%</string>
+     <string name="toast_server_incorrect" translatable="false">server incorrect</string>
+     <string name="toast_fingerprint_error" translatable="false">current system is not correct</string>
+     <string name="toast_no_newversion" translatable="false">Currently is the latest version</string>
      <string name="server_connect">Server connecting</string>
      <string name="auto_text">If you need to update the software update, set up to update automatically to the latest software.</string>
      <string name="unserted_card">UIM is not inserted.</string>
@@ -30,10 +30,10 @@
      <string name="network_connect_error">Network connecting error(%1$s).</string>
      <string name="confirm_latest_sw">Confirming latest SW. Please wait.</string>
      <string name="no_latest_sw">Your phone software is latest. No update is required.</string>
-     <string name="softkey_next">Next</string>
-     <string name="softkey_select">Select</string>
+     <string name="softkey_next" translatable="false">Next</string>
+     <string name="softkey_select" translatable="false">Select</string>
 
-    <string name="dialog_preference_done">Done</string>
+    <string name="dialog_preference_done" translatable="false">Done</string>
      <string name="server_error">Server error</string>
      <string name="server_error10">Server error(error 10).\nPlease retry again after a while.</string>
      <string name="server_error20">Server error(error 20).\nPlease retry again after a while.</string>
@@ -149,33 +149,33 @@ The update time is currently set to 03:00.</string>
      <string name="Notification_update_fail">Software update faild</string>
 
 <!-- event log text-->
-     <string name="polling">[FOTA]Polling</string>
-     <string name="start">開始</string>
+     <string name="polling" translatable="false">[FOTA]Polling</string>
+     <string name="start" translatable="false">開始</string>
 
-     <string name="polling_result">[FOTA]Polling結果</string>
-     <string name="check_new_file">更新Fileあり</string>
-     <string name="check_old_file">更新Fileなし</string>
+     <string name="polling_result" translatable="false">[FOTA]Polling結果</string>
+     <string name="check_new_file" translatable="false">更新Fileあり</string>
+     <string name="check_old_file" translatable="false">更新Fileなし</string>
 
-     <string name="download">[FOTA]Download</string>
-     <string name="end">終了</string>
-     <string name="fail">失敗</string>
+     <string name="download" translatable="false">[FOTA]Download</string>
+     <string name="end" translatable="false">終了</string>
+     <string name="fail" translatable="false">失敗</string>
 
-     <string name="install">[FOTA]Install</string>
-     <string name="manual_install">手動Install</string>
-     <string name="auto_install">自動Install</string>
-     <string name="interval_install">中断点再開</string>
+     <string name="install" translatable="false">[FOTA]Install</string>
+     <string name="manual_install" translatable="false">手動Install</string>
+     <string name="auto_install" translatable="false">自動Install</string>
+     <string name="interval_install" translatable="false">中断点再開</string>
 
-     <string name="install_result">[FOTA]Install結果</string>
-     <string name="success">成功</string>
-     <string name="no_enough_battery">Battery不足</string>
-     <string name="other">Other</string>
+     <string name="install_result" translatable="false">[FOTA]Install結果</string>
+     <string name="success" translatable="false">成功</string>
+     <string name="no_enough_battery" translatable="false">Battery不足</string>
+     <string name="other" translatable="false">Other</string>
 
-     <string name="auto_update_setting">[FOTA]自動更新設定</string>
-     <string name="update_time">YYYYMMDDHHMM</string>
+     <string name="auto_update_setting" translatable="false">[FOTA]自動更新設定</string>
+     <string name="update_time" translatable="false">YYYYMMDDHHMM</string>
 
-     <string name="polling_time_setting">[FOTA]Polling時間</string>
-     <string name="polling_time">YYYYMMDDHHMM</string>
+     <string name="polling_time_setting" translatable="false">[FOTA]Polling時間</string>
+     <string name="polling_time" translatable="false">YYYYMMDDHHMM</string>
 
-     <string name="update_result">[FOTA]更新結果</string>
-     <string name="ver_result">***/***</string>
+     <string name="update_result" translatable="false">[FOTA]更新結果</string>
+     <string name="ver_result" translatable="false">***/***</string>
 </resources>

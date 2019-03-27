@@ -68,27 +68,34 @@ class DefDialog extends Dialog {
         getWindow().getDecorView().setPadding(0, 0, 0, 0);
         window.setAttributes(params);
         mContext=context;
+
         mCancel.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick (android.view.View v) {
+                android.util.Log.v("yingbo","mCancel");
                 cancel ();
             }
 
         });
+
         mConfirm.setOnClickListener (new View.OnClickListener () {
 
             @Override
             public void onClick (android.view.View v) {
+
+                android.util.Log.v("yingbo","onOkKey");
 
                 mOnCenterKeyListener.onOkKey();
 
             }
 
         });
+
         mCenter.setOnClickListener (new View.OnClickListener () {
 
             @Override
             public void onClick (android.view.View v) {
+                android.util.Log.v("yingbo","onCenterKey");
 
                 mOnCenterKeyListener.onCenterKey ();
 
@@ -104,6 +111,7 @@ class DefDialog extends Dialog {
 
             }
         };
+
         start();
     }
 
@@ -158,6 +166,7 @@ class DefDialog extends Dialog {
             }
         }).start();
     }
+
     public void setBackground(int color,int font){
         mTitle.setBackgroundColor (color);
         mTitle.setTextColor (font);
@@ -239,7 +248,7 @@ class DefDialog extends Dialog {
     }
     public void setCenterKeyGone(){
 
-        mCancel.setVisibility (android.view.View.GONE);
+        mCenter.setVisibility (android.view.View.GONE);
 
     }
     public void setCancelKeyGone(){
@@ -258,6 +267,7 @@ class DefDialog extends Dialog {
     public void setSpinnerGone(){
         spinner.setVisibility (android.view.View.GONE);
     }
+
     public void setSpinner(ArrayList<entity> data){
 
         myAdadpter = new MyAdapter<entity>(data,R.layout.item_spin) {
@@ -282,12 +292,14 @@ class DefDialog extends Dialog {
             @Override
             public void onItemSelected (AdapterView<?> parent, View view, int position, long id) {
 
+                android.util.Log.v("yingbo","spinner"+position+view+id);
 
             }
 
-
             @Override
             public void onNothingSelected (AdapterView<?> parent) {
+
+                android.util.Log.v("yingbo","spinner2"+parent);
 
             }
 
@@ -299,6 +311,8 @@ class DefDialog extends Dialog {
         spinner.setSelection(index);
 
     }
+
+
 /*    @Override
     public boolean onKeyDown(int keyCode, android.view.KeyEvent event) {
         switch (keyCode) {
@@ -321,6 +335,11 @@ class DefDialog extends Dialog {
     {
         public void onOkKey();
         public void onCenterKey();
+/*
+        public void onCancelKey();
+*/
+        public void onSpinnerSelect();
+
     }
 
     public void setListviewDialog(Context context, List data) {
@@ -330,6 +349,7 @@ class DefDialog extends Dialog {
         linearLayoutMain.setLayoutParams(new android.view.WindowManager.LayoutParams(android.view.WindowManager.LayoutParams.MATCH_PARENT, android.view.WindowManager.LayoutParams.WRAP_CONTENT));
 */
         //自定义一个listview
+
 /*
         android.widget.ListView listView = new android.widget.ListView(context);
 */
@@ -346,17 +366,15 @@ class DefDialog extends Dialog {
 
             nameMap.put("name", data.get(m).toString());
 
-            android.util.Log.v("yingbo","items"+nameList);
-
             nameList.add(nameMap);
-        }
 
-        android.util.Log.v("yingbo2","items"+nameList);
+        }
 
         SimpleAdapter adapter = new SimpleAdapter(context, nameList,R.layout.main_item,
                 new String[] {"name"}, new int[]{R.id.text1});
 
         listView.setAdapter(adapter);
+
         listView.setDividerHeight(0);
 
         listView.setDivider(null);
@@ -381,11 +399,9 @@ class DefDialog extends Dialog {
         listView.setOnItemClickListener(new android.widget.ListView.OnItemClickListener() {//响应listview中的item的点击事件
 
             @Override
-            public void onItemClick(android.widget.AdapterView<?> parent, android.view.View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-/*
-                dialog.cancel();
-*/
+                android.util.Log.v("yingbo","listView"+position+view+id);
 
             }
         });

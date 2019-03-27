@@ -36,12 +36,10 @@ import android.widget.AbsListView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
+
     private ListView mListView;
     private ArrayList<String> mList = new ArrayList<String>();
-
     private DefDialog mDefDialog;
-
-
     private static Context context;
 
     public static Context getInstance(){
@@ -76,7 +74,18 @@ public class MainActivity extends Activity {
         mList.add(getString(R.string.auto_update));
         mList.add(getString(R.string.update_schedule));
 
-        dialogMothed();
+/*        dialogMothed(); */
+
+        View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
+
+        DialogCategorical dialogCategorical=new DialogCategorical (this, 0, 0, view);
+        dialogCategorical.B_D_11 ("fata",true);
+        dialogCategorical.setCallbackConfirmKey (new com.nfp.update.DialogCategorical.CallbackConfirmKey () {
+            @Override
+            public void onConfirm () {
+
+            }
+        });
 
         ArrayAdapter<String> myArrayAdapter = new ItemListAdapter(this, R.layout.main_item, mList);
         mListView.setAdapter(myArrayAdapter);
@@ -110,8 +119,6 @@ public class MainActivity extends Activity {
 
 
     public void dialogMothed(){
-
-
 
         View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
 
@@ -150,10 +157,15 @@ public class MainActivity extends Activity {
             @Override
             public void onCenterKey () {
 
-                startActivity(new Intent(com.nfp.update.MainActivity.this, com.nfp.update.ProgressActivity.class));
+                startActivity(new Intent(MainActivity.this, com.nfp.update.ProgressActivity.class));
 
                 Toast toast = Toast.makeText(MainActivity.this,"you click center key!!!  Update Stoped!!", Toast.LENGTH_LONG);
                 toast.show ();
+
+            }
+
+            @Override
+            public void onSpinnerSelect () {
 
             }
 

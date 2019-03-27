@@ -50,9 +50,7 @@ public class DialogCategorical {
 
         Resources r=mContext.getResources();
 
-
-
-          mDefDialog.setOkClickListener(new DefDialog.OnOkListener () {
+        mDefDialog.setOkClickListener(new DefDialog.OnOkListener () {
           @Override
           public void onOkKey () {
               callbackConfirmKey.onConfirm ();
@@ -63,14 +61,21 @@ public class DialogCategorical {
 
           }
 
-      });
+              @Override
+           public void onSpinnerSelect () {
+
+            }
+
+          });
 
         mDefDialog.setCancelable(cancel);
         mDefDialog.setTitle (title);
         mDefDialog.setMessage (r.getString (R.string.Download_reservation));
         mDefDialog.setButtonCancel (r.getString (R.string.no));
         mDefDialog.setButtonConfirm (r.getString (R.string.yes));
+        mDefDialog.setSpinnerGone ();
         mDefDialog.setCenterKeyGone ();
+        mDefDialog.setProgressGone ();
         mDefDialog.show();
     }
 
@@ -91,6 +96,11 @@ public class DialogCategorical {
 
                }
 
+               @Override
+               public void onSpinnerSelect () {
+
+               }
+
            });
 
 
@@ -101,10 +111,12 @@ public class DialogCategorical {
        mDefDialog.setButtonCancel (r.getString (R.string.no));
        mDefDialog.setButtonConfirm (r.getString (R.string.yes));
        mDefDialog.setCenterKeyGone ();
+       mDefDialog.setSpinnerGone ();
        mDefDialog.show();
    }
 
     public void B_D_13(String title,boolean cancel){
+
         Resources r=mContext.getResources();
 
 
@@ -120,6 +132,11 @@ public class DialogCategorical {
 
                 }
 
+                @Override
+                public void onSpinnerSelect () {
+
+                }
+
             });
 
         mDefDialog.setCancelable(cancel);
@@ -127,6 +144,7 @@ public class DialogCategorical {
         mDefDialog.setMessage (r.getString (R.string.select_other_day));
         mDefDialog.setButtonConfirm (r.getString (R.string.ok));
         mDefDialog.setCenterKeyGone ();
+        mDefDialog.setSpinnerGone ();
         mDefDialog.setCancelKeyGone ();
         mDefDialog.show();
     }
@@ -142,6 +160,11 @@ public class DialogCategorical {
 
             @Override
             public void onCenterKey () {
+
+            }
+
+            @Override
+            public void onSpinnerSelect () {
 
             }
 
@@ -164,7 +187,26 @@ public class DialogCategorical {
         mDefDialog.setButtonCancel (r.getString (R.string.cancel));
         mDefDialog.setButtonConfirm (r.getString (R.string.softkey_select));
         mDefDialog.setCenterKeyGone ();
+        mDefDialog.setSpinnerGone ();
         mDefDialog.setCancelKeyVisible ();
+        mDefDialog.setOkClickListener (new DefDialog.OnOkListener(){
+
+            @Override
+            public void onOkKey () {
+
+            }
+
+            @Override
+            public void onCenterKey () {
+
+            }
+
+            @Override
+            public void onSpinnerSelect () {
+
+            }
+        });
+
         mDefDialog.show();
 
     }
