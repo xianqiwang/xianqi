@@ -42,6 +42,9 @@ class DefDialog extends Dialog {
     private android.widget.BaseAdapter myAdadpter = null;
     private Spinner spinner;
     private Context mContext;
+    private View mViewOne;
+    private View mViewTwo;
+    private View mViewThree;
     OnOkListener mOnCenterKeyListener;
 
     //    style引用style样式
@@ -61,6 +64,9 @@ class DefDialog extends Dialog {
         mProgress = layout.findViewById(R.id.down_pb);
         spinner = layout.findViewById(R.id.spinner);
         mMessageL = layout.findViewById(R.id.messagel);
+        mViewOne=layout.findViewById (com.nfp.update.R.id.view1);
+        mViewTwo=layout.findViewById (com.nfp.update.R.id.view2);
+        mViewThree=layout.findViewById (com.nfp.update.R.id.view3);
 
 
         Window window = getWindow();
@@ -75,30 +81,39 @@ class DefDialog extends Dialog {
         mCancel.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick (android.view.View v) {
+/*
                 android.util.Log.v("yingbo","mCancel");
+*/
                 cancel ();
             }
 
         });
-
         mConfirm.setOnClickListener (new View.OnClickListener () {
+
 
             @Override
             public void onClick (android.view.View v) {
 
+/*
                 android.util.Log.v("yingbo","onOkKey");
+*/
 
                 mOnCenterKeyListener.onOkKey();
-
+                setViewOneGone();
             }
 
         });
 
         mCenter.setOnClickListener (new View.OnClickListener () {
 
+            int i =200;
+
             @Override
             public void onClick (android.view.View v) {
-                android.util.Log.v("yingbo","onCenterKey");
+ /*             android.util.Log.v("yingbo","onCenterKey");
+                i=i-10;
+
+                setViewOneVisible ();*/
 
                 mOnCenterKeyListener.onCenterKey ();
 
@@ -202,9 +217,41 @@ class DefDialog extends Dialog {
         return (String) mMessageL.getText ();
     }
 
+    public void setViewOneGone(){
+    mViewOne.setVisibility (android.view.View.GONE);
+    }
+    public void setViewOneVisible(){
+        mViewOne.setVisibility (android.view.View.VISIBLE);
+    }
+    public void setViewTwoGone(){
+        mViewTwo.setVisibility (android.view.View.GONE);
+    }
+    public void setViewTwoVisible(){
+        mViewTwo.setVisibility (android.view.View.VISIBLE);
+    }
+    public void setViewThreeGone(){
+        mViewThree.setVisibility (android.view.View.GONE);
+    }
+    public void setViewThreeVisible(){
+        mViewThree.setVisibility (android.view.View.VISIBLE);
+    }
+    public void setViewOneheight(int height){
+        android.view.ViewGroup.LayoutParams params=mViewOne.getLayoutParams ();
+        params.height=height;
+    }
+    public void setViewTwoheight(int height){
+        android.view.ViewGroup.LayoutParams params=mViewTwo.getLayoutParams ();
+        params.height=height;
+    }
+    public void setViewThreeheight(int height){
+        android.view.ViewGroup.LayoutParams params=mViewThree.getLayoutParams ();
+        params.height=height;
+    }
     public void setMessageLGone(){
         mMessageL.setVisibility (android.view.View.GONE);
     }
+
+
 
     public void setMessageLVisible(){
         mMessageL.setVisibility (android.view.View.VISIBLE);
