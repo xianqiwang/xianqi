@@ -10,12 +10,12 @@
                 <!--<solid android:color="@color/blue" />-->
             <!--</shape>-->
 
-            <stroke android:width="1dp" android:color="@color/blue" android:dashGap="2dp" android:dashWidth="10dp" />
+            <stroke android:width="1dp" android:color="@color/darkgray" android:dashGap="2dp" android:dashWidth="10dp" />
             <!--
                         <corners android:radius="5dp" />
             -->
             <!--填充颜色-->
-            <solid android:color="@color/black" />
+            <solid android:color="@color/darkgray" />
             <!--描边-->
 <!--
             <stroke android:width="1dp" android:color="@color/black" />
@@ -32,9 +32,9 @@
             <corners android:radius="5dp" />
 -->
             <!--填充颜色-->
-            <solid android:color="@color/green" />
+            <solid android:color="@color/gray" />
             <!--描边-->
-            <stroke android:width="1dp" android:color="@color/white" />
+            <stroke android:width="1dp" android:color="@color/gray" />
         </shape>
     </item>
 
