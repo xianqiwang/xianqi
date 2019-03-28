@@ -18,6 +18,7 @@ package com.nfp.update;
 
 import java.util.ArrayList;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -74,8 +75,12 @@ public class MainActivity extends Activity {
         mList.add(getString(R.string.auto_update));
         mList.add(getString(R.string.update_schedule));
 
-        dialogMothed();
-
+        //dialogMothed();
+ /*View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
+        DialogCategorical dialog=new  DialogCategorical(MainActivity.this, 50, 50 ,
+                view);
+        Resources r=MainActivity.this.getResources();
+dialog.A_D_12(true,r.getString(R.string.software_update),false,r.getString(R.string.Signal_prompt));*/
 /*        View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
 
         DialogCategorical dialogCategorical=new DialogCategorical (this, 0, 0, view);

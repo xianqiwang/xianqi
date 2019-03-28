@@ -69,6 +69,7 @@
                 android:progressDrawable="@drawable/custom_progress"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
+                android:visibility="gone"
                 android:max="100" />
 
              <View
@@ -118,17 +119,16 @@
         android:layout_gravity="bottom"
         android:layout_weight="1"
         android:orientation="horizontal">
-
         <Button
-            android:id="@+id/buttoncancel"
+            android:id="@+id/buttonconfirm"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:baselineAligned="false"
             android:gravity="center"
             android:background="@drawable/button_style"
-            android:text="Cancel"
+            android:text="Ok"
             android:textSize="17dp" />
+
 
         <Button
             android:id="@+id/buttoncenter"
@@ -141,13 +141,14 @@
             android:textSize="17dp" />
 
         <Button
-            android:id="@+id/buttonconfirm"
+            android:id="@+id/buttoncancel"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:baselineAligned="false"
             android:gravity="center"
             android:background="@drawable/button_style"
-            android:text="Ok"
+            android:text="Cancel"
             android:textSize="17dp" />
 
         <Spinner

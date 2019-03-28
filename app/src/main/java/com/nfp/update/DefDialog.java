@@ -3,10 +3,13 @@ package com.nfp.update;
 import android.app.Dialog;
 import android.content.Context;
 
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.Gravity;
+import android.widget.AbsListView;
 import android.widget.TextView;
 import android.widget.Button;
 import android.view.WindowManager.LayoutParams;
@@ -392,6 +395,127 @@ class DefDialog extends Dialog {
     public void setSpinnerGone(){
         spinner.setVisibility (android.view.View.GONE);
     }
+    public void addListview_AD_21(String[] stringArray){
+        listView.setVisibility (android.view.View.VISIBLE);
+
+        ArrayList<String>   menuList = new ArrayList<String>();
+        for (String str : stringArray) {
+            menuList.add(str);
+        }
+        ArrayAdapter<String> myArrayAdapter = new ItemListAdapter(mContext, R.layout.main_item, menuList);
+        listView.setAdapter(myArrayAdapter);
+        listView.setOnItemClickListener(new ListView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1,
+                                    int position, long arg3) {
+                switch (position) {
+                    case 0:
+
+                        break;
+                    case 1:
+
+                        break;
+                    case 2:
+
+                        break;
+                    case 3:
+
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+    }
+ public void addListview_AD_12(){
+        listView.setVisibility (android.view.View.VISIBLE);
+
+        String[] stringArray = mContext.getResources().getStringArray(R.array.up_chose);
+        ArrayList<String>   menuList = new ArrayList<String>();
+        for (String str : stringArray) {
+            menuList.add(str);
+        }
+        ArrayAdapter<String> myArrayAdapter = new ItemListAdapter(mContext, R.layout.main_item, menuList);
+        listView.setAdapter(myArrayAdapter);
+        listView.setOnItemClickListener(new ListView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1,
+                                    int position, long arg3) {
+                switch (position) {
+                    case 0:
+
+                        break;
+                    case 1:
+
+                        break;
+                    case 2:
+
+                        break;
+                    case 3:
+
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+    }
+    public void addListview_AD_20(){
+        listView.setVisibility (android.view.View.VISIBLE);
+
+        String[] stringArray = mContext.getResources().getStringArray(R.array.up_chose1);
+        ArrayList<String>   menuList = new ArrayList<String>();
+        for (String str : stringArray) {
+            menuList.add(str);
+        }
+        ArrayAdapter<String> myArrayAdapter = new ItemListAdapter(mContext, R.layout.main_item, menuList);
+        listView.setAdapter(myArrayAdapter);
+        listView.setOnItemClickListener(new ListView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1,
+                                    int position, long arg3) {
+                switch (position) {
+                    case 0:
+
+                        break;
+                    case 1:
+
+                        break;
+                    case 2:
+
+                        break;
+                    case 3:
+
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+    }
+    private class ItemListAdapter extends ArrayAdapter<String> {
+        private int resource;
+        private Context context;
+
+        public ItemListAdapter(Context context, int resourceId, ArrayList<String> list) {
+            super(context, resourceId, list);
+            resource = resourceId;
+            this.context = context;
+        }
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if (convertView == null) {
+                LinearLayout listItem = new LinearLayout(getContext());
+                convertView = LayoutInflater.from(context).inflate(resource, listItem, true);
+            }
+
+            convertView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, 80));
+
+            ((TextView) convertView.findViewById(R.id.text1)).setText(getItem(position));
+            return convertView;
+        }
+    }
+
 
     public void setSpinner(ArrayList<entity> data){
 

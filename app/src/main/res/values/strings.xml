@@ -54,6 +54,9 @@
     <string name="to_update">To upgrade software to latest version execute updating \n times</string>
     <string name="Ready_update"> Your scheduled update is about to start.\n Use of this operation may cause your \n scheduled update to be cancelled.Continue?</string>
     <string name="ask_up_time"> New software is automatically downloaded at \n YYYY/MM/DD(ddd) \nhh:mm-hh:mm \n Do you want to download the software now or select another day and time?</string>
+    <string name="ask_up_time_1"> New software is automatically \n downloaded at </string>
+    <string name="ask_up_time_2">  \n Do you want to download the \n software now or select \n another day and time?</string>
+
     <string name="ask_exit"> Exit?</string>
     <string name="ask_Cancel_sch"> YYYY/MM/DD(ddd) \n hh:mm-hh:mm \n Cancel schedule?</string>
     <string name="up_diff"> The handset you are \n currently using is \n different from the one \n from which you scheduled your software update.</string>
@@ -97,11 +100,20 @@ The update time is currently set to 03:00.</string>
      \n   autumatically update</string>
     <string name="up_auto">Automatically \n update</string>
     <string name="up_noauto">Not Automatically \n update</string>
+    <string name="up_detail">Update Details:\n</string>
+    <string name="up_version">Updated version of this book:\n software version: \n</string>
     <string-array name="up_chose">
         <item>1.Download now</item>
         <item>2.Select the day and the time </item>
         <item>3.View details of this update</item>
         <item>4.Terms of Use</item>
+    </string-array>
+    <string-array name="up_chose1">
+        <item>1.Download now</item>
+        <item>2.Select the day and the time </item>
+        <item>3.View details of this update</item>
+        <item>4.Terms of Use</item>
+        <item>5.Cancel the Schedule</item>
     </string-array>
     <string-array name="set_time_arr">
         <item>Set date</item>
@@ -114,6 +126,8 @@ The update time is currently set to 03:00.</string>
     <string name="ok" translatable="false">OK</string>
 
     <string name="no">No</string>
+<string name="ok_dailog">OK</string>
+    <string name="select">Select</string>
     <string name="cancel">Cancel</string>
      <string name="confirmation">Confirmation</string>
      <string name="confirmation_messages">"Update the latest software?" All functions can not be used during SW updating.</string>

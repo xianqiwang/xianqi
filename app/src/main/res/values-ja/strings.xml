@@ -81,11 +81,20 @@
 \n自動的に更新する</string>
     <string name="up_auto">自動更新</string>
     <string name="up_noauto">自動的に更新しない</string>
+    <string name="up_detail">詳細を更新する:\n</string>
+ <string name="up_version">この本の最新版:\n ソフトウェアのバージョン:\n</string>
     <string-array name="up_chose">
         <item>1.ダウンロード中</item>
         <item>2.日時を選択してください</item>
         <item>3.このアップデートの詳細を見る</item>
         <item>4.利用規約</item>
+    </string-array>
+    <string-array name="up_chose1">
+        <item>1.ダウンロード中</item>
+        <item>2.日時を選択してください </item>
+        <item>3.このアップデートの詳細を見る</item>
+        <item>4.利用規約</item>
+        <item>5.スケジュールをキャンセルする</item>
     </string-array>
     <string-array name="set_time_arr">
         <item>設定日</item>
