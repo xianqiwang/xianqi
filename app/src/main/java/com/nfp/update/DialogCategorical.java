@@ -182,7 +182,7 @@ public class DialogCategorical {
         }
 
 
-    public void A_N_12(String sw){
+    public void A_D_12(String sw){
         Resources r=mContext.getResources();
 
 
@@ -215,7 +215,7 @@ public class DialogCategorical {
         mDefDialog.show();
     }
 
-    public void A_N_20(String sw){
+    public void A_D_20(String sw){
         Resources r=mContext.getResources();
 
 
