@@ -44,6 +44,7 @@ class DefDialog extends Dialog {
     private Context mContext;
     private View mViewOne;
     private View mViewTwo;
+    private TextView spinneritems;
     private View mViewThree;
     OnOkListener mOnCenterKeyListener;
 
@@ -88,6 +89,8 @@ class DefDialog extends Dialog {
             }
 
         });
+
+
         mConfirm.setOnClickListener (new View.OnClickListener () {
 
 
@@ -97,7 +100,6 @@ class DefDialog extends Dialog {
 /*
                 android.util.Log.v("yingbo","onOkKey");
 */
-
                 mOnCenterKeyListener.onOkKey();
 /*
                 setViewOneGone();
@@ -108,11 +110,18 @@ class DefDialog extends Dialog {
 
         mCenter.setOnClickListener (new View.OnClickListener () {
 
-            int i =200;
+            int i =17;
 
             @Override
             public void onClick (android.view.View v) {
               android.util.Log.v("yingbo","onCenterKey");
+
+                i--;
+
+/*
+                setSpinnerTextSize (i);
+*/
+
         /*        i=i-10;
 
                 setViewOneVisible ();
@@ -199,7 +208,11 @@ class DefDialog extends Dialog {
         mCancel.setBackgroundColor (color);
     }
 
+    public void setTitleSize(int size){
 
+        mTitle.setTextSize (size);
+
+    }
     public void setTitle(String title){
         mTitle.setText (title);
     }
@@ -207,11 +220,22 @@ class DefDialog extends Dialog {
         return (String) mTitle.getText ();
     }
 
+    public void setMessageSize(int size){
+
+        mMessage.setTextSize (size);
+
+    }
+
     public void setMessage(String message){
         mMessage.setText (message);
     }
     public String getMessage(){
         return (String) mMessage.getText ();
+    }
+    public void setMessageLSize(int size){
+
+        mMessageL.setTextSize (size);
+
     }
     public void setMessagel(String message){
         mMessageL.setText (message);
@@ -272,20 +296,33 @@ class DefDialog extends Dialog {
     public void setMessageLVisible(){
         mMessageL.setVisibility (android.view.View.VISIBLE);
     }
+    public void setButtonCenterSize(int size){
 
+        mCenter.setTextSize (size);
+
+    }
     public void setCenter(String title){
         mCenter.setText (title);
     }
     public String getCenter(){
         return (String) mCenter.getText ();
     }
+
+    public void setButtonCancelSize(int size){
+        mCancel.setTextSize (size);
+    }
+
     public void setButtonCancel(String text){
         mCancel.setText (text);
     }
     public String getButtonCancel(){
       return (String) mCancel.getText ();
     }
+    public void setButtonConfirmSize(int size){
 
+        mConfirm.setTextSize (size);
+
+    }
     public void setButtonConfirm(String text){
         mConfirm.setText (text);
     }
@@ -317,6 +354,7 @@ class DefDialog extends Dialog {
         listView.setVisibility (android.view.View.GONE);
 
     }
+
     public void setListViewVisible(){
 
         listView.setVisibility (android.view.View.VISIBLE);
@@ -337,10 +375,16 @@ class DefDialog extends Dialog {
         mCancel.setVisibility (android.view.View.GONE);
 
     }
+
     public void setCancelKeyVisible(){
 
         mCancel.setVisibility (android.view.View.VISIBLE);
 
+    }
+    public void setSpinnerTextSize(int size){
+
+        spinneritems.setTextSize (size);
+        
     }
     public void setSpinnerVisible(){
         spinner.setVisibility (android.view.View.VISIBLE);
@@ -353,7 +397,7 @@ class DefDialog extends Dialog {
 
         myAdadpter = new MyAdapter<entity>(data,R.layout.item_spin) {
             @Override
-            public void bindView (com.nfp.update.MyAdapter.ViewHolder holder, entity obj) {
+            public void bindView (MyAdapter.ViewHolder holder, entity obj) {
 
                 /*
                 holder.setImageResource(R.id.img_icon,obj.gethIcon());
@@ -361,6 +405,7 @@ class DefDialog extends Dialog {
 
                 holder.setText(R.id.txt_name,obj.gethName());
 
+                spinneritems=findViewById (R.id.txt_name);
 
             }
 
