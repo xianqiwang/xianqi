@@ -99,7 +99,9 @@ class DefDialog extends Dialog {
 */
 
                 mOnCenterKeyListener.onOkKey();
+/*
                 setViewOneGone();
+*/
             }
 
         });
@@ -110,11 +112,12 @@ class DefDialog extends Dialog {
 
             @Override
             public void onClick (android.view.View v) {
- /*             android.util.Log.v("yingbo","onCenterKey");
-                i=i-10;
+              android.util.Log.v("yingbo","onCenterKey");
+        /*        i=i-10;
 
-                setViewOneVisible ();*/
+                setViewOneVisible ();
 
+                setListViewHeight (i);*/
                 mOnCenterKeyListener.onCenterKey ();
 
             }
@@ -236,22 +239,35 @@ class DefDialog extends Dialog {
         mViewThree.setVisibility (android.view.View.VISIBLE);
     }
     public void setViewOneheight(int height){
+
         android.view.ViewGroup.LayoutParams params=mViewOne.getLayoutParams ();
         params.height=height;
+        mViewOne.setLayoutParams(params);
+
     }
     public void setViewTwoheight(int height){
         android.view.ViewGroup.LayoutParams params=mViewTwo.getLayoutParams ();
         params.height=height;
+        mViewTwo.setLayoutParams(params);
+
     }
     public void setViewThreeheight(int height){
         android.view.ViewGroup.LayoutParams params=mViewThree.getLayoutParams ();
         params.height=height;
+        mViewThree.setLayoutParams(params);
+
     }
     public void setMessageLGone(){
         mMessageL.setVisibility (android.view.View.GONE);
     }
 
+    public void setListViewHeight(int height){
 
+        android.view.ViewGroup.LayoutParams params=listView.getLayoutParams ();
+        params.height=height;
+        listView.setLayoutParams(params);
+
+    }
 
     public void setMessageLVisible(){
         mMessageL.setVisibility (android.view.View.VISIBLE);
