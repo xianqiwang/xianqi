@@ -63,9 +63,11 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences spref = this.getSharedPreferences("debug_comm", 0);
+
         if(spref.getInt("IS_OPEN", 0)==1){
             finish();
         }
+
         context = this;
         final Intent intent = new Intent();
         setContentView(R.layout.activity_list);

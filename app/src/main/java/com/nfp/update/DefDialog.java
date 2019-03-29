@@ -54,6 +54,7 @@ class DefDialog extends Dialog {
     private android.widget.EditText edWorkingAge;
     private android.widget.Button submit_workingAge;
     private android.widget.PopupWindow popupWindow;
+    private com.nfp.update.WheelPicker wheelPicker;
     //    style引用style样式
     public DefDialog(Context context,
                      int width, int height,
@@ -73,8 +74,9 @@ class DefDialog extends Dialog {
         mViewOne=layout.findViewById (com.nfp.update.R.id.view1);
         mViewTwo=layout.findViewById (com.nfp.update.R.id.view2);
         mViewThree=layout.findViewById (com.nfp.update.R.id.view3);
+        wheelPicker=layout.findViewById (com.nfp.update.R.id.wheelpicker);
+        setWheelPicker ();
         Window window = getWindow();
-
         WindowManager.LayoutParams params = window.getAttributes();
         params.gravity = Gravity.BOTTOM;
         params.width= LayoutParams.MATCH_PARENT;
@@ -83,6 +85,7 @@ class DefDialog extends Dialog {
         window.setAttributes(params);
         mContext=context;
         initNumberPicker(layout);
+
         mCancel.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick (android.view.View v) {
@@ -147,6 +150,35 @@ class DefDialog extends Dialog {
         };
 
         start();
+    }
+
+
+    public void setWheelPicker () {
+        List<String>items =new ArrayList<String> ();
+
+        String[] time = new String[]{ "1:00-2:00 am",
+                "2:00-3:00 am", "3:00-4:00 am", "4:00-5:00 am",
+                "5:00-6:00 am", "6:00-07:00 am", "7:00-8:00 am",
+                "8:00-9:00 am", "9:00-10:00 am", "10:00-11:00 am",
+                "11:00-12:00 am", "12:00-13:00 am","1:00-2:00 pm",
+                "2:00-3:00 pm", "3:00-4:00 pm", "4:00-5:00 pm",
+                "5:00-6:00 pm", "6:00-07:00 pm", "7:00-8:00 pm",
+                "8:00-9:00 pm", "9:00-10:00 pm", "10:00-11:00 pm",
+                "11:00-12:00 pm", "12:00-13:00 pm"};
+
+        //使用for循环转换为list
+        for(String str : time){
+            items.add(str);
+        }
+
+        wheelPicker.setVisibleItemCount (3);
+        wheelPicker.setData (items);
+        wheelPicker.setBackgroundColor (android.graphics.Color.WHITE);
+        wheelPicker.setItemTextColor (android.graphics.Color.BLACK);
+        wheelPicker.setCurtain (true);
+        wheelPicker.setCurved (true);
+        wheelPicker.setCyclic (true);
+        wheelPicker.setItemTextSize (60);
     }
 
     private void start()
@@ -751,6 +783,12 @@ class DefDialog extends Dialog {
 */
 
     }
+
+
+
+
+
+
     /**
      * 自定义滚动框分隔线颜色
      */
@@ -764,7 +802,7 @@ class DefDialog extends Dialog {
 
                 ((android.widget.EditText)npe.get (number)).setTextSize(60);
 
-                ((android.widget.EditText)npe.get (number)).setTextColor (getResources ().getColor (com.nfp.update.R.color.black));
+                ((android.widget.EditText)npe.get (number)).setTextColor (mContext.getResources ().getColor (com.nfp.update.R.color.red));
 
             }catch (IllegalAccessException e){
 
