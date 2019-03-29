@@ -108,6 +108,15 @@
                 android:text="fota"
                 android:textSize="20dp" />
 
+
+            <com.nfp.update.CustomNumberPicker
+                android:id="@+id/numberPicker"
+                android:layout_width="200dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/textviewstyle"
+                android:layout_centerInParent="true" />
+
            </LinearLayout>
 
 
@@ -119,6 +128,7 @@
         android:layout_gravity="bottom"
         android:layout_weight="1"
         android:orientation="horizontal">
+
         <Button
             android:id="@+id/buttonconfirm"
             android:layout_width="match_parent"

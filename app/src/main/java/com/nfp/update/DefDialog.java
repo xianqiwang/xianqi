@@ -50,14 +50,16 @@ class DefDialog extends Dialog {
     private TextView spinneritems;
     private View mViewThree;
     OnOkListener mOnCenterKeyListener;
-
+    private android.widget.NumberPicker numberPicker;
+    private android.widget.EditText edWorkingAge;
+    private android.widget.Button submit_workingAge;
+    private android.widget.PopupWindow popupWindow;
     //    style引用style样式
     public DefDialog(Context context,
                      int width, int height,
                      View layout, int style) {
 
         super(context, style);
-
         setContentView(layout);
         mTitle=layout.findViewById (R.id.tip);
         mMessage=layout.findViewById (R.id.message);
@@ -71,9 +73,8 @@ class DefDialog extends Dialog {
         mViewOne=layout.findViewById (com.nfp.update.R.id.view1);
         mViewTwo=layout.findViewById (com.nfp.update.R.id.view2);
         mViewThree=layout.findViewById (com.nfp.update.R.id.view3);
-
-
         Window window = getWindow();
+
         WindowManager.LayoutParams params = window.getAttributes();
         params.gravity = Gravity.BOTTOM;
         params.width= LayoutParams.MATCH_PARENT;
@@ -81,7 +82,7 @@ class DefDialog extends Dialog {
         getWindow().getDecorView().setPadding(0, 0, 0, 0);
         window.setAttributes(params);
         mContext=context;
-
+        initNumberPicker(layout);
         mCancel.setOnClickListener (new View.OnClickListener () {
             @Override
             public void onClick (android.view.View v) {
@@ -104,7 +105,8 @@ class DefDialog extends Dialog {
                 android.util.Log.v("yingbo","onOkKey");
 */
                 mOnCenterKeyListener.onOkKey();
-/*
+
+                /*
                 setViewOneGone();
 */
             }
@@ -120,7 +122,6 @@ class DefDialog extends Dialog {
               android.util.Log.v("yingbo","onCenterKey");
 
                 i--;
-
 /*
                 setSpinnerTextSize (i);
 */
@@ -265,6 +266,19 @@ class DefDialog extends Dialog {
     public void setViewThreeVisible(){
         mViewThree.setVisibility (android.view.View.VISIBLE);
     }
+    public void setNumberPickerVisible(){
+
+        numberPicker.setVisibility (android.view.View.VISIBLE);
+
+    }
+
+    public void setNumberPickerGone(){
+
+        numberPicker.setVisibility (android.view.View.GONE);
+
+    }
+
+
     public void setViewOneheight(int height){
 
         android.view.ViewGroup.LayoutParams params=mViewOne.getLayoutParams ();
@@ -661,4 +675,121 @@ class DefDialog extends Dialog {
     public int hashCode () {
         return super.hashCode ();
     }
+
+
+    /**
+     * 初始化滚动框布局
+     */
+
+    private void initNumberPicker(View view) {
+
+        boolean is24 = android.text.format.DateFormat.is24HourFormat(mContext);
+
+        /*    if(is24){
+         */
+        final String[] time = {
+                "00:00-01:00", "01:00-02:00",
+                "02:00-03:00", "03:00-04:00", "04:00-05:00",
+                "05:00-06:00", "06:00-07:00", "07:00-08:00",
+                "08:00-09:00", "09:00-10:00", "10:00-11:00",
+                "11:00-12:00", "12:00-13:00", "13:00-14:00",
+                "14:00-15:00", "15:00-16:00", "16:00-17:00",
+                "17:00-18:00", "18:00-19:00","19:00-20:00",
+                "20:00-21:00", "21:00-22:00","22:00-23:00",
+                "23:00-24:00"};
+
+     /*   }else{
+
+             String[] time = { "1:00-2:00 am",
+                    "2:00-3:00 am", "3:00-4:00 am", "4:00-5:00 am",
+                    "5:00-6:00 am", "6:00-07:00 am", "7:00-8:00 am",
+                    "8:00-9:00 am", "9:00-10:00 am", "10:00-11:00 am",
+                    "11:00-12:00 am", "12:00-13:00 am","1:00-2:00 pm",
+                    "2:00-3:00 pm", "3:00-4:00 pm", "4:00-5:00 pm",
+                    "5:00-6:00 pm", "6:00-07:00 pm", "7:00-8:00 pm",
+                    "8:00-9:00 pm", "9:00-10:00 pm", "10:00-11:00 pm",
+                    "11:00-12:00 pm", "12:00-13:00 pm"};
+
+        }
+*/
+
+        numberPicker = (android.widget.NumberPicker) view.findViewById(R.id.numberPicker);
+        numberPicker.setDisplayedValues(time);
+        numberPicker.setMaxValue(time.length-1);
+        numberPicker.setMinValue(0);
+        numberPicker.setWrapSelectorWheel(true);
+
+        numberPicker.setFormatter(new android.widget.NumberPicker.Formatter() {
+            @Override
+            public String format(int value) {
+                // TODO Auto-generated method stub
+                return time[value];
+
+
+
+
+            }
+        });
+        numberPicker.setFocusable(false);
+        numberPicker.setFocusableInTouchMode(false);
+        numberPicker.setDescendantFocusability(android.widget.NumberPicker.FOCUS_BLOCK_DESCENDANTS); // 关闭编辑模式
+        setNumberPickerDividerColor(numberPicker);
+
+    }
+
+
+    public void openPopView(){
+
+        numberPicker.setValue(5);
+
+    }
+
+    public void closePopView(){
+
+/*
+        workingAge = numberPicker.getValue();
+*/
+
+    }
+    /**
+     * 自定义滚动框分隔线颜色
+     */
+    private void setNumberPickerDividerColor(android.widget.NumberPicker number) {
+        java.lang.reflect.Field[] pickerFields = android.widget.NumberPicker.class.getDeclaredFields();
+/*        java.lang.reflect.Field npe;
+        try{
+            npe=number.getClass ().getDeclaredField ("mInputText");
+            npe.setAccessible (true);
+            try{
+
+                ((android.widget.EditText)npe.get (number)).setTextSize(60);
+
+                ((android.widget.EditText)npe.get (number)).setTextColor (getResources ().getColor (com.nfp.update.R.color.black));
+
+            }catch (IllegalAccessException e){
+
+            }
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace ();
+        }*/
+
+        for (java.lang.reflect.Field pf : pickerFields) {
+            if (pf.getName().equals("mSelectionDivider")) {
+                pf.setAccessible(true);
+                try {
+                    //设置分割线的颜色值
+                    pf.set(number, new android.graphics.drawable.ColorDrawable (
+                            android.support.v4.content.ContextCompat.getColor(mContext, com.nfp.update.R.color.white)));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            }
+        }
+    }
+
+
+
+
+
 }

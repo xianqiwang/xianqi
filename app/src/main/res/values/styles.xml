@@ -158,4 +158,9 @@
         <item name="progress_reached_bar_height">1.5dp</item>
         <item name="progress_unreached_bar_height">0.75dp</item>
     </style>
+    <!-- 自定义popupWindow_WorkingAge -->
+    <style name="AnimBottom" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/popupwindow_enter_anim</item>
+        <item name="android:windowExitAnimation">@anim/popupwindow_exit_anim</item>
+    </style>
 </resources>
