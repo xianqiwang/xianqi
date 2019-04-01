@@ -25,15 +25,7 @@ import java.util.List;
 
 /**
  * 滚轮选择器
- * <p>
  * WheelPicker
- *
- * @author AigeStudio 2015-12-12
- * @author AigeStudio 2016-06-17
- *         更新项目结构
- *         <p>
- *         New project structure
- * @version 1.1.0
  */
 public class WheelPicker extends android.view.View implements IDebug, IWheelPicker, Runnable {
     /**

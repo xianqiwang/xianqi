@@ -40,7 +40,7 @@ import android.preference.PreferenceManager;
 import com.nfp.update.nfpapp.app.util.NfpSoftkeyGuide;
 import com.nfp.update.R;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-
+import android.net.Uri;
 import org.apache.http.Header;
 
 public class SoftwareUpdate extends Activity{
@@ -126,15 +126,6 @@ public class SoftwareUpdate extends Activity{
 
     }
 
-    private void setSoftKeyText() {
-        NfpSoftkeyGuide sNfpSoftkeyGuide = NfpSoftkeyGuide.getSoftkeyGuide(getWindow());
-        sNfpSoftkeyGuide.setEnabled(1, true);
-        sNfpSoftkeyGuide.setEnabled(2, true);
-        sNfpSoftkeyGuide.setText(1, R.string.schedule);
-        sNfpSoftkeyGuide.setText(2, R.string.update);
-        sNfpSoftkeyGuide.invalidate();
-        isDown = true;
-    }
 
     @android.support.annotation.RequiresApi (api = android.os.Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void downloadError() {
@@ -191,11 +182,8 @@ public class SoftwareUpdate extends Activity{
                                 if(identity==1){
                                     finish();
                                 }else if(identity==2){
-                                    Intent intent = new Intent("android.intent.action.MAIN");
-                                    intent.setClassName("com.android.launcher3","com.android.launcher3.Launcher");
-                                    startActivity(intent);
-                                    //ActivityManagerUtil.setEndKeyBehavior(SoftwareUpdate.this, ActivityManagerUtil.ENDKEY_FINISH_TASK);
-                                }
+
+                               }
                             }
                         }
                 )
@@ -233,7 +221,9 @@ public class SoftwareUpdate extends Activity{
             mhandler.sendMessage(message);
          }
     }
-    private android.net.Uri insertEventLog(Context context, int eventNo, String eventName, int tid, String factor1, String factor2, String factor3) {
+
+    private Uri insertEventLog(Context context, int eventNo, String eventName,
+                               int tid, String factor1, String factor2, String factor3) {
         final android.net.Uri uri = android.net.Uri.parse("content://com.ssol.eventlog/eventlog");
 
         android.content.ContentResolver mContentResolver=context.getContentResolver();
@@ -269,6 +259,7 @@ public class SoftwareUpdate extends Activity{
         return  mContentResolver.insert (uri,values);
 
     }
+
     private Handler mhandler = new Handler() {
 
         @Override
@@ -292,7 +283,11 @@ public class SoftwareUpdate extends Activity{
                                         String packageFile = sp.getString("PAC_NAME", null);
                                         File files = new File("/fota/softwareupdate.dat");
                                         if(packageFile == null||!files.exists()){
+
+
                                             activity = SoftwareUpdate.this;
+
+
                                             while (activity.getParent() != null) {
                                                 activity = activity.getParent();
                                             }
@@ -302,6 +297,7 @@ public class SoftwareUpdate extends Activity{
                                             }catch(Exception e){
                                                 Log.e("AlertDialog  Exception:" , e.getMessage());
                                             }
+
                                         }else{
                                             prepareUpdate();
                                         }
@@ -352,12 +348,14 @@ public class SoftwareUpdate extends Activity{
                                         mTextView.setText(R.string.server_error30);
                                         break;
                                     case "error31":
-                                        insertEventLog(context,0, getString(R.string.update_result), 0, getString(R.string.fail), getString(R.string.ver_result), error);
+                                        insertEventLog(context,0, getString(R.string.update_result),
+                                                0, getString(R.string.fail), getString(R.string.ver_result), error);
                                         mTextView.setText(R.string.server_error31);
                                         Log.d(TAG,error);
                                         break;
                                     default:
-                                        insertEventLog(context,0, getString(R.string.update_result), 0, getString(R.string.fail), getString(R.string.ver_result), "other");
+                                        insertEventLog(context,0, getString(R.string.update_result),
+                                                0, getString(R.string.fail), getString(R.string.ver_result), "other");
                                         mTextView.setText(R.string.server_error_other);
                                         Log.d(TAG,"Other Errors");
                                         break;

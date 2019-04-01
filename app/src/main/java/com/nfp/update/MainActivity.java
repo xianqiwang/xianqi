@@ -35,13 +35,30 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.widget.AbsListView;
 import android.widget.Toast;
-
+import android.support.v4.app.ActivityCompat;
+import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.content.BroadcastReceiver;
+import java.io.File;
+import android.os.RecoverySystem;
+import com.alibaba.fastjson.JSONObject;
 public class MainActivity extends Activity {
 
     private ListView mListView;
     private ArrayList<String> mList = new ArrayList<String>();
     private DefDialog mDefDialog;
     private static Context context;
+    private final static String CHECK_KEY = "waterworld";
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            "android.permission.READ_EXTERNAL_STORAGE",
+            "android.permission.WRITE_EXTERNAL_STORAGE" };
+    String url;
+    FileInfo fileInfo;
+    private NetworkCheck networkCheck;
+
+
+
 
     public static Context getInstance(){
         return context;
@@ -58,6 +75,13 @@ public class MainActivity extends Activity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mReceiver != null) {
+            unregisterReceiver(mReceiver);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,12 +101,16 @@ public class MainActivity extends Activity {
         mList.add(getString(R.string.auto_update));
         mList.add(getString(R.string.update_schedule));
 
+/*
         dialogMothed();
- /*View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
+*/
+
+        /*View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
         DialogCategorical dialog=new  DialogCategorical(MainActivity.this, 50, 50 ,
                 view);
         Resources r=MainActivity.this.getResources();
 dialog.A_D_12(true,r.getString(R.string.software_update),false,r.getString(R.string.Signal_prompt));*/
+
 /*        View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
 
         DialogCategorical dialogCategorical=new DialogCategorical (this, 0, 0, view);
@@ -93,7 +121,7 @@ dialog.A_D_12(true,r.getString(R.string.software_update),false,r.getString(R.str
 
             }
         });*/
-
+        networkCheck=new NetworkCheck (this);
         ArrayAdapter<String> myArrayAdapter = new ItemListAdapter(this, R.layout.main_item, mList);
         mListView.setAdapter(myArrayAdapter);
         mListView.setOnItemClickListener(new ListView.OnItemClickListener() {
@@ -102,8 +130,22 @@ dialog.A_D_12(true,r.getString(R.string.software_update),false,r.getString(R.str
                     int position, long arg3) {
                 switch (position) {
                     case 0:
-                        intent.setClass(MainActivity.this, SoftwareUpdate.class);
-                        startActivity(intent);
+                        Resources res =MainActivity.this.getResources();;
+                        View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
+                        DialogCategorical dialogCategorical=new DialogCategorical (MainActivity.this, 0, 0, view);
+                        dialogCategorical.A_N_02 (res.getString (com.nfp.update.R.string.Signal_prompt));
+                        dialogCategorical.setCallbackConfirmKey (new DialogCategorical.CallbackConfirmKey () {
+
+                            @Override
+                            public void onConfirm () {
+
+                                android.util.Log.v ("yingbo","click");
+
+                                checkNetwork();
+
+                            }
+                        });
+
                         break;
                     case 1:
                         intent.setClass(MainActivity.this, AutoUpdate.class);
@@ -123,7 +165,119 @@ dialog.A_D_12(true,r.getString(R.string.software_update),false,r.getString(R.str
 
     }
 
+    private void init() {
 
+        verifyStoragePermissions(this);
+        //注册广播接收器
+        android.content.IntentFilter filter = new IntentFilter();
+        filter.addAction(DownloadService.ACTION_UPDATE);
+        registerReceiver(mReceiver, filter);
+
+        //创建文件信息对象
+        url = "https://www.imooc.com/mobile/mukewang.apk";
+        //fileInfo = new FileInfo(0, url, "mukewang.apk", 0, 0);
+        fileInfo = downloadFota();
+        android.util.Log.v ("yingbo",fileInfo.getFileName());
+
+    }
+
+    public static void verifyStoragePermissions(Activity activity) {
+
+        try {
+            //检测是否有写的权限
+            int permission = ActivityCompat.checkSelfPermission(activity,
+                    "android.permission.WRITE_EXTERNAL_STORAGE");
+            if (permission != PackageManager.PERMISSION_GRANTED) {
+                // 没有写的权限，去申请写的权限，会弹出对话框
+                ActivityCompat.requestPermissions(activity, PERMISSIONS_STORAGE,REQUEST_EXTERNAL_STORAGE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private FileInfo downloadFota() {
+        String baseurl="https://www.waterworld.xin:8444/fota/downloadDeltaVersion?";
+        String filecode="61";
+        String time=""+System.currentTimeMillis();
+        String token=MD5Util.getMD5(filecode+CHECK_KEY+time);
+        String url=baseurl+"filecode="+filecode;
+        url=url+"&"+"time="+time;
+        url=url+"&"+"token="+token;
+        return new FileInfo(0, url, "update.zip", 0, 0);
+    }
+
+    android.content.BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (DownloadService.ACTION_UPDATE.equals(intent.getAction())) {
+                int finished = intent.getIntExtra("finished", 0);//标志下载成功
+                String fingerprint = intent.getStringExtra("fingerprint");
+                String md5 = intent.getStringExtra("md5");
+                boolean isComplete = intent.getBooleanExtra("complete", false);
+
+                if (isComplete) {
+                    final java.io.File file = new File(DownloadService.DOWNLOAD_PATH + "/" + fileInfo.getFileName());
+                    String mMd5ByFile = null;
+                    try {
+                        mMd5ByFile = com.nfp.update.MD5Util.getMd5ByFile(file);
+                    } catch (java.io.FileNotFoundException e) {
+                        e.printStackTrace ();
+                    }
+                    android.util.Log.e("yingbo", "mMd5ByFile : " + mMd5ByFile);
+                    if (md5.equals(mMd5ByFile)) {
+                        android.util.Log.e("yingbo","文件MD5校验成功");
+                        updateFirmware(file);
+                    }
+                }
+            }
+        }
+    };
+    public void updateFirmware(File packageFile) {
+
+        if (!packageFile.exists()) {
+            android.util.Log.d("yingbo", "packageFile not exists");
+            return ;
+        }
+
+        try {
+            android.util.Log.d("yingbo", "installPackage");
+            android.os.RecoverySystem.installPackage(this, packageFile);
+
+        } catch (Exception e) {
+            android.util.Log.e("yingbo", "install  failure : " + e.toString());
+            e.printStackTrace();
+        }
+
+    }
+
+
+
+
+    public void checkNetwork(){
+        if(networkCheck.checkSimCard ()&&networkCheck.isWifi ()){
+
+         if(networkCheck.isNetWorkAvailable()){
+
+
+
+         }else{
+             Toast toast = Toast.makeText(MainActivity.this,"make sure you have a available network.", Toast.LENGTH_LONG);
+             toast.show ();
+         }
+
+        }else{
+
+
+            final Intent intent = new Intent();
+            intent.setClass(MainActivity.this, SoftwareUpdate.class);
+            startActivity(intent);
+
+            Toast toast = Toast.makeText(MainActivity.this,"Input Icc card or make sure wifi is opened.", Toast.LENGTH_LONG);
+            toast.show ();
+
+        }
+    }
 
     public void dialogMothed(){
 
@@ -211,11 +365,6 @@ dialog.A_D_12(true,r.getString(R.string.software_update),false,r.getString(R.str
 
         mDefDialog.show();
 
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
     }
 
     @Override

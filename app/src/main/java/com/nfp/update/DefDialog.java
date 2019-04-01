@@ -107,13 +107,16 @@ class DefDialog extends Dialog {
 /*
                 android.util.Log.v("yingbo","onOkKey");
 */
-/*                mOnCenterKeyListener.onOkKey();
-                setWheelPickerVisible();*/
+                mOnCenterKeyListener.onOkKey();
+
+//                setWheelPickerVisible();
+
                 android.util.Log.v ("yingbo","value"+getWheelPickerCurrentValue ());
 
                 /*
-                setViewOneGone();
-*/
+                   setViewOneGone();
+                  */
+
             }
 
         });
@@ -180,12 +183,14 @@ class DefDialog extends Dialog {
         });
         return mPosition;
     }
+
     public void setWheelPickerVisible(){
         wheelPicker.setVisibility (android.view.View.VISIBLE);
     }
     public void setWheelPickerGone(){
         wheelPicker.setVisibility (android.view.View.GONE);
     }
+
     public void setWheelPickerCurrentValue(int itemId){
         wheelPicker.setSelectedItemPosition (itemId);
     }
@@ -281,10 +286,6 @@ class DefDialog extends Dialog {
         mCancel.setBackgroundColor (color);
     }
 
-    public void setTitleGone(){
-        mTitle.setVisibility(View.GONE);
-    }
-
     public void setTitleSize(int size){
 
         mTitle.setTextSize (size);
@@ -373,10 +374,6 @@ class DefDialog extends Dialog {
     }
     public void setMessageLGone(){
         mMessageL.setVisibility (android.view.View.GONE);
-    }
-
-    public void setConfirmGone(){
-        mConfirm.setVisibility(View.GONE);
     }
 
     public void setListViewHeight(int height){
@@ -487,6 +484,7 @@ class DefDialog extends Dialog {
         spinner.setVisibility (android.view.View.GONE);
     }
     public void addListview_AD_21(String[] stringArray){
+
         listView.setVisibility (android.view.View.VISIBLE);
 
         ArrayList<String>   menuList = new ArrayList<String>();

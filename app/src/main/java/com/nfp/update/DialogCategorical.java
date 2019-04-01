@@ -56,7 +56,7 @@ public class DialogCategorical {
             mDefDialog.setOkClickListener(new DefDialog.OnOkListener () {
                 @Override
                 public void onOkKey () {
-                   // callbackConfirmKey.onConfirm ();
+                    callbackConfirmKey.onConfirm ();
                 }
 
                 @Override

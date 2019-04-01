@@ -69,8 +69,6 @@ public class DownloadProgress extends Activity {
         mTextView=(TextView)findViewById(R.id.tv);
 
         messages = this.getResources().getString(R.string.downlaod_back_idle);
-        ActivityManagerUtil.setEndKeyBehavior(DownloadProgress.this, ActivityManagerUtil.ENDKEY_SHOW_DIALOG_AND_MOVE_TO_BACK, messages);
-        setSoftKeyText();
 
         spref = PreferenceManager.getDefaultSharedPreferences(DownloadProgress.this);
         try{
@@ -311,19 +309,7 @@ public class DownloadProgress extends Activity {
         mbuild.show();
     }
 
-    private void setSoftKeyText() {
-        NfpSoftkeyGuide sNfpSoftkeyGuide = NfpSoftkeyGuide.getSoftkeyGuide(getWindow());
-        sNfpSoftkeyGuide.setEnabled(0, true);
-        sNfpSoftkeyGuide.setText(0, getString(R.string.cancel));
-        sNfpSoftkeyGuide.invalidate();
-    }
 
-    /*@Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        HttpClient.cancleRequest(true);
-        backTopActivity();
-    }*/
 
     public void restartPolling() {
         if(spref.getInt("pol_switch",1)!=0){

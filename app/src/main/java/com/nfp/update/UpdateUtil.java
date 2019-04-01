@@ -260,11 +260,13 @@ public class UpdateUtil {
     public static void stopUpdateService (Context context, int flag) {
         Log.d ("kevin", "333  cancel update");
         String action = "";
+
         if (flag == 1) {
             action = "com.nfp.update.SCHEDULE";
         } else {
             action = "com.nfp.update.UPDATE";
         }
+
         AlarmManager manager = (AlarmManager) context.getSystemService (Context.ALARM_SERVICE);
         Intent intent = new Intent (action);
         PendingIntent pendingIntent = PendingIntent.getBroadcast (context, flag, intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -625,14 +627,11 @@ public class UpdateUtil {
     }
 
     private void getPendingIntent() {
-/*        Intent intent = new Intent(this,MainActivity.class);
+
+       /*  Intent intent = new Intent(this,MainActivity.class);
         intent.putExtra("msg","从通知栏点击进来的");
         PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);*/
-/*
-        return null*/
-/*pendingIntent*//*
-;
-*/
+
     }
 
 
@@ -641,14 +640,17 @@ public class UpdateUtil {
     public static void showFotaNotification (android.content.Context context, int text, int type) {
         Intent notificationIntent;
         PendingIntent contentIntent;
+
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService (context.NOTIFICATION_SERVICE);
         NewNotification notification = (com.nfp.update.UpdateUtil.NewNotification) new android.app.Notification ();
         notification.icon = com.nfp.update.R.drawable.pict_software_update;
+
         if (type == 1 || type == 3) {
             notification.flags = Notification.FLAG_NO_CLEAR;
         } else {
             notification.flags = Notification.FLAG_AUTO_CANCEL;
         }
+
         android.content.Context mcontext = context.getApplicationContext ();
         CharSequence contentTitle = context.getResources ().getString (com.nfp.update.R.string.Notification_software_update);
         CharSequence contentText = context.getResources ().getString (text);

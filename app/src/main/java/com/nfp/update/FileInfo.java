@@ -2,10 +2,7 @@ package com.nfp.update;
 
 import java.io.Serializable;
 
-/**
- * @author MR.ZHANG
- * @create 2018-06-05
- */
+
 public class FileInfo implements java.io.Serializable {
     private  int id;
     private String url;

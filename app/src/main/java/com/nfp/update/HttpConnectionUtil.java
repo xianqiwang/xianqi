@@ -14,10 +14,6 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.X509TrustManager;
 
-/**
- * @author MR.ZHANG
- * @create 2018-06-07
- */
 public class HttpConnectionUtil {
     private static final String TAG = "HttpConnectionUtil";
     private java.net.HttpURLConnection conn_http = null;
