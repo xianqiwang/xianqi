@@ -281,6 +281,10 @@ class DefDialog extends Dialog {
         mCancel.setBackgroundColor (color);
     }
 
+    public void setTitleGone(){
+        mTitle.setVisibility(View.GONE);
+    }
+
     public void setTitleSize(int size){
 
         mTitle.setTextSize (size);
@@ -369,6 +373,10 @@ class DefDialog extends Dialog {
     }
     public void setMessageLGone(){
         mMessageL.setVisibility (android.view.View.GONE);
+    }
+
+    public void setConfirmGone(){
+        mConfirm.setVisibility(View.GONE);
     }
 
     public void setListViewHeight(int height){
