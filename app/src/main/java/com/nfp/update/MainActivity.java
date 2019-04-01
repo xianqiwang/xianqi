@@ -82,7 +82,22 @@ public class MainActivity extends Activity {
             unregisterReceiver(mReceiver);
         }
     }
+    private void init() {
 
+        verifyStoragePermissions(this);
+        //注册广播接收器
+        android.content.IntentFilter filter = new IntentFilter();
+        filter.addAction(DownloadService.ACTION_UPDATE);
+
+        registerReceiver(mReceiver, filter);
+
+        //创建文件信息对象
+        url = "";
+        //fileInfo = new FileInfo(0, url, "mukewang.apk", 0, 0);
+        fileInfo = downloadFota();
+        android.util.Log.v ("yingbo",fileInfo.getFileName());
+
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,7 +106,7 @@ public class MainActivity extends Activity {
         if(spref.getInt("IS_OPEN", 0)==1){
             finish();
         }
-
+        init();
         context = this;
         final Intent intent = new Intent();
         setContentView(R.layout.activity_list);
@@ -165,21 +180,7 @@ dialog.A_D_12(true,r.getString(R.string.software_update),false,r.getString(R.str
 
     }
 
-    private void init() {
 
-        verifyStoragePermissions(this);
-        //注册广播接收器
-        android.content.IntentFilter filter = new IntentFilter();
-        filter.addAction(DownloadService.ACTION_UPDATE);
-        registerReceiver(mReceiver, filter);
-
-        //创建文件信息对象
-        url = "https://www.imooc.com/mobile/mukewang.apk";
-        //fileInfo = new FileInfo(0, url, "mukewang.apk", 0, 0);
-        fileInfo = downloadFota();
-        android.util.Log.v ("yingbo",fileInfo.getFileName());
-
-    }
 
     public static void verifyStoragePermissions(Activity activity) {
 
@@ -197,7 +198,7 @@ dialog.A_D_12(true,r.getString(R.string.software_update),false,r.getString(R.str
     }
 
     private FileInfo downloadFota() {
-        String baseurl="https://www.waterworld.xin:8444/fota/downloadDeltaVersion?";
+        String baseurl="";
         String filecode="61";
         String time=""+System.currentTimeMillis();
         String token=MD5Util.getMD5(filecode+CHECK_KEY+time);
@@ -258,10 +259,10 @@ dialog.A_D_12(true,r.getString(R.string.software_update),false,r.getString(R.str
         String system="android7.1";
         String board="yk915";
         String customer="ddd";
-
         int build=1;
         long time=System.currentTimeMillis();
         String token= MD5Util.getMD5(hardware+system+board+customer+build+CHECK_KEY+time);
+
         json.put("hardware", hardware);
         json.put("system", system);
         json.put("board", board);
@@ -279,6 +280,7 @@ dialog.A_D_12(true,r.getString(R.string.software_update),false,r.getString(R.str
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+
                         Integer mFilecode = JSONObject.parseObject(result).getInteger("filecode");
 
                         String mVersonNumber = JSONObject.parseObject(result).getString("versonNumber");
@@ -290,7 +292,6 @@ dialog.A_D_12(true,r.getString(R.string.software_update),false,r.getString(R.str
                         String mVersonNote = JSONObject.parseObject(result).getString("versonNote");
 
                         String mType = JSONObject.parseObject(result).getString("type");
-
 
                         Intent intent = new Intent(MainActivity.this, DownloadService.class);
                         intent.setAction(DownloadService.ACTION_START);
@@ -314,6 +315,7 @@ dialog.A_D_12(true,r.getString(R.string.software_update),false,r.getString(R.str
         url=url+"&"+"token="+token;
         HttpConnectionUtil http = new HttpConnectionUtil();
         String result = http.postDataToServer(url, "");
+
     }
 
     public void checkNetwork(){
@@ -334,7 +336,6 @@ dialog.A_D_12(true,r.getString(R.string.software_update),false,r.getString(R.str
             final Intent intent = new Intent();
             intent.setClass(MainActivity.this, SoftwareUpdate.class);
             startActivity(intent);
-
             Toast toast = Toast.makeText(MainActivity.this,"Input Icc card or make sure wifi is opened.", Toast.LENGTH_LONG);
             toast.show ();
 

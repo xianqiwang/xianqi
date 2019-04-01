@@ -45,27 +45,17 @@ import org.apache.http.Header;
 
 public class SoftwareUpdate extends Activity{
     private String TAG = "SoftwareUpdate";
-    private String sDownload = "";
     private TextView mTextView;
-    private ProgressBar progress;
     private AlertDialog mDialog = null;
     private SharedPreferences spref;
-    private Activity activity;
-
     private final static String CONFIR_UPDATE_FILE = "confirm.cgi";
     private final static String DOWNLOAD_UPDATE_FILE = "download.cgi";
     private static String TEST = "?VER=SII%20602SI%20v001%20/l001%20356475080000000%2000000001234%20000000000001234%20001%20B162";
     private final static int INT_CONFIR_UPDATE_FILE = 0x01;
-    private final static int INT_REQUEST_UPDATE_FILE = 0x02;
-    private final static int INT_DOWNLOAD_UPDATE_FILE = 0x03;
     private static Context context;
     private Intent intent;
-
-    private boolean isConnect = false;
-    private boolean isDown = false;
     private boolean downResults = false;
 
-    @android.support.annotation.RequiresApi (api = android.os.Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,14 +63,13 @@ public class SoftwareUpdate extends Activity{
         intent = new Intent();
         setContentView(R.layout.software_update);
         mTextView = (TextView) findViewById(R.id.content);
-        progress = (ProgressBar) findViewById(R.id.progress);
 
         spref = PreferenceManager.getDefaultSharedPreferences(this);
 
         Intent intent = getIntent();
         Bundle bundle=intent.getExtras();
         if(bundle!=null){
-            progress.setVisibility(View.GONE);
+
             downResults = bundle.getBoolean("download_results");
             downloadComplete(downResults);
         }else{
@@ -93,46 +82,7 @@ public class SoftwareUpdate extends Activity{
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    public boolean checkDeviceStatus() {
-        if(!UpdateUtil.hasSimCard(SoftwareUpdate.this)){
-            progress.setVisibility(View.GONE);
-            mTextView.setText(R.string.unserted_card);
-            return false;
-        }else if(UpdateUtil.getAvailableInternalMemorySize()<100){
-            progress.setVisibility(View.GONE);
-            mTextView.setText(R.string.volume_insuffient);
-            return false;
-        }else if(spref.getInt("pol_service", 0)==1){
-            progress.setVisibility(View.GONE);
-            mTextView.setText(R.string.confirm_latest_sw);
-            return false;
-        }
-        return true;
-
-    }
-
-
-    @android.support.annotation.RequiresApi (api = android.os.Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void downloadError() {
-        activity = SoftwareUpdate.this;
-        while (activity.getParent() != null) {
-            activity = activity.getParent();
-        }
 
         try{
             openConfirmDialog(2);
@@ -142,7 +92,9 @@ public class SoftwareUpdate extends Activity{
     }
 
     private void prepareUpdate() {
+
         SharedPreferences sprefs = getSharedPreferences("debug_comm", 0);
+
         if(sprefs.getInt("AUTO_UPDATE", 0) ==0){
             Log.d("kevin","auto update start");
             intent.setClass(SoftwareUpdate.this, PrepareUpdateActivity.class);
@@ -151,6 +103,7 @@ public class SoftwareUpdate extends Activity{
             Log.d("kevin","auto update sse");
             confirmInstall();
         }
+
     }
 
     private void confirmInstall() {
@@ -158,8 +111,8 @@ public class SoftwareUpdate extends Activity{
         startActivity(intent);
     }
 
-    @android.support.annotation.RequiresApi (api = android.os.Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void openConfirmDialog(final int identity) {
+
         String messages = "";
         String confirmation = this.getResources().getString(R.string.confirmation);
         String yes = this.getResources().getString(R.string.yes);
@@ -169,61 +122,28 @@ public class SoftwareUpdate extends Activity{
         }else if(identity==2){
             messages = this.getResources().getString(R.string.download_fail);
         }
-        SharedPreferences.Editor pEdits = spref.edit();
-        pEdits.putInt("click_yes",0);
-        pEdits.commit();
-        AlertDialog.Builder mbuild = new AlertDialog.Builder(activity)
-                .setTitle(confirmation)
-                .setIcon(R.drawable.ic_dialog_confirm)
-                .setMessage(messages)
-                .setNegativeButton(no, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                if(identity==1){
-                                    finish();
-                                }else if(identity==2){
 
-                               }
-                            }
-                        }
-                )
-                .setPositiveButton(yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                if(identity==1){
-                                    SharedPreferences.Editor pEdits = spref.edit();
-                                    pEdits.putInt("click_yes",1);
-                                    pEdits.commit();
-                                    intent.setClass(SoftwareUpdate.this, DownloadProgress.class);
-                                    startActivityForResult(intent, 0);
-                                }else if(identity==2){
-                                    connectServer();
-                                }
-                            }
-                        }
-                )
-                .setOnDismissListener(new DialogInterface.OnDismissListener (){
-                     @Override
-                     public void onDismiss(DialogInterface dialog){
-                         if(spref.getInt("click_yes",0)!=1 || identity!=1)
-                             finish();
-                     }
-        });
-        mDialog = mbuild.create();
-        mDialog.show();
+        if(identity==1){
+            SharedPreferences.Editor pEdits = spref.edit();
+            pEdits.putInt("click_yes",1);
+            pEdits.commit();
+            intent.setClass(SoftwareUpdate.this, DownloadProgress.class);
+            startActivityForResult(intent, 0);
+        }else if(identity==2){
+            connectServer();
+        }
     }
 
     public void connectServer() {
-        if(checkDeviceStatus()){
             Message message = new Message();
             message.what = INT_CONFIR_UPDATE_FILE;
             mhandler.removeMessages(INT_CONFIR_UPDATE_FILE);
             mhandler.sendMessage(message);
-         }
-    }
+          }
 
     private Uri insertEventLog(Context context, int eventNo, String eventName,
                                int tid, String factor1, String factor2, String factor3) {
+
         final android.net.Uri uri = android.net.Uri.parse("content://com.ssol.eventlog/eventlog");
 
         android.content.ContentResolver mContentResolver=context.getContentResolver();
@@ -271,7 +191,6 @@ public class SoftwareUpdate extends Activity{
                         @Override
                         public void onSuccess(int i, Header[] headers, byte[] bytes) {
                             Log.d(TAG,"confirm latest sw situation");
-                            progress.setVisibility(View.GONE);
                             if(i == 200){
                                 String error = new String(bytes);
                                 switch (error){
@@ -283,14 +202,6 @@ public class SoftwareUpdate extends Activity{
                                         String packageFile = sp.getString("PAC_NAME", null);
                                         File files = new File("/fota/softwareupdate.dat");
                                         if(packageFile == null||!files.exists()){
-
-
-                                            activity = SoftwareUpdate.this;
-
-
-                                            while (activity.getParent() != null) {
-                                                activity = activity.getParent();
-                                            }
 
                                             try{
                                                 openConfirmDialog(1);
@@ -371,7 +282,6 @@ public class SoftwareUpdate extends Activity{
 
                         @Override
                         public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
-                            progress.setVisibility(View.GONE);
                             //mTextView.setText(R.string.server_error);
                             String errorValue = String.valueOf(i);
                             String errorCode = "404";//UpdateUtil.autoGenericCode(errorValue, 3);
@@ -394,18 +304,6 @@ public class SoftwareUpdate extends Activity{
         };
     };
 
-
-
-
-    @Override
-    public void onBackPressed() {
-        if(null != mDialog){
-            mDialog.dismiss();
-        }
-        super.onBackPressed();
-    }
-
-    @android.support.annotation.RequiresApi (api = android.os.Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         boolean downResult = false;
@@ -415,36 +313,12 @@ public class SoftwareUpdate extends Activity{
         }
     }
 
-    @android.support.annotation.RequiresApi (api = android.os.Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void downloadComplete(boolean result) {
         if(result){
             prepareUpdate();
         }else{
             downloadError();
         }
-    }
-
-   @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if(keyCode ==KeyEvent.KEYCODE_DPAD_CENTER){
-            if(null != mDialog){
-                mDialog.dismiss();
-            }
-            finish();
-            return true;
-        }/*else if(keyCode ==KeyEvent.KEYCODE_F1){
-            if(isDown){
-                intent.setClass(this, UpdateSchedule.class);
-                startActivity(intent);
-                return true;
-            }
-        }else if(keyCode ==KeyEvent.KEYCODE_F2){
-            if(isDown){
-                confirmInstall();
-                return true;
-            }
-        }*/
-        return super.onKeyUp(keyCode,event);
     }
 
 }
