@@ -251,8 +251,70 @@ dialog.A_D_12(true,r.getString(R.string.software_update),false,r.getString(R.str
 
     }
 
+    private void checkUpdate() {
+        String CHECKUPDATE_URL="";
+        JSONObject json=new JSONObject();
+        String hardware="MT6739";
+        String system="android7.1";
+        String board="yk915";
+        String customer="ddd";
+
+        int build=1;
+        long time=System.currentTimeMillis();
+        String token= MD5Util.getMD5(hardware+system+board+customer+build+CHECK_KEY+time);
+        json.put("hardware", hardware);
+        json.put("system", system);
+        json.put("board", board);
+        json.put("customer", customer);
+        json.put("build", build);
+        json.put("time", time);
+        json.put("token", token);
+
+        HttpConnectionUtil http = new HttpConnectionUtil();
+        final String result = http.postDataToServer(CHECKUPDATE_URL, json.toString());
+        if (result != null) {
+            android.util.Log.e("yingbo", "post result : " + result);
+            String mResult = JSONObject.parseObject(result).getString("result");
+            if (mResult != null && mResult.equals("1")) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Integer mFilecode = JSONObject.parseObject(result).getInteger("filecode");
+
+                        String mVersonNumber = JSONObject.parseObject(result).getString("versonNumber");
+
+                        String mSize = JSONObject.parseObject(result).getString("size");
+
+                        Long mReleaseDate = JSONObject.parseObject(result).getLong("releaseDate");
+
+                        String mVersonNote = JSONObject.parseObject(result).getString("versonNote");
+
+                        String mType = JSONObject.parseObject(result).getString("type");
 
 
+                        Intent intent = new Intent(MainActivity.this, DownloadService.class);
+                        intent.setAction(DownloadService.ACTION_START);
+                        intent.putExtra("fileinfo", fileInfo);
+                        startService(intent);
+
+                    }
+                });
+            }
+        }
+    }
+
+    private void download() {
+
+        String baseurl="";
+        String filecode="61";
+        String time=""+System.currentTimeMillis();
+        String token=MD5Util.getMD5(filecode+CHECK_KEY+time);
+        String url=baseurl+"filecode="+filecode;
+        url=url+"&"+"time="+time;
+        url=url+"&"+"token="+token;
+        HttpConnectionUtil http = new HttpConnectionUtil();
+        String result = http.postDataToServer(url, "");
+    }
 
     public void checkNetwork(){
         if(networkCheck.checkSimCard ()&&networkCheck.isWifi ()){
