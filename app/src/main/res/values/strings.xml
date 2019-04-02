@@ -30,6 +30,7 @@
      <string name="network_connect_error">Network connecting error(%1$s).</string>
      <string name="confirm_latest_sw">Confirming latest SW. Please wait.</string>
      <string name="no_latest_sw">Your phone software is latest. No update is required.</string>
+      <string name="no_latest_sw1">Your phone software is up-to-date. \n No update is required.</string>
      <string name="softkey_next" translatable="false">Next</string>
      <string name="softkey_select" translatable="false">Select</string>
 
@@ -49,19 +50,24 @@
      <string name="server_error_other">Other Errors.\nPlease retry again after a while.</string>
 <!-- lihuachun add start-->
     <string name="Signal_prompt">We recommend that you stay in a place \n with a good reception while exception</string>
-    <string name="Services_unavailable">The serivce in unavailable \n in International Roaming</string>
-    <string name="been_updated">your phone software is up-to-date. \n No update is required</string>
+    <string name="Services_unavailable">The serivce in unavailable \n in International Roaming.</string>
+    <string name="been_updated">Your phone software is up-to-date. \n No update is required.</string>
     <string name="to_update">To upgrade software to latest version execute updating \n times</string>
-    <string name="Ready_update"> Your scheduled update is about to start.\n Use of this operation may cause your \n scheduled update to be cancelled.Continue?</string>
+    <string name="Ready_update"> Your scheduled update is about to start.\n Use of this operation may cause your \n scheduled update to be cancelled.\n Continue?</string>
     <string name="ask_up_time"> New software is automatically downloaded at \n YYYY/MM/DD(ddd) \nhh:mm-hh:mm \n Do you want to download the software now or select another day and time?</string>
     <string name="ask_up_time_1"> New software is automatically \n downloaded at </string>
     <string name="ask_up_time_2">  \n Do you want to download the \n software now or select \n another day and time?</string>
 
     <string name="ask_exit"> Exit?</string>
     <string name="ask_Cancel_sch"> YYYY/MM/DD(ddd) \n hh:mm-hh:mm \n Cancel schedule?</string>
+    <string name="ask_Cancel_sch2"> \n Cancel schedule?</string>
     <string name="up_diff"> The handset you are \n currently using is \n different from the one \n from which you scheduled your software update.</string>
     <string name="Cancel_sch"> Schedule on YYYY/MM/DD(ddd) \n hh:mm-hh:mm \n has been cancelled.</string>
+    <string name="Cancel_sch2"> Schedule has been cancelled.</string>
+    <string name="Cancel_sch3"> \n has been cancelled.</string>
+    <string name="Cancel_sch4">Schedule on \n </string>
     <string name="Cancel_soft"> Software update has been cancelled.</string>
+    <string name="server_busy1"> The server is busy now. \n Please try again later.</string>
     <string name="server_busy"> The server is busy now. \n Try again after a while.</string>
 
     <string name="memory_message"> Insufficient memory.\n Software update update has \n been cancelled.</string>
@@ -102,6 +108,23 @@ The update time is currently set to 03:00.</string>
     <string name="up_noauto">Not Automatically \n update</string>
     <string name="up_detail">Update Details:\n</string>
     <string name="up_version">Updated version of this book:\n software version: \n</string>
+    <string name="up_version1"> Software version: \n</string>
+    <string-array name="up_chose21">
+    <item>·×××××</item>
+    <item>·○○○○○ </item>
+    <item>·△△△△△</item>
+    </string-array>
+    <string-array name="up_chose03">
+        <item>1.Page 1 of 8</item>
+        <item>2.Page 2 of 8</item>
+        <item>3.Page 3 of 8</item>
+        <item>4.Page 4 of 8</item>
+        <item>5.Page 5 of 8</item>
+        <item>6.Page 6 of 8</item>
+        <item>7.Page 7 of 8</item>
+        <item>8.Page 8 of 8</item>
+        <item>9.go to Item List</item>
+    </string-array>
     <string-array name="up_chose">
         <item>1.Download now</item>
         <item>2.Select the day and the time </item>
@@ -192,4 +215,5 @@ The update time is currently set to 03:00.</string>
 
      <string name="update_result" translatable="false">[FOTA]更新結果</string>
      <string name="ver_result" translatable="false">***/***</string>
+    <string name="back_to_list" translatable="false">Terms of Use N/8  \n  Back to Contents List.</string>
 </resources>

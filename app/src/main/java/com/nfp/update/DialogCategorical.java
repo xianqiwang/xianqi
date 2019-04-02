@@ -47,71 +47,10 @@ public class DialogCategorical {
         mContext=context;
 
     }
-    // yes no start lihuachun A_D_16 A_D_18 A_D_15
-    public void A_N_02(String message){
+
+    public void A_D_03(String sw){
         Resources r=mContext.getResources();
 
-
-
-            mDefDialog.setOkClickListener(new DefDialog.OnOkListener () {
-                @Override
-                public void onOkKey () {
-                    callbackConfirmKey.onConfirm ();
-                }
-
-                @Override
-                public void onCenterKey () {
-
-                }
-                @Override
-                public void onSpinnerSelect () {
-
-                }
-            });
-        mDefDialog.setCancelable(false);
-        mDefDialog.setTitle (r.getString(R.string.software_update));
-        mDefDialog.setMessage (message);
-        mDefDialog.setCenterKeyGone();
-        mDefDialog.setListViewGone();
-        mDefDialog.setMessageLGone();
-        mDefDialog.setButtonConfirm(r.getString (R.string.yes));
-        mDefDialog.setButtonCancel(r.getString (R.string.no));
-        mDefDialog.setSpinnerGone();
-        mDefDialog.show();
-        }
-    // only ok start lihuachun A_D_04 A_D_14
-    public void A_D_13(String message){
-        Resources r=mContext.getResources();
-
-
-        mDefDialog.setOkClickListener(new DefDialog.OnOkListener () {
-                @Override
-                public void onOkKey () {
-                    // callbackConfirmKey.onConfirm ();
-                }
-
-                @Override
-                public void onCenterKey () {
-
-                }
-            @Override
-            public void onSpinnerSelect () {
-
-            }
-            });
-        mDefDialog.setCancelable(false);
-        mDefDialog.setTitle (r.getString(R.string.software_update));
-        mDefDialog.setMessage (message);
-        mDefDialog.setListViewGone();
-        mDefDialog.setMessageLGone();
-        mDefDialog.setSpinnerGone();
-        mDefDialog.setCancelKeyGone();
-        mDefDialog.setButtonConfirm(r.getString (R.string.ok_dailog));
-
-        mDefDialog.show();
-        }
-    public void A_D_21(String[] stringArray){
-        Resources r=mContext.getResources();
 
 
         mDefDialog.setOkClickListener(new DefDialog.OnOkListener () {
@@ -131,18 +70,548 @@ public class DialogCategorical {
         });
         mDefDialog.setCancelable(false);
         mDefDialog.setTitle (r.getString(R.string.software_update));
-        mDefDialog.setMessage(r.getString(R.string.up_detail));
-        mDefDialog.addListview_AD_21(stringArray);
+        mDefDialog.setMessage (sw);
+        mDefDialog.setCenterKeyGone();
+        mDefDialog.addListview_AD_03();
         mDefDialog.setMessageLGone();
+        mDefDialog.setButtonConfirm(r.getString (R.string.select));
+        mDefDialog.setButtonCancel(r.getString (R.string.cancel));
         mDefDialog.setSpinnerGone();
-        mDefDialog.setCancelKeyGone();
-        mDefDialog.setButtonConfirm(r.getString (R.string.ok_dailog));
+        mDefDialog.show();
+    }
+    public void A_D_04(){
 
+        Resources r=mContext.getResources();
+
+        mDefDialog.setOkClickListener(new DefDialog.OnOkListener () {
+            @Override
+            public void onOkKey () {
+                callbackConfirmKey.onConfirm ();
+            }
+
+            @Override
+            public void onCenterKey () {
+
+            }
+
+            @Override
+            public void onSpinnerSelect () {
+
+            }
+
+        });
+        mDefDialog.setCancelable(false);
+        mDefDialog.setTitle (r.getString(R.string.software_update));
+        mDefDialog.setButtonConfirm (r.getString (R.string.ok));
+        mDefDialog.setMessage (r.getString (R.string.back_to_list));
+        mDefDialog.setSpinnerGone ();
+        mDefDialog.setMessageLGone ();
+        mDefDialog.setCenterKeyGone ();
+        mDefDialog.setCancelKeyGone();
+        mDefDialog.setProgressGone ();
+        mDefDialog.show();
+    }
+    public void A_D_07(){
+
+        Resources r=mContext.getResources();
+
+        mDefDialog.setOkClickListener(new DefDialog.OnOkListener () {
+            @Override
+            public void onOkKey () {
+                callbackConfirmKey.onConfirm ();
+            }
+
+            @Override
+            public void onCenterKey () {
+
+            }
+
+            @Override
+            public void onSpinnerSelect () {
+
+            }
+
+        });
+
+        mDefDialog.setCancelable(false);
+        mDefDialog.setTitle (r.getString(R.string.software_update));
+        mDefDialog.setMessage (r.getString (R.string.ask_exit));
+        mDefDialog.setButtonConfirm(r.getString (R.string.yes));
+        mDefDialog.setButtonCancel (r.getString (R.string.no));
+        mDefDialog.setSpinnerGone ();
+        mDefDialog.setMessageLGone ();
+        mDefDialog.setCenterKeyGone ();
+        mDefDialog.setProgressGone ();
+        mDefDialog.show();
+    }
+    public void C_D_01(String date){
+
+        Resources r=mContext.getResources();
+
+        mDefDialog.setOkClickListener(new DefDialog.OnOkListener () {
+            @Override
+            public void onOkKey () {
+                callbackConfirmKey.onConfirm ();
+            }
+
+            @Override
+            public void onCenterKey () {
+
+            }
+
+            @Override
+            public void onSpinnerSelect () {
+
+            }
+
+        });
+        mDefDialog.setCancelable(false);
+        mDefDialog.setTitle (r.getString(R.string.software_update));
+        String str1=r.getString(R.string.ask_Cancel_sch2);
+        String str=date+str1;
+        mDefDialog.setMessage (str);
+        mDefDialog.setButtonConfirm (r.getString (R.string.yes));
+        mDefDialog.setButtonCancel (r.getString (R.string.no));
+        mDefDialog.setSpinnerGone ();
+        mDefDialog.setMessageLGone ();
+        mDefDialog.setListViewGone();
+        mDefDialog.setCenterKeyGone ();
+        mDefDialog.setProgressGone ();
+        mDefDialog.show();
+    }
+    public void C_D_02(){
+
+        Resources r=mContext.getResources();
+
+        mDefDialog.setOkClickListener(new DefDialog.OnOkListener () {
+            @Override
+            public void onOkKey () {
+                callbackConfirmKey.onConfirm ();
+            }
+
+            @Override
+            public void onCenterKey () {
+
+            }
+
+            @Override
+            public void onSpinnerSelect () {
+
+            }
+
+        });
+
+        mDefDialog.setCancelable(false);
+        mDefDialog.setTitle (r.getString(R.string.software_update));
+        mDefDialog.setMessage (r.getString (R.string.Cancel_sch2));
+        mDefDialog.setButtonConfirm (r.getString (R.string.ok));
+        mDefDialog.setSpinnerGone ();
+        mDefDialog.setMessageLGone ();
+        mDefDialog.setCenterKeyGone ();
+        mDefDialog.setCancelKeyGone();
+        mDefDialog.setProgressGone ();
+        mDefDialog.show();
+    }
+    public void C_D_03(){
+
+        Resources r=mContext.getResources();
+
+        mDefDialog.setOkClickListener(new DefDialog.OnOkListener () {
+            @Override
+            public void onOkKey () {
+                callbackConfirmKey.onConfirm ();
+            }
+
+            @Override
+            public void onCenterKey () {
+
+            }
+
+            @Override
+            public void onSpinnerSelect () {
+
+            }
+
+        });
+
+        mDefDialog.setCancelable(false);
+        mDefDialog.setTitle (r.getString(R.string.software_update));
+        mDefDialog.setMessage (r.getString (R.string.server_busy1));
+        mDefDialog.setButtonConfirm (r.getString (R.string.ok));
+        mDefDialog.setSpinnerGone ();
+        mDefDialog.setMessageLGone ();
+        mDefDialog.setCenterKeyGone ();
+        mDefDialog.setCancelKeyGone();
+        mDefDialog.setProgressGone ();
+        mDefDialog.show();
+    }
+    public void D_D_03(){
+
+        Resources r=mContext.getResources();
+
+        mDefDialog.setOkClickListener(new DefDialog.OnOkListener () {
+            @Override
+            public void onOkKey () {
+                callbackConfirmKey.onConfirm ();
+            }
+
+            @Override
+            public void onCenterKey () {
+
+            }
+
+            @Override
+            public void onSpinnerSelect () {
+
+            }
+
+        });
+
+        mDefDialog.setCancelable(false);
+        mDefDialog.setTitle (r.getString(R.string.software_update));
+        mDefDialog.setMessage (r.getString (R.string.Services_unavailable));
+        mDefDialog.setButtonConfirm (r.getString (R.string.ok));
+        mDefDialog.setSpinnerGone ();
+        mDefDialog.setMessageLGone ();
+        mDefDialog.setCenterKeyGone ();
+        mDefDialog.setCancelKeyGone();
+        mDefDialog.setProgressGone ();
+        mDefDialog.show();
+    }
+    public void D_D_04(){
+
+        Resources r=mContext.getResources();
+
+        mDefDialog.setOkClickListener(new DefDialog.OnOkListener () {
+            @Override
+            public void onOkKey () {
+                callbackConfirmKey.onConfirm ();
+            }
+
+            @Override
+            public void onCenterKey () {
+
+            }
+
+            @Override
+            public void onSpinnerSelect () {
+
+            }
+
+        });
+
+        mDefDialog.setCancelable(false);
+        mDefDialog.setTitle (r.getString(R.string.software_update));
+        mDefDialog.setMessage (r.getString (R.string.no_latest_sw1));
+        mDefDialog.setButtonConfirm (r.getString (R.string.ok));
+        mDefDialog.setSpinnerGone ();
+        mDefDialog.setMessageLGone ();
+        mDefDialog.setCenterKeyGone ();
+        mDefDialog.setCancelKeyGone();
+        mDefDialog.setProgressGone ();
+        mDefDialog.show();
+    }
+    public void D_D_05(){
+
+        Resources r=mContext.getResources();
+
+        mDefDialog.setOkClickListener(new DefDialog.OnOkListener () {
+            @Override
+            public void onOkKey () {
+                callbackConfirmKey.onConfirm ();
+            }
+
+            @Override
+            public void onCenterKey () {
+
+            }
+
+            @Override
+            public void onSpinnerSelect () {
+
+            }
+
+        });
+
+        mDefDialog.setCancelable(false);
+        mDefDialog.setTitle (r.getString(R.string.software_update));
+        mDefDialog.setMessage (r.getString (R.string.up_diff));
+        mDefDialog.setButtonConfirm (r.getString (R.string.ok));
+        mDefDialog.setSpinnerGone ();
+        mDefDialog.setMessageLGone ();
+        mDefDialog.setCenterKeyGone ();
+        mDefDialog.setCancelKeyGone();
+        mDefDialog.setProgressGone ();
+        mDefDialog.show();
+    }
+    public void D_D_06(String date){
+
+        Resources r=mContext.getResources();
+
+        mDefDialog.setOkClickListener(new DefDialog.OnOkListener () {
+            @Override
+            public void onOkKey () {
+                callbackConfirmKey.onConfirm ();
+            }
+
+            @Override
+            public void onCenterKey () {
+
+            }
+
+            @Override
+            public void onSpinnerSelect () {
+
+            }
+
+        });
+
+        mDefDialog.setCancelable(false);
+        mDefDialog.setTitle (r.getString(R.string.software_update));
+        String str1=r.getString(R.string.Cancel_sch4);
+        String str2=r.getString(R.string.Cancel_sch3);
+        String str=str1+date+str2;
+        mDefDialog.setMessage (str);
+        mDefDialog.setButtonConfirm (r.getString (R.string.ok));
+        mDefDialog.setSpinnerGone ();
+        mDefDialog.setMessageLGone ();
+        mDefDialog.setCenterKeyGone ();
+        mDefDialog.setCancelKeyGone();
+        mDefDialog.setProgressGone ();
+        mDefDialog.show();
+    }
+    public void D_N_17(){
+
+        Resources r=mContext.getResources();
+
+        mDefDialog.setOkClickListener(new DefDialog.OnOkListener () {
+            @Override
+            public void onOkKey () {
+                callbackConfirmKey.onConfirm ();
+            }
+
+            @Override
+            public void onCenterKey () {
+
+            }
+
+            @Override
+            public void onSpinnerSelect () {
+
+            }
+
+        });
+
+        mDefDialog.setCancelable(false);
+        mDefDialog.setTitle (r.getString(R.string.software_update));
+        mDefDialog.setMessage (r.getString (R.string.Cancel_soft));
+        mDefDialog.setButtonConfirm (r.getString (R.string.ok));
+        mDefDialog.setSpinnerGone ();
+        mDefDialog.setMessageLGone ();
+        mDefDialog.setCenterKeyGone ();
+        mDefDialog.setCancelKeyGone();
+        mDefDialog.setProgressGone ();
         mDefDialog.show();
     }
 
-        // only ok end lihuachun
+    public void A_N_02(){
 
+        Resources r=mContext.getResources();
+
+        mDefDialog.setOkClickListener(new DefDialog.OnOkListener () {
+            @Override
+            public void onOkKey () {
+                callbackConfirmKey.onConfirm ();
+            }
+
+            @Override
+            public void onCenterKey () {
+
+            }
+
+            @Override
+            public void onSpinnerSelect () {
+
+            }
+
+        });
+
+        mDefDialog.setCancelable(false);
+        mDefDialog.setTitle (r.getString(R.string.software_update));
+        mDefDialog.setMessage (r.getString (R.string.Signal_prompt));
+        mDefDialog.setButtonConfirm (r.getString (R.string.yes));
+        mDefDialog.setButtonCancel (r.getString (R.string.no));
+        mDefDialog.setSpinnerGone ();
+        mDefDialog.setMessageLGone ();
+        mDefDialog.setCenterKeyGone ();
+        mDefDialog.setProgressGone ();
+        mDefDialog.show();
+    }
+    public void A_N_04(){
+
+        Resources r=mContext.getResources();
+
+        mDefDialog.setOkClickListener(new DefDialog.OnOkListener () {
+            @Override
+            public void onOkKey () {
+                callbackConfirmKey.onConfirm ();
+            }
+
+            @Override
+            public void onCenterKey () {
+
+            }
+
+            @Override
+            public void onSpinnerSelect () {
+
+            }
+
+        });
+
+        mDefDialog.setCancelable(false);
+        mDefDialog.setTitle (r.getString(R.string.software_update));
+        mDefDialog.setMessage (r.getString (R.string.Services_unavailable));
+        mDefDialog.setButtonConfirm (r.getString (R.string.ok));
+        mDefDialog.setSpinnerGone ();
+        mDefDialog.setMessageLGone ();
+        mDefDialog.setCenterKeyGone ();
+        mDefDialog.setCancelKeyGone();
+        mDefDialog.setProgressGone ();
+        mDefDialog.show();
+    }
+    public void A_D_13(){
+
+        Resources r=mContext.getResources();
+
+        mDefDialog.setOkClickListener(new DefDialog.OnOkListener () {
+            @Override
+            public void onOkKey () {
+                callbackConfirmKey.onConfirm ();
+            }
+
+            @Override
+            public void onCenterKey () {
+
+            }
+
+            @Override
+            public void onSpinnerSelect () {
+
+            }
+
+        });
+
+        mDefDialog.setCancelable(false);
+        mDefDialog.setTitle (r.getString(R.string.software_update));
+        mDefDialog.setMessage (r.getString (R.string.been_updated));
+        mDefDialog.setButtonConfirm (r.getString (R.string.ok));
+        mDefDialog.setSpinnerGone ();
+        mDefDialog.setMessageLGone ();
+        mDefDialog.setCenterKeyGone ();
+        mDefDialog.setCancelKeyGone();
+        mDefDialog.setProgressGone ();
+        mDefDialog.show();
+    }
+    public void A_D_14(){
+
+        Resources r=mContext.getResources();
+
+        mDefDialog.setOkClickListener(new DefDialog.OnOkListener () {
+            @Override
+            public void onOkKey () {
+                callbackConfirmKey.onConfirm ();
+            }
+
+            @Override
+            public void onCenterKey () {
+
+            }
+
+            @Override
+            public void onSpinnerSelect () {
+
+            }
+
+        });
+
+        mDefDialog.setCancelable(false);
+        mDefDialog.setTitle (r.getString(R.string.software_update));
+        mDefDialog.setMessage (r.getString (R.string.to_update));
+        mDefDialog.setButtonConfirm (r.getString (R.string.ok));
+        mDefDialog.setSpinnerGone ();
+        mDefDialog.setMessageLGone ();
+        mDefDialog.setCenterKeyGone ();
+        mDefDialog.setCancelKeyGone();
+        mDefDialog.setProgressGone ();
+        mDefDialog.show();
+    }
+    public void A_D_15(){
+
+        Resources r=mContext.getResources();
+
+        mDefDialog.setOkClickListener(new DefDialog.OnOkListener () {
+            @Override
+            public void onOkKey () {
+                callbackConfirmKey.onConfirm ();
+            }
+
+            @Override
+            public void onCenterKey () {
+
+            }
+
+            @Override
+            public void onSpinnerSelect () {
+
+            }
+
+        });
+
+        mDefDialog.setCancelable(false);
+        mDefDialog.setTitle (r.getString(R.string.software_update));
+        mDefDialog.setMessage (r.getString (R.string.Ready_update));
+        mDefDialog.setButtonConfirm (r.getString (R.string.yes));
+        mDefDialog.setButtonCancel (r.getString (R.string.no));
+        mDefDialog.setSpinnerGone ();
+        mDefDialog.setMessageLGone ();
+        mDefDialog.setCenterKeyGone ();
+        mDefDialog.setProgressGone ();
+        mDefDialog.show();
+    }
+    public void A_D_16(){
+
+        Resources r=mContext.getResources();
+
+        mDefDialog.setOkClickListener(new DefDialog.OnOkListener () {
+            @Override
+            public void onOkKey () {
+                callbackConfirmKey.onConfirm ();
+            }
+
+            @Override
+            public void onCenterKey () {
+
+            }
+
+            @Override
+            public void onSpinnerSelect () {
+
+            }
+
+        });
+
+        mDefDialog.setCancelable(false);
+        mDefDialog.setTitle (r.getString(R.string.software_update));
+        mDefDialog.setMessage (r.getString (R.string.Ready_update));
+        mDefDialog.setButtonConfirm (r.getString (R.string.yes));
+        mDefDialog.setButtonCancel (r.getString (R.string.no));
+        mDefDialog.setSpinnerGone ();
+        mDefDialog.setMessageLGone ();
+        mDefDialog.setCenterKeyGone ();
+        mDefDialog.setProgressGone ();
+        mDefDialog.show();
+    }
     public void A_D_17(String date){
         Resources r=mContext.getResources();
 
@@ -174,14 +643,70 @@ public class DialogCategorical {
         mDefDialog.setCenterKeyGone();
         mDefDialog.setListViewGone();
         mDefDialog.setMessageLGone();
-        mDefDialog.setButtonConfirm(r.getString (R.string.select));
-        mDefDialog.setButtonCancel(r.getString (R.string.cancel));
+        mDefDialog.setButtonConfirm(r.getString (R.string.yes));
+        mDefDialog.setButtonCancel(r.getString (R.string.no));
         mDefDialog.setSpinnerGone();
         mDefDialog.show();
 
-        }
+    }
+    public void A_D_18(){
 
+        Resources r=mContext.getResources();
 
+        mDefDialog.setOkClickListener(new DefDialog.OnOkListener () {
+            @Override
+            public void onOkKey () {
+                callbackConfirmKey.onConfirm ();
+            }
+
+            @Override
+            public void onCenterKey () {
+
+            }
+
+            @Override
+            public void onSpinnerSelect () {
+
+            }
+
+        });
+
+        mDefDialog.setCancelable(false);
+        mDefDialog.setTitle (r.getString(R.string.software_update));
+        mDefDialog.setMessage (r.getString (R.string.ask_exit));
+        mDefDialog.setButtonConfirm (r.getString (R.string.yes));
+        mDefDialog.setButtonCancel (r.getString (R.string.no));
+        mDefDialog.setSpinnerGone ();
+        mDefDialog.setMessageLGone ();
+        mDefDialog.setCenterKeyGone ();
+        mDefDialog.setProgressGone ();
+        mDefDialog.show();
+    }
+    public void A_D_21(String[] stringArray){
+        Resources r=mContext.getResources();
+        mDefDialog.setOkClickListener(new DefDialog.OnOkListener () {
+            @Override
+            public void onOkKey () {
+                // callbackConfirmKey.onConfirm ();
+            }
+            @Override
+            public void onCenterKey () {
+            }
+            @Override
+            public void onSpinnerSelect () {
+            }
+        });
+        mDefDialog.setCancelable(false);
+        mDefDialog.setTitle (r.getString(R.string.software_update));
+        mDefDialog.setMessage(r.getString(R.string.up_detail));
+        mDefDialog.addListview_AD_21(stringArray);
+        mDefDialog.setMessageLGone();
+        mDefDialog.setSpinnerGone();
+        mDefDialog.setCenterKeyGone();
+        mDefDialog.setCancelKeyGone();
+        mDefDialog.setButtonConfirm(r.getString (R.string.ok_dailog));
+        mDefDialog.show();
+    }
     public void A_D_12(String sw){
         Resources r=mContext.getResources();
 
@@ -204,8 +729,8 @@ public class DialogCategorical {
         });
         mDefDialog.setCancelable(false);
         mDefDialog.setTitle (r.getString(R.string.software_update));
-        String str=r.getString(R.string.up_version)+"("+sw+")";
-        mDefDialog.setMessage (sw);
+        String str=r.getString(R.string.up_version1)+"("+sw+")";
+        mDefDialog.setMessage (str);
         mDefDialog.setCenterKeyGone();
         mDefDialog.addListview_AD_12();
         mDefDialog.setMessageLGone();
@@ -214,7 +739,39 @@ public class DialogCategorical {
         mDefDialog.setSpinnerGone();
         mDefDialog.show();
     }
+    public void A_D_19(){
 
+        Resources r=mContext.getResources();
+
+        mDefDialog.setOkClickListener(new DefDialog.OnOkListener () {
+            @Override
+            public void onOkKey () {
+                callbackConfirmKey.onConfirm ();
+            }
+
+            @Override
+            public void onCenterKey () {
+
+            }
+
+            @Override
+            public void onSpinnerSelect () {
+
+            }
+
+        });
+
+        mDefDialog.setCancelable(false);
+        mDefDialog.setTitle (r.getString(R.string.software_update));
+        mDefDialog.setMessage (r.getString (R.string.ask_exit));
+        mDefDialog.setButtonConfirm (r.getString (R.string.yes));
+        mDefDialog.setButtonCancel (r.getString (R.string.no));
+        mDefDialog.setSpinnerGone ();
+        mDefDialog.setMessageLGone ();
+        mDefDialog.setCenterKeyGone ();
+        mDefDialog.setProgressGone ();
+        mDefDialog.show();
+    }
     public void A_D_20(String sw){
         Resources r=mContext.getResources();
 
@@ -237,185 +794,40 @@ public class DialogCategorical {
         });
         mDefDialog.setCancelable(false);
         mDefDialog.setTitle (r.getString(R.string.software_update));
-        String str=r.getString(R.string.up_version)+"("+sw+")";
-        mDefDialog.setMessage (sw);
+        String str=r.getString(R.string.up_version1)+"("+sw+")";
+        mDefDialog.setMessage (str);
         mDefDialog.setCenterKeyGone();
-        mDefDialog.addListview_AD_12();
+        mDefDialog.addListview_AD_20();
         mDefDialog.setMessageLGone();
         mDefDialog.setButtonConfirm(r.getString (R.string.select));
         mDefDialog.setButtonCancel(r.getString (R.string.cancel));
         mDefDialog.setSpinnerGone();
         mDefDialog.show();
     }
-
-//select cancel lihuachun end
-
-
-    public void B_D_11(boolean okkey,String title,boolean cancel,String massage){
-
-        Resources r=mContext.getResources();
-
-        mDefDialog.setOkClickListener(new DefDialog.OnOkListener () {
-          @Override
-          public void onOkKey () {
-              callbackConfirmKey.onConfirm ();
-          }
-
-          @Override
-          public void onCenterKey () {
-
-          }
-
-              @Override
-           public void onSpinnerSelect () {
-
-            }
-
-          });
-
-        mDefDialog.setCancelable(cancel);
-        mDefDialog.setTitle (title);
-        mDefDialog.setMessage (r.getString (R.string.Download_reservation));
-        mDefDialog.setButtonCancel (r.getString (R.string.no));
-        mDefDialog.setButtonConfirm (r.getString (R.string.yes));
-        mDefDialog.setSpinnerGone ();
-        mDefDialog.setMessageLGone ();
-        mDefDialog.setCenterKeyGone ();
-        mDefDialog.setProgressGone ();
-        mDefDialog.show();
-    }
-
-
-   public void B_D_12(String title,boolean cancel){
-       Resources r=mContext.getResources();
-
-
-
-           mDefDialog.setOkClickListener(new DefDialog.OnOkListener () {
-               @Override
-               public void onOkKey () {
-                   callbackConfirmKey.onConfirm ();
-               }
-
-               @Override
-               public void onCenterKey () {
-
-               }
-
-               @Override
-               public void onSpinnerSelect () {
-
-               }
-
-           });
-
-
-
-       mDefDialog.setCancelable(cancel);
-       mDefDialog.setTitle (title);
-       mDefDialog.setMessage (r.getString (R.string.ask_exit));
-       mDefDialog.setButtonCancel (r.getString (R.string.no));
-       mDefDialog.setButtonConfirm (r.getString (R.string.yes));
-       mDefDialog.setCenterKeyGone ();
-       mDefDialog.setMessageLGone ();
-       mDefDialog.setSpinnerGone ();
-       mDefDialog.show();
-   }
-
-    public void B_D_13(String title,boolean cancel){
-
-        Resources r=mContext.getResources();
-
-
-
-            mDefDialog.setOkClickListener(new DefDialog.OnOkListener () {
-                @Override
-                public void onOkKey () {
-                    callbackConfirmKey.onConfirm ();
-                }
-
-                @Override
-                public void onCenterKey () {
-
-                }
-
-                @Override
-                public void onSpinnerSelect () {
-
-                }
-
-            });
-
-        mDefDialog.setCancelable(cancel);
-        mDefDialog.setTitle (title);
-        mDefDialog.setMessage (r.getString (R.string.select_other_day));
-        mDefDialog.setButtonConfirm (r.getString (R.string.ok));
-        mDefDialog.setCenterKeyGone ();
-        mDefDialog.setMessageLGone ();
-        mDefDialog.setSpinnerGone ();
-        mDefDialog.setCancelKeyGone ();
-        mDefDialog.show();
-    }
-
-    public void B_D_02(String title, boolean cancel, List items){
+    public void A_D_22(String[] stringArray){
         Resources r=mContext.getResources();
 
         mDefDialog.setOkClickListener(new DefDialog.OnOkListener () {
             @Override
             public void onOkKey () {
-                callbackConfirmKey.onConfirm ();
+                // callbackConfirmKey.onConfirm ();
             }
-
             @Override
             public void onCenterKey () {
-
             }
-
             @Override
             public void onSpinnerSelect () {
-
-            }
-
-        });
-
-/*        java.util.ArrayList<String> item =new java.util.ArrayList<String> ();
-
-        items.add ("1");
-        items.add ("2");
-        items.add ("3");
-        items.add ("5");
-        items.add ("7");
-        items.add ("9");*/
-        mDefDialog.setListViewVisible ();
-        mDefDialog.setProgressGone ();
-        mDefDialog.setListviewDialog (mContext,items);
-        mDefDialog.setCancelable(cancel);
-        mDefDialog.setTitle (title);
-        mDefDialog.setMessage (r.getString (R.string.select_other_day));
-        mDefDialog.setButtonCancel (r.getString (R.string.cancel));
-        mDefDialog.setButtonConfirm (r.getString (R.string.softkey_select));
-        mDefDialog.setCenterKeyGone ();
-        mDefDialog.setSpinnerGone ();
-        mDefDialog.setMessageLGone ();
-        mDefDialog.setCancelKeyVisible ();
-        mDefDialog.setOkClickListener (new DefDialog.OnOkListener(){
-
-            @Override
-            public void onOkKey () {
-
-            }
-
-            @Override
-            public void onCenterKey () {
-
-            }
-
-            @Override
-            public void onSpinnerSelect () {
-
             }
         });
-
+        mDefDialog.setCancelable(false);
+        mDefDialog.setTitle (r.getString(R.string.software_update));
+        mDefDialog.setMessage(r.getString(R.string.up_detail));
+        mDefDialog.addListview_AD_21(stringArray);
+        mDefDialog.setMessageLGone();
+        mDefDialog.setSpinnerGone();
+        mDefDialog.setCancelKeyGone();
+        mDefDialog.setCenterKeyGone();
+        mDefDialog.setButtonConfirm(r.getString (R.string.ok_dailog));
         mDefDialog.show();
 
     }

@@ -286,6 +286,10 @@ class DefDialog extends Dialog {
         mCancel.setBackgroundColor (color);
     }
 
+    public void setTitleGone(){
+        mTitle.setVisibility(View.GONE);
+    }
+
     public void setTitleSize(int size){
 
         mTitle.setTextSize (size);
@@ -372,8 +376,15 @@ class DefDialog extends Dialog {
         mViewThree.setLayoutParams(params);
 
     }
+    public void setmConfirmGone(){
+        mConfirm.setVisibility(android.view.View.GONE);
+    }
     public void setMessageLGone(){
         mMessageL.setVisibility (android.view.View.GONE);
+    }
+
+    public void setConfirmGone(){
+        mConfirm.setVisibility(View.GONE);
     }
 
     public void setListViewHeight(int height){
@@ -484,9 +495,40 @@ class DefDialog extends Dialog {
         spinner.setVisibility (android.view.View.GONE);
     }
     public void addListview_AD_21(String[] stringArray){
+        listView.setVisibility (android.view.View.VISIBLE);
+        ArrayList<String>   menuList = new ArrayList<String>();
+        for (String str : stringArray) {
+            menuList.add(str);
+        }
+        ArrayAdapter<String> myArrayAdapter = new ItemListAdapter(mContext, R.layout.main_item, menuList);
+        listView.setAdapter(myArrayAdapter);
+        listView.setOnItemClickListener(new ListView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1,
+                                    int position, long arg3) {
+                switch (position) {
+                    case 0:
 
+                        break;
+                    case 1:
+
+                        break;
+                    case 2:
+
+                        break;
+                    case 3:
+
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+    }
+    public void addListview_AD_03(){
         listView.setVisibility (android.view.View.VISIBLE);
 
+        String[] stringArray = mContext.getResources().getStringArray(R.array.up_chose03);
         ArrayList<String>   menuList = new ArrayList<String>();
         for (String str : stringArray) {
             menuList.add(str);

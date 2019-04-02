@@ -31,11 +31,11 @@
             android:id="@+id/tip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:gravity="left"
             android:layout_weight="1"
             android:padding="20dp"
             android:text="fota"
-            android:textColor="#000000"
+            android:textColor="#ffffff"
             android:textSize="20dp"
             android:background="@drawable/textviewshape"
 
@@ -84,7 +84,7 @@
             <ListView
                 android:id="@+id/list"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="wrap_content"
                 android:divider="#00000000"
                 android:paddingLeft="10dp"
                 android:paddingTop="10dp"
@@ -149,6 +149,7 @@
             android:gravity="center"
             android:background="@drawable/button_style"
             android:text="Ok"
+            android:textColor="#ffffff"
             android:textSize="17dp" />
 
 
@@ -160,6 +161,7 @@
             android:gravity="center"
             android:background="@drawable/button_style"
             android:text="Center"
+            android:textColor="#ffffff"
             android:textSize="17dp" />
 
         <Button
@@ -171,6 +173,7 @@
             android:gravity="center"
             android:background="@drawable/button_style"
             android:text="Cancel"
+            android:textColor="#ffffff"
             android:textSize="17dp" />
 
         <Spinner
