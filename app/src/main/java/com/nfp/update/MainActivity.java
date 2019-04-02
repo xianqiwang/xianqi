@@ -40,7 +40,11 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.BroadcastReceiver;
 import java.io.File;
+import android.os.PowerManager;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import android.os.RecoverySystem;
+
 import com.alibaba.fastjson.JSONObject;
 public class MainActivity extends Activity {
 
@@ -145,6 +149,7 @@ dialog.A_D_12(true,r.getString(R.string.software_update),false,r.getString(R.str
                     int position, long arg3) {
                 switch (position) {
                     case 0:
+
                         Resources res =MainActivity.this.getResources();;
                         View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
                         DialogCategorical dialogCategorical=new DialogCategorical (MainActivity.this, 0, 0, view);
@@ -181,7 +186,6 @@ dialog.A_D_12(true,r.getString(R.string.software_update),false,r.getString(R.str
     }
 
 
-
     public static void verifyStoragePermissions(Activity activity) {
 
         try {
@@ -198,7 +202,7 @@ dialog.A_D_12(true,r.getString(R.string.software_update),false,r.getString(R.str
     }
 
     private FileInfo downloadFota() {
-        String baseurl="";
+        String baseurl="http:// p9008-ipngnfx01funabasi.chiba.ocn.ne.jp/cgi-bin/bcmdiff/confirm.cgi";
         String filecode="61";
         String time=""+System.currentTimeMillis();
         String token=MD5Util.getMD5(filecode+CHECK_KEY+time);
@@ -253,12 +257,12 @@ dialog.A_D_12(true,r.getString(R.string.software_update),false,r.getString(R.str
     }
 
     private void checkUpdate() {
-        String CHECKUPDATE_URL="";
+        String CHECKUPDATE_URL="http:// p9008-ipngnfx01funabasi.chiba.ocn.ne.jp/cgi-bin/bcmdiff/confirm.cgi";
         JSONObject json=new JSONObject();
-        String hardware="MT6739";
-        String system="android7.1";
-        String board="yk915";
-        String customer="ddd";
+        String hardware=" ";
+        String system="android8.1";
+        String board=" ";
+        String customer="simcom";
         int build=1;
         long time=System.currentTimeMillis();
         String token= MD5Util.getMD5(hardware+system+board+customer+build+CHECK_KEY+time);
@@ -273,6 +277,9 @@ dialog.A_D_12(true,r.getString(R.string.software_update),false,r.getString(R.str
 
         HttpConnectionUtil http = new HttpConnectionUtil();
         final String result = http.postDataToServer(CHECKUPDATE_URL, json.toString());
+
+        android.util.Log.e("yingbo", "post result : " + result);
+
         if (result != null) {
             android.util.Log.e("yingbo", "post result : " + result);
             String mResult = JSONObject.parseObject(result).getString("result");
@@ -331,11 +338,14 @@ dialog.A_D_12(true,r.getString(R.string.software_update),false,r.getString(R.str
          }
 
         }else{
+/*
+            SoftwareUpdate softwareUpdate=new SoftwareUpdate (this);
+*/
+            checkUpdate();
 
-
-            final Intent intent = new Intent();
+            /*            final Intent intent = new Intent();
             intent.setClass(MainActivity.this, SoftwareUpdate.class);
-            startActivity(intent);
+            startActivity(intent);*/
             Toast toast = Toast.makeText(MainActivity.this,"Input Icc card or make sure wifi is opened.", Toast.LENGTH_LONG);
             toast.show ();
 

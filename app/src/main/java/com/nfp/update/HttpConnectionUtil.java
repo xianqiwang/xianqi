@@ -22,8 +22,9 @@ public class HttpConnectionUtil {
     private java.io.OutputStreamWriter wr = null;
     private java.io.InputStream in = null;
     private java.io.ByteArrayOutputStream baos = null;
+
     public  String postDataToServer(String linkurl, String data) {
-        // TODO Auto-generated method stub
+
         if (null == linkurl || "".equals(linkurl)) {
             return null;
         }

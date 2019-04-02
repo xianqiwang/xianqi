@@ -43,10 +43,9 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import android.net.Uri;
 import org.apache.http.Header;
 
-public class SoftwareUpdate extends Activity{
+public class SoftwareUpdate{
     private String TAG = "SoftwareUpdate";
     private TextView mTextView;
-    private AlertDialog mDialog = null;
     private SharedPreferences spref;
     private final static String CONFIR_UPDATE_FILE = "confirm.cgi";
     private final static String DOWNLOAD_UPDATE_FILE = "download.cgi";
@@ -55,82 +54,218 @@ public class SoftwareUpdate extends Activity{
     private static Context context;
     private Intent intent;
     private boolean downResults = false;
+    private Handler mhandler = new Handler() {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        context = SoftwareUpdate.this;
-        intent = new Intent();
-        setContentView(R.layout.software_update);
-        mTextView = (TextView) findViewById(R.id.content);
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case INT_CONFIR_UPDATE_FILE:
+                    HttpClient.get(context, CONFIR_UPDATE_FILE + TEST, null, new AsyncHttpResponseHandler() {
 
-        spref = PreferenceManager.getDefaultSharedPreferences(this);
+                        @Override
+                        public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                            Log.d("yingbo","confirm latest sw situation");
+                            if(i == 200){
+                                String error = new String(bytes);
+                                switch (error){
+                                    case "error00":
+                                        insertEventLog(context,0, context.getString(R.string.update_result), 0, context.getString(R.string.fail), context.getString(R.string.ver_result), error);
+                                        Log.d(TAG,"When server connect success, check there is file update  situation");
+                                        //SharedPreferences sp = getSharedPreferences("down_file", MODE_WORLD_WRITEABLE);
+                                        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+                                        String packageFile = sp.getString("PAC_NAME", null);
+                                        File files = new File("/fota/softwareupdate.dat");
+                                        if(packageFile == null||!files.exists()){
 
-        Intent intent = getIntent();
-        Bundle bundle=intent.getExtras();
-        if(bundle!=null){
+                                            try{
+                                                openConfirmDialog(1);
+                                            }catch(Exception e){
+                                                Log.e("AlertDialog  Exception:" , e.getMessage());
+                                            }
 
-            downResults = bundle.getBoolean("download_results");
+                                        }else{
+                                            prepareUpdate();
+                                        }
+                                        break;
+
+                                    case "error23":
+                                        insertEventLog(context,0, context.getString(R.string.update_result), 0, context.getString(R.string.fail), context.getString(R.string.ver_result), error);
+/*
+                                        mTextView.setText(R.string.no_latest_sw);
+*/
+                                        Log.d(TAG,"This is the newest version!");
+                                        break;
+                                    case "error10":
+                                        insertEventLog(context,0, context.getString(R.string.update_result), 0, context.getString(R.string.fail), context.getString(R.string.ver_result), error);
+/*
+                                        mTextView.setText(R.string.server_error10);
+*/
+                                        break;
+                                    case "error20":
+                                        insertEventLog(context,0, context.getString(R.string.update_result), 0, context.getString(R.string.fail), context.getString(R.string.ver_result), error);
+/*
+                                        mTextView.setText(R.string.server_error20);
+*/
+                                        break;
+                                    case "error21":
+                                        insertEventLog(context,0, context.getString(R.string.update_result), 0, context.getString(R.string.fail), context.getString(R.string.ver_result), error);
+/*
+                                        mTextView.setText(R.string.server_error21);
+*/
+                                        break;
+                                    case "error22":
+                                        insertEventLog(context,0, context.getString(R.string.update_result), 0, context.getString(R.string.fail), context.getString(R.string.ver_result), error);
+/*
+                                        mTextView.setText(R.string.server_error22);
+*/
+                                        break;
+                                    case "error25":
+                                        insertEventLog(context,0, context.getString(R.string.update_result), 0, context.getString(R.string.fail), context.getString(R.string.ver_result), error);
+/*
+                                        mTextView.setText(R.string.server_error25);
+*/
+                                        break;
+                                    case "error26":
+                                        insertEventLog(context,0, context.getString(R.string.update_result), 0, context.getString(R.string.fail), context.getString(R.string.ver_result), error);
+/*
+                                        mTextView.setText(R.string.server_error26);
+*/
+                                        break;
+                                    case "error27":
+                                        insertEventLog(context,0, context.getString(R.string.update_result), 0, context.getString(R.string.fail), context.getString(R.string.ver_result), error);
+/*
+                                        mTextView.setText(R.string.server_error27);
+*/
+                                        break;
+                                    case "error28":
+                                        insertEventLog(context,0, context.getString(R.string.update_result), 0, context.getString(R.string.fail), context.getString(R.string.ver_result), error);
+/*
+                                        mTextView.setText(R.string.server_error28);
+*/
+                                        break;
+                                    case "error29":
+                                        insertEventLog(context,0, context.getString(R.string.update_result), 0, context.getString(R.string.fail), context.getString(R.string.ver_result), error);
+/*
+                                        mTextView.setText(R.string.server_error29);
+*/
+                                        break;
+                                    case "error30":
+                                        insertEventLog(context,0, context.getString(R.string.update_result), 0, context.getString(R.string.fail), context.getString(R.string.ver_result), error);
+/*
+                                        mTextView.setText(R.string.server_error30);
+*/
+                                        break;
+                                    case "error31":
+                                        insertEventLog(context,0, context.getString(R.string.update_result),
+                                                0, context.getString(R.string.fail), context.getString(R.string.ver_result), error);
+//                                        mTextView.setText(R.string.server_error31);
+                                        Log.d(TAG,error);
+                                        break;
+                                    default:
+                                        insertEventLog(context,0, context.getString(R.string.update_result),
+                                                0, context.getString(R.string.fail), context.getString(R.string.ver_result), "other");
+/*
+                                        mTextView.setText(R.string.server_error_other);
+*/
+                                        Log.d("yingbo","Other Errors");
+                                        break;
+                                }
+                            }else{
+                                String a = context.getResources().getString(R.string.network_connect_error);
+/*
+                                 String connectError = String.format(a, i);
+*/
+
+                                HttpClient.cancleRequest(true);
+                                UpdateUtil.judgePolState(context, 0);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+                            String errorValue = String.valueOf(i);
+                            String errorCode = "404";//UpdateUtil.autoGenericCode(errorValue, 3);
+                            String a = context.getResources().getString(R.string.network_connect_error);
+                            String connectError = String.format(a, errorCode);
+                            HttpClient.cancleRequest(true);
+                            UpdateUtil.judgePolState(context, 0);
+                            Log.d("yingbo","confir failed "+errorValue);
+                        }
+
+                        @Override
+                        public void onProgress(long bytesWritten, long totalSize) {
+                        Log.v ("yingbo","totalSize"+totalSize);
+                        }
+
+                    });
+                    break;
+            }
+        };
+    };
+
+    SoftwareUpdate(Context context){
+        this.context=context;
+
+            spref = PreferenceManager.getDefaultSharedPreferences(context);
+
+
+
+            connectServer();
+
             downloadComplete(downResults);
-        }else{
+
             try{
-                TEST = UpdateUtil.getTestVersion(SoftwareUpdate.this);
+                TEST = UpdateUtil.getTestVersion(context);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            connectServer();
-        }
+
+
     }
+
+
+
 
     private void downloadError() {
 
         try{
             openConfirmDialog(2);
         }catch(Exception e){
-            Log.e("AlertDialog  Exception:" , e.getMessage());
+            Log.e("yingbo" , e.getMessage());
         }
     }
 
     private void prepareUpdate() {
 
-        SharedPreferences sprefs = getSharedPreferences("debug_comm", 0);
+        SharedPreferences sprefs = context.getSharedPreferences("debug_comm", 0);
 
         if(sprefs.getInt("AUTO_UPDATE", 0) ==0){
-            Log.d("kevin","auto update start");
-            intent.setClass(SoftwareUpdate.this, PrepareUpdateActivity.class);
-            startActivity(intent);
+            Log.d("yingbo","auto update start");
+            intent.setClass(context, PrepareUpdateActivity.class);
+            context.startActivity(intent);
         }else{
-            Log.d("kevin","auto update sse");
+            Log.d("yingbo","auto update sse");
             confirmInstall();
         }
 
     }
 
     private void confirmInstall() {
-        intent.setClass(SoftwareUpdate.this, UpdateDialog.class);
-        startActivity(intent);
+        intent.setClass(context, UpdateDialog.class);
+        context.startActivity(intent);
     }
 
     private void openConfirmDialog(final int identity) {
-
-        String messages = "";
-        String confirmation = this.getResources().getString(R.string.confirmation);
-        String yes = this.getResources().getString(R.string.yes);
-        String no = this.getResources().getString(R.string.no);
-        if(identity==1){
-            messages = this.getResources().getString(R.string.download_info);
-        }else if(identity==2){
-            messages = this.getResources().getString(R.string.download_fail);
-        }
 
         if(identity==1){
             SharedPreferences.Editor pEdits = spref.edit();
             pEdits.putInt("click_yes",1);
             pEdits.commit();
-            intent.setClass(SoftwareUpdate.this, DownloadProgress.class);
-            startActivityForResult(intent, 0);
+
+//            intent.setClass(context, DownloadProgress.class);
+
         }else if(identity==2){
-            connectServer();
+
         }
     }
 
@@ -158,11 +293,11 @@ public class SoftwareUpdate extends Activity{
             values.put("EVENT_NAME", eventName);
         }
 
-        /*if (tid < 1 || tid > 256) {
+        if (tid < 1 || tid > 256) {
             Log.w(TAG, "Invalid tid : " + tid);
         } else {
             values.put("TID", new Integer(tid));
-        }*/
+        }
 
         if (! android.text.TextUtils.isEmpty(factor1)) {
             values.put("FACTOR1", factor1);
@@ -180,138 +315,7 @@ public class SoftwareUpdate extends Activity{
 
     }
 
-    private Handler mhandler = new Handler() {
 
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what){
-                case INT_CONFIR_UPDATE_FILE:
-                    HttpClient.get(SoftwareUpdate.this, CONFIR_UPDATE_FILE + TEST, null, new AsyncHttpResponseHandler() {
-                        @android.support.annotation.RequiresApi (api = android.os.Build.VERSION_CODES.JELLY_BEAN_MR1)
-                        @Override
-                        public void onSuccess(int i, Header[] headers, byte[] bytes) {
-                            Log.d(TAG,"confirm latest sw situation");
-                            if(i == 200){
-                                String error = new String(bytes);
-                                switch (error){
-                                    case "error00":
-                                        insertEventLog(context,0, getString(R.string.update_result), 0, getString(R.string.fail), getString(R.string.ver_result), error);
-                                        Log.d(TAG,"When server connect success, check there is file update  situation");
-                                        //SharedPreferences sp = getSharedPreferences("down_file", MODE_WORLD_WRITEABLE);
-                                        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(SoftwareUpdate.this);
-                                        String packageFile = sp.getString("PAC_NAME", null);
-                                        File files = new File("/fota/softwareupdate.dat");
-                                        if(packageFile == null||!files.exists()){
-
-                                            try{
-                                                openConfirmDialog(1);
-                                            }catch(Exception e){
-                                                Log.e("AlertDialog  Exception:" , e.getMessage());
-                                            }
-
-                                        }else{
-                                            prepareUpdate();
-                                        }
-                                        break;
-                                    case "error23":
-                                        insertEventLog(context,0, getString(R.string.update_result), 0, getString(R.string.fail), getString(R.string.ver_result), error);
-                                        mTextView.setText(R.string.no_latest_sw);
-                                        Log.d(TAG,"This is the newest version!");
-                                        break;
-                                    case "error10":
-                                        insertEventLog(context,0, getString(R.string.update_result), 0, getString(R.string.fail), getString(R.string.ver_result), error);
-                                        mTextView.setText(R.string.server_error10);
-                                        break;
-                                    case "error20":
-                                        insertEventLog(context,0, getString(R.string.update_result), 0, getString(R.string.fail), getString(R.string.ver_result), error);
-                                        mTextView.setText(R.string.server_error20);
-                                        break;
-                                    case "error21":
-                                        insertEventLog(context,0, getString(R.string.update_result), 0, getString(R.string.fail), getString(R.string.ver_result), error);
-                                        mTextView.setText(R.string.server_error21);
-                                        break;
-                                    case "error22":
-                                        insertEventLog(context,0, getString(R.string.update_result), 0, getString(R.string.fail), getString(R.string.ver_result), error);
-                                        mTextView.setText(R.string.server_error22);
-                                        break;
-                                    case "error25":
-                                        insertEventLog(context,0, getString(R.string.update_result), 0, getString(R.string.fail), getString(R.string.ver_result), error);
-                                        mTextView.setText(R.string.server_error25);
-                                        break;
-                                    case "error26":
-                                        insertEventLog(context,0, getString(R.string.update_result), 0, getString(R.string.fail), getString(R.string.ver_result), error);
-                                        mTextView.setText(R.string.server_error26);
-                                        break;
-                                    case "error27":
-                                        insertEventLog(context,0, getString(R.string.update_result), 0, getString(R.string.fail), getString(R.string.ver_result), error);
-                                        mTextView.setText(R.string.server_error27);
-                                        break;
-                                    case "error28":
-                                        insertEventLog(context,0, getString(R.string.update_result), 0, getString(R.string.fail), getString(R.string.ver_result), error);
-                                        mTextView.setText(R.string.server_error28);
-                                        break;
-                                    case "error29":
-                                        insertEventLog(context,0, getString(R.string.update_result), 0, getString(R.string.fail), getString(R.string.ver_result), error);
-                                        mTextView.setText(R.string.server_error29);
-                                        break;
-                                    case "error30":
-                                        insertEventLog(context,0, getString(R.string.update_result), 0, getString(R.string.fail), getString(R.string.ver_result), error);
-                                        mTextView.setText(R.string.server_error30);
-                                        break;
-                                    case "error31":
-                                        insertEventLog(context,0, getString(R.string.update_result),
-                                                0, getString(R.string.fail), getString(R.string.ver_result), error);
-                                        mTextView.setText(R.string.server_error31);
-                                        Log.d(TAG,error);
-                                        break;
-                                    default:
-                                        insertEventLog(context,0, getString(R.string.update_result),
-                                                0, getString(R.string.fail), getString(R.string.ver_result), "other");
-                                        mTextView.setText(R.string.server_error_other);
-                                        Log.d(TAG,"Other Errors");
-                                        break;
-                                }
-                            }else{
-                                String a = getResources().getString(R.string.network_connect_error);
-                                @android.annotation.SuppressLint ("StringFormatMatches") String connectError = String.format(a, i);
-                                mTextView.setText(connectError);
-                                HttpClient.cancleRequest(true);
-                                UpdateUtil.judgePolState(SoftwareUpdate.this, 0);
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
-                            //mTextView.setText(R.string.server_error);
-                            String errorValue = String.valueOf(i);
-                            String errorCode = "404";//UpdateUtil.autoGenericCode(errorValue, 3);
-                            String a = getResources().getString(R.string.network_connect_error);
-                            String connectError = String.format(a, errorCode);
-                            mTextView.setText(connectError);
-                            HttpClient.cancleRequest(true);
-                            UpdateUtil.judgePolState(SoftwareUpdate.this, 0);
-                            Log.d(TAG,"confir failed "+errorValue);
-                        }
-
-                        @Override
-                        public void onProgress(long bytesWritten, long totalSize) {
-
-                        }
-
-                    });
-                    break;
-            }
-        };
-    };
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        boolean downResult = false;
-        if(resultCode==1){
-            downResult = data.getBooleanExtra("download_result", false);
-            downloadComplete(downResult);
-        }
-    }
 
     public void downloadComplete(boolean result) {
         if(result){

@@ -52,7 +52,6 @@ public class DownloadProgress extends Activity {
     private String messages;
     public String packageName;
     public SharedPreferences spref;
-
     public static final String DEFAULT_FILE = "/storage/emulated/0/software.dat";
     public static final String FOTA_FILE = "/fota/softwareupdate.dat";
     private final static String DOWNLOAD_UPDATE_FILE = "download.cgi";

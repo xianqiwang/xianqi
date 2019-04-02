@@ -28,14 +28,9 @@ import com.loopj.android.http.FileAsyncHttpResponseHandler;
 
 import com.nfp.update.polling.PollingService;
 
-/**
- * Created by djw on 17-2-9.
- */
-
 public class HttpClient {
 
     private final static String TAG = "HttpClient";
-
     private static final String COMMERCIAL_URL = "http://bcm.ms.seiko-sol.co.jp/cgi-bin/bcmdiff/";
     private static String TEST_URL = "http://p9008-ipngnfx01funabasi.chiba.ocn.ne.jp/cgi-bin/bcmdiff/";
     private static String BASE_URL =  COMMERCIAL_URL;
