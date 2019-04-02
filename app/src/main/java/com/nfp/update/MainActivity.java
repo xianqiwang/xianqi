@@ -153,7 +153,7 @@ dialog.A_D_12(true,r.getString(R.string.software_update),false,r.getString(R.str
                         Resources res =MainActivity.this.getResources();;
                         View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
                         DialogCategorical dialogCategorical=new DialogCategorical (MainActivity.this, 0, 0, view);
-                        dialogCategorical.A_N_02 (res.getString (com.nfp.update.R.string.Signal_prompt));
+                        dialogCategorical.A_N_02 ();
                         dialogCategorical.setCallbackConfirmKey (new DialogCategorical.CallbackConfirmKey () {
 
                             @Override
@@ -183,8 +183,9 @@ dialog.A_D_12(true,r.getString(R.string.software_update),false,r.getString(R.str
         HttpClient.cancleRequest(true);
         UpdateUtil.judgePolState(this, 0);
 
+		test();
     }
-
+        
 
     public static void verifyStoragePermissions(Activity activity) {
 
@@ -254,6 +255,20 @@ dialog.A_D_12(true,r.getString(R.string.software_update),false,r.getString(R.str
             e.printStackTrace();
         }
 
+    }
+
+    private void test() {
+
+        View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
+
+        DialogCategorical dialogCategorical = new DialogCategorical(this, 0, 0, view);
+        /**
+         * 修改方法和参数
+         */
+//        "Software Update", false
+//        "Software Update", false, "2019/03/28\n2:00-3:00"
+        String[] strings = new  String[]{"111","22222","3","3","3","3","3","3","3","3","3","3","3",};
+        dialogCategorical.A_N_12();
     }
 
     private void checkUpdate() {

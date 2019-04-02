@@ -35,6 +35,7 @@ class DefDialog extends Dialog {
 
     private TextView mTitle;
     private TextView mMessage;
+    private TextView percent;
     private TextView mMessageL;
     private Button   mConfirm;
     private Button   mCancel;
@@ -55,6 +56,10 @@ class DefDialog extends Dialog {
     private android.widget.Button submit_workingAge;
     private android.widget.PopupWindow popupWindow;
     private com.nfp.update.WheelPicker wheelPicker;
+
+    int mPosition = 0;
+    int pro = 0;
+
     //    style引用style样式
     public DefDialog(Context context,
                      int width, int height,
@@ -64,6 +69,7 @@ class DefDialog extends Dialog {
         setContentView(layout);
         mTitle=layout.findViewById (R.id.tip);
         mMessage=layout.findViewById (R.id.message);
+        percent=layout.findViewById (R.id.percent);
         mCancel=layout.findViewById (R.id.buttoncancel);
         mConfirm=layout.findViewById (R.id.buttonconfirm);
         mCenter=layout.findViewById (R.id.buttoncenter);
@@ -152,14 +158,12 @@ class DefDialog extends Dialog {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 mProgress.setProgress(msg.what);
-
+                percent.setText(""+pro+"%");
             }
         };
 
         start();
     }
-
-    int mPosition = 0;
 
     public int getWheelPickerCurrentValue(){
 
@@ -249,9 +253,6 @@ class DefDialog extends Dialog {
             public void run() {
                 int max = mProgress.getMax();
                 try {
-
-                    int pro=0;
-
                     //子线程循环间隔消息
                     while (pro < max) {
                         pro += 10;
@@ -307,12 +308,24 @@ class DefDialog extends Dialog {
         mMessage.setTextSize (size);
 
     }
+    public void setMessageGone(){
 
+        mMessage.setVisibility (android.view.View.GONE);
+
+    }
+    public void setMessageCenter(int height_pix){
+        mMessage.setGravity(Gravity.CENTER_HORIZONTAL);
+        mMessage.setPadding(0,height_pix/2, 0, height_pix/2);
+    }
     public void setMessage(String message){
         mMessage.setText (message);
     }
     public String getMessage(){
         return (String) mMessage.getText ();
+    }
+
+    public void setPercent(){
+        percent.setVisibility(View.VISIBLE);
     }
     public void setMessageLSize(int size){
 
@@ -616,6 +629,190 @@ class DefDialog extends Dialog {
 
                         break;
                     case 3:
+
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+    }
+public void addListview_AN_09(){
+        listView.setVisibility (android.view.View.VISIBLE);
+
+        String[] stringArray = mContext.getResources().getStringArray(R.array.set_time_arr);
+        ArrayList<String>   menuList = new ArrayList<String>();
+        for (String str : stringArray) {
+            menuList.add(str);
+        }
+        ArrayAdapter<String> myArrayAdapter = new ItemListAdapter(mContext, R.layout.main_item, menuList);
+        listView.setAdapter(myArrayAdapter);
+        listView.setOnItemClickListener(new ListView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1,
+                                    int position, long arg3) {
+                switch (position) {
+                    case 0:
+
+                        break;
+                    case 1:
+
+                        break;
+                    case 2:
+
+                        break;
+                    case 3:
+
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+    }
+
+    public void addListview_BD_02(String[] stringArray){
+
+        listView.setVisibility (android.view.View.VISIBLE);
+
+        ArrayList<String>   menuList = new ArrayList<String>();
+        for (String str : stringArray) {
+            menuList.add(str);
+        }
+        ArrayAdapter<String> myArrayAdapter = new ItemListAdapter(mContext, R.layout.main_item, menuList);
+        listView.setAdapter(myArrayAdapter);
+        listView.setOnItemClickListener(new ListView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1,
+                                    int position, long arg3) {
+                switch (position) {
+                    case 0:
+
+                        break;
+                    case 1:
+
+                        break;
+                    case 2:
+
+                        break;
+                    case 3:
+
+                        break;
+                    case 4:
+
+                        break;
+                    case 5:
+
+                        break;
+                    case 6:
+
+                        break;
+                    case 7:
+
+                        break;
+                    case 8:
+
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+    }
+
+    public void addListview_BD_03(String[] stringArray){
+        listView.setVisibility (android.view.View.VISIBLE);
+
+        ArrayList<String>   menuList = new ArrayList<String>();
+        for (String str : stringArray) {
+            menuList.add(str);
+        }
+        ArrayAdapter<String> myArrayAdapter = new ItemListAdapter(mContext, R.layout.main_item, menuList);
+        listView.setAdapter(myArrayAdapter);
+        listView.setOnItemClickListener(new ListView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1,
+                                    int position, long arg3) {
+                switch (position) {
+                    case 0:
+
+                        break;
+                    case 1:
+
+                        break;
+                    case 2:
+
+                        break;
+                    case 3:
+
+                        break;
+                    case 4:
+
+                        break;
+                    case 5:
+
+                        break;
+                    case 6:
+
+                        break;
+                    case 7:
+
+                        break;
+                    case 8:
+
+                        break;
+                    case 9:
+
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+    }
+
+    public void addListview_BD_08(String[] stringArray){
+        listView.setVisibility (android.view.View.VISIBLE);
+
+        ArrayList<String>   menuList = new ArrayList<String>();
+        for (String str : stringArray) {
+            menuList.add(str);
+        }
+        ArrayAdapter<String> myArrayAdapter = new ItemListAdapter(mContext, R.layout.main_item, menuList);
+        listView.setAdapter(myArrayAdapter);
+        listView.setOnItemClickListener(new ListView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1,
+                                    int position, long arg3) {
+                switch (position) {
+                    case 0:
+
+                        break;
+                    case 1:
+
+                        break;
+                    case 2:
+
+                        break;
+                    case 3:
+
+                        break;
+                    case 4:
+
+                        break;
+                    case 5:
+
+                        break;
+                    case 6:
+
+                        break;
+                    case 7:
+
+                        break;
+                    case 8:
+
+                        break;
+                    case 9:
 
                         break;
                     default:

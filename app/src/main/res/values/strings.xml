@@ -7,15 +7,16 @@
     <string name="software_update">Software Update</string>
     <string name="auto_update">Automatic Update Settings</string>
     <string name="update_schedule">Update Time &#038; Date Settings</string>
-
-     <string name="update_schedule_title">Set SW Update Schedule</string>
-     <string name="toast_set_complete">Done.</string>
+    <string name="large_file">The file size is large.\nPlease connect to the Wi-Fi and try again.</string>
+    <string name="update_schedule_title">Set SW Update Schedule</string>
+    <string name="toast_set_complete">Done.</string>
 
      <string name="auto_update_on">Software Update\nON</string>
      <string name="auto_update_off">Software Update\nOFF</string>
      <string name="start1" translatable="false">start</string>
      <string name="pause" translatable="false">stop</string>
      <string name="check" translatable="false">check version</string>
+    <string name="download_cancel">Download has been\ncancelled.The file size\nis large.Please\nconnect to the Wi-Fi\nand try again.</string>
      <string name="toast_network_unavailable" translatable="false">Network unavailable</string>
      <string name="toast_storage_not_enough" translatable="false">not enough storage space</string>
      <string name="toast_battery_low" translatable="false">The current power is too low and the installed refresh power needs to be greater than 30%</string>
@@ -80,22 +81,22 @@
     <string name="up_later">Update Later</string>
     <string name="up_message">New software is downloaded. \n Install the update now ? \n No function is available during the update.(Open applications \n  are closed before starting the update.)</string>
     <string name="battery_message">Your battery level is too low.\n Charge your battery first \n then retry Software Update.</string>
-    <string name="up_success">Software has been \n successfully updated.</string>
+    <string name="up_success">Software has been\nsuccessfully updated.</string>
     <string name="updating">Updating...</string>
     <string name="up_done_reboot">Updated successfully \n Rebooting phone...</string>
     <string name="up_install_now">Install Software Update now. \n Note that no function is \n available during the update.\n Open applications are\n also closed.OK?</string>
 
     <string name="up_install">Install Software Update now. \n Note that no function is \n available during the update.\n Open applications are\n also closed.</string>
-    <string name="set_time">Please set time when \n the software is updated.</string>
-    <string name="already_set">Please set time when \n the software is updated.01：00-02：00</string>
+    <string name="set_time">Please set time when\nthe software is updated.</string>
+    <string name="already_set">Please set time when\nthe software is updated.01：00-02：00</string>
     <string name="Download_reservation">Download reservation period \n has ended.Download now?</string>
     <string name="select_otherday">The day you hava chosen \n  is already fully booked.\n Please select other day.</string>
     <string name="schedule_time">Select the date you \n want to schedule.</string>
     <string name="already_sch_time">You hava scheduled \n your software update on:</string>
     <string name="session_msg">The session has been terminated \n because of a timeout. \n Please go back to the menu and try again.</string>
     <string name="auto_up">Software update automatically \n  starts at a predefined time to improve \n performance and bring the latest \n features.No function is available during \n the update.(Open applications are closed \n before starting the update.)
-The update time is currently set to 03:00.</string>
-<string name="select_other_day" translatable="false">The day you have chosen is alredy fully booked.Please select other day.</string>
+The update time is currently set to </string>
+    <string name="select_other_day" translatable="false">The day you have chosen is alredy fully booked.Please select other day.</string>
     <string name="Replacement">Change the Settings</string>
     <string name="already_setting">The setting was changed.</string>
     <string name="not_auto_up">You can set to update \n software automatically to the latest version whenever\n software update is needed.
@@ -103,7 +104,7 @@ The update time is currently set to 03:00.</string>
      \n  Not autumatically update</string>
     <string name="is_auto_up">You can set to update \n software automatically to the latest version whenever\n software update is needed.
      \n Current setting:
-     \n   autumatically update</string>
+     \n   Autumatically update</string>
     <string name="up_auto">Automatically \n update</string>
     <string name="up_noauto">Not Automatically \n update</string>
     <string name="up_detail">Update Details:\n</string>
@@ -156,9 +157,11 @@ The update time is currently set to 03:00.</string>
      <string name="confirmation_messages">"Update the latest software?" All functions can not be used during SW updating.</string>
      <string name="download_info">Download the latest SW?</string>
      <string name="download_progress">SW downloading</string>
+    <string name="downloading">Downloading......</string>
      <string name="cancel_download">Cancel to Download?</string>
 
      <string name="schedule">Schedule</string>
+    <string name="setup_time">Time for Software\nUpdate is set.\nIt is currently set to\n</string>
      <string name="update">Update</string>
      <string name="update_done">Software is downloaded. Automatic update starts at the following date and time.All functions are not available during update.\n%1$s/%2$s %3$s:%4$s</string>
 
