@@ -61,9 +61,6 @@ public class MainActivity extends Activity {
     FileInfo fileInfo;
     private NetworkCheck networkCheck;
 
-
-
-
     public static Context getInstance(){
         return context;
     }
@@ -80,29 +77,6 @@ public class MainActivity extends Activity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mReceiver != null) {
-            unregisterReceiver(mReceiver);
-        }
-    }
-    private void init() {
-
-        verifyStoragePermissions(this);
-        //注册广播接收器
-        android.content.IntentFilter filter = new IntentFilter();
-        filter.addAction(DownloadService.ACTION_UPDATE);
-
-        registerReceiver(mReceiver, filter);
-
-        //创建文件信息对象
-        url = "";
-        //fileInfo = new FileInfo(0, url, "mukewang.apk", 0, 0);
-        fileInfo = downloadFota();
-        android.util.Log.v ("yingbo",fileInfo.getFileName());
-
-    }
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences spref = this.getSharedPreferences("debug_comm", 0);
@@ -110,7 +84,6 @@ public class MainActivity extends Activity {
         if(spref.getInt("IS_OPEN", 0)==1){
             finish();
         }
-        init();
         context = this;
         final Intent intent = new Intent();
         setContentView(R.layout.activity_list);
@@ -120,26 +93,6 @@ public class MainActivity extends Activity {
         mList.add(getString(R.string.auto_update));
         mList.add(getString(R.string.update_schedule));
 
-/*
-        dialogMothed();
-*/
-
-        /*View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
-        DialogCategorical dialog=new  DialogCategorical(MainActivity.this, 50, 50 ,
-                view);
-        Resources r=MainActivity.this.getResources();
-dialog.A_D_12(true,r.getString(R.string.software_update),false,r.getString(R.string.Signal_prompt));*/
-
-/*        View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
-
-        DialogCategorical dialogCategorical=new DialogCategorical (this, 0, 0, view);
-        dialogCategorical.B_D_11 ("fata",true);
-        dialogCategorical.setCallbackConfirmKey (new com.nfp.update.DialogCategorical.CallbackConfirmKey () {
-            @Override
-            public void onConfirm () {
-
-            }
-        });*/
         networkCheck=new NetworkCheck (this);
         ArrayAdapter<String> myArrayAdapter = new ItemListAdapter(this, R.layout.main_item, mList);
         mListView.setAdapter(myArrayAdapter);
@@ -168,11 +121,9 @@ dialog.A_D_12(true,r.getString(R.string.software_update),false,r.getString(R.str
                             }
                             @Override
                             public void onCancel () {
-
 /*
                                 android.util.Log.v ("yingbo","click");
 */
-
                                 checkNetwork();
 
                             }
@@ -197,77 +148,6 @@ dialog.A_D_12(true,r.getString(R.string.software_update),false,r.getString(R.str
 
     }
 
-
-    public static void verifyStoragePermissions(Activity activity) {
-
-        try {
-            //检测是否有写的权限
-            int permission = ActivityCompat.checkSelfPermission(activity,
-                    "android.permission.WRITE_EXTERNAL_STORAGE");
-            if (permission != PackageManager.PERMISSION_GRANTED) {
-                // 没有写的权限，去申请写的权限，会弹出对话框
-                ActivityCompat.requestPermissions(activity, PERMISSIONS_STORAGE,REQUEST_EXTERNAL_STORAGE);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private FileInfo downloadFota() {
-        String baseurl="http:// p9008-ipngnfx01funabasi.chiba.ocn.ne.jp/cgi-bin/bcmdiff/confirm.cgi";
-        String filecode="61";
-        String time=""+System.currentTimeMillis();
-        String token=MD5Util.getMD5(filecode+CHECK_KEY+time);
-        String url=baseurl+"filecode="+filecode;
-        url=url+"&"+"time="+time;
-        url=url+"&"+"token="+token;
-        return new FileInfo(0, url, "update.zip", 0, 0);
-    }
-
-    android.content.BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (DownloadService.ACTION_UPDATE.equals(intent.getAction())) {
-                int finished = intent.getIntExtra("finished", 0);//标志下载成功
-                String fingerprint = intent.getStringExtra("fingerprint");
-                String md5 = intent.getStringExtra("md5");
-                boolean isComplete = intent.getBooleanExtra("complete", false);
-
-                if (isComplete) {
-                    final java.io.File file = new File(DownloadService.DOWNLOAD_PATH + "/" + fileInfo.getFileName());
-                    String mMd5ByFile = null;
-                    try {
-                        mMd5ByFile = com.nfp.update.MD5Util.getMd5ByFile(file);
-                    } catch (java.io.FileNotFoundException e) {
-                        e.printStackTrace ();
-                    }
-                    android.util.Log.e("yingbo", "mMd5ByFile : " + mMd5ByFile);
-                    if (md5.equals(mMd5ByFile)) {
-                        android.util.Log.e("yingbo","文件MD5校验成功");
-                        updateFirmware(file);
-                    }
-                }
-            }
-        }
-    };
-    public void updateFirmware(File packageFile) {
-
-        if (!packageFile.exists()) {
-            android.util.Log.d("yingbo", "packageFile not exists");
-            return ;
-        }
-
-        try {
-            android.util.Log.d("yingbo", "installPackage");
-            android.os.RecoverySystem.installPackage(this, packageFile);
-
-        } catch (Exception e) {
-            android.util.Log.e("yingbo", "install  failure : " + e.toString());
-            e.printStackTrace();
-        }
-
-    }
-
     private void test() {
 
         View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
@@ -280,75 +160,6 @@ dialog.A_D_12(true,r.getString(R.string.software_update),false,r.getString(R.str
 //        "Software Update", false, "2019/03/28\n2:00-3:00"
         String[] strings = new  String[]{"111","22222","3","3","3","3","3","3","3","3","3","3","3",};
         dialogCategorical.A_N_12();
-    }
-
-    private void checkUpdate() {
-        String CHECKUPDATE_URL="http:// p9008-ipngnfx01funabasi.chiba.ocn.ne.jp/cgi-bin/bcmdiff/confirm.cgi";
-        JSONObject json=new JSONObject();
-        String hardware=" ";
-        String system="android8.1";
-        String board=" ";
-        String customer="simcom";
-        int build=1;
-        long time=System.currentTimeMillis();
-        String token= MD5Util.getMD5(hardware+system+board+customer+build+CHECK_KEY+time);
-
-        json.put("hardware", hardware);
-        json.put("system", system);
-        json.put("board", board);
-        json.put("customer", customer);
-        json.put("build", build);
-        json.put("time", time);
-        json.put("token", token);
-
-        HttpConnectionUtil http = new HttpConnectionUtil();
-        final String result = http.postDataToServer(CHECKUPDATE_URL, json.toString());
-
-        android.util.Log.e("yingbo", "post result : " + result);
-
-        if (result != null) {
-            android.util.Log.e("yingbo", "post result : " + result);
-            String mResult = JSONObject.parseObject(result).getString("result");
-            if (mResult != null && mResult.equals("1")) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        Integer mFilecode = JSONObject.parseObject(result).getInteger("filecode");
-
-                        String mVersonNumber = JSONObject.parseObject(result).getString("versonNumber");
-
-                        String mSize = JSONObject.parseObject(result).getString("size");
-
-                        Long mReleaseDate = JSONObject.parseObject(result).getLong("releaseDate");
-
-                        String mVersonNote = JSONObject.parseObject(result).getString("versonNote");
-
-                        String mType = JSONObject.parseObject(result).getString("type");
-
-                        Intent intent = new Intent(MainActivity.this, DownloadService.class);
-                        intent.setAction(DownloadService.ACTION_START);
-                        intent.putExtra("fileinfo", fileInfo);
-                        startService(intent);
-
-                    }
-                });
-            }
-        }
-    }
-
-    private void download() {
-
-        String baseurl="";
-        String filecode="61";
-        String time=""+System.currentTimeMillis();
-        String token=MD5Util.getMD5(filecode+CHECK_KEY+time);
-        String url=baseurl+"filecode="+filecode;
-        url=url+"&"+"time="+time;
-        url=url+"&"+"token="+token;
-        HttpConnectionUtil http = new HttpConnectionUtil();
-        String result = http.postDataToServer(url, "");
-
     }
 
     public void checkNetwork(){
@@ -372,7 +183,6 @@ dialog.A_D_12(true,r.getString(R.string.software_update),false,r.getString(R.str
 
         }
 
-        httpTest();
 
 /*        checkUpdate();*/
 
@@ -380,94 +190,6 @@ dialog.A_D_12(true,r.getString(R.string.software_update),false,r.getString(R.str
         SoftwareUpdate softwareUpdate=new SoftwareUpdate (this);
 */
     }
-
-    public void httpTest(){
-
-
-/*        com.loopj.android.http.AsyncHttpClient client = new com.loopj.android.http.AsyncHttpClient ();
-
-        client.get("http://p9008-ipngnfx01funabasi.chiba.ocn.ne.jp", new com.loopj.android.http.TextHttpResponseHandler () {
-
-
-            @Override
-            public void onFailure (int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
-                Toast.makeText(MainActivity.this,"onFailure",Toast.LENGTH_SHORT).show();
-                android.util.Log.v ("yingbo","onFailure");
-            }
-
-            @Override
-            public void onSuccess (int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString) {
-                Toast.makeText(MainActivity.this,"onSuccess",Toast.LENGTH_SHORT).show();
-                android.util.Log.v ("yingbo","onSuccess");
-            }
-
-        });*/
-/*
-        android.util.Log.v ("yingbo","getUserAgent()"+getUserAgent());
-*/
-
-        com.loopj.android.http.AsyncHttpClient client = new com.loopj.android.http.AsyncHttpClient ();
-
-/*
-        client.setUserAgent(getUserAgent());
-*/
-
-        client.get("http://p9008-ipngnfx01funabasi.chiba.ocn.ne.jp/cgi-bin/bcmdiff/confirm.cgi?VER=SII901SIv000/l0001234567881032540000000123400000000000123400112AB"
-                , new com.loopj.android.http.AsyncHttpResponseHandler () {
-
-            @Override
-            public void onSuccess (int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
-                Toast.makeText(MainActivity.this,"onSuccess"+statusCode,Toast.LENGTH_SHORT).show();
-                android.util.Log.v ("yingbo","statusCode"+statusCode);
-
-                String str1="";
-                byte str2;
-                for (cz.msebera.android.httpclient.Header head :headers){
-                    str1=head.getName ()+":"+head.getValue ()+":"+head.getElements ().toString ();
-                    android.util.Log.v ("yingbo","str1"+str1);
-                }
-                for (byte res :responseBody){
-                    str2=res;
-                    android.util.Log.v ("yingbo","str2"+str2);
-                }
-
-
-            }
-
-            @Override
-            public void onFailure (int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody, Throwable error) {
-                Toast.makeText(MainActivity.this,"onFailure"+statusCode,Toast.LENGTH_SHORT).show();
-
-                android.util.Log.v ("yingbo","statusCode"+statusCode
-                        +"headers"+headers+
-                        "responseBody"+responseBody
-                        +"error"+error);
-
-
-            }
-        });
-
-
-
-    }
-
-/*    private javax.servlet.http.HttpServletRequest request;
-
-    private java.util.Map<String, String> getHeadersInfo() {
-
-        java.util.Map<String, String> map = new java.util.HashMap<String, String> ();
-
-        java.util.Enumeration headerNames = request.getHeaderNames();
-        while (headerNames.hasMoreElements()) {
-            String key = (String) headerNames.nextElement();
-            String value = request.getHeader(key);
-            map.put(key, value);
-        }
-
-        return map;
-    }*/
-
-
 
     private static String getUserAgent() {
         String userAgent = "";
@@ -492,96 +214,6 @@ dialog.A_D_12(true,r.getString(R.string.software_update),false,r.getString(R.str
         return sb.toString();
     }
 
-    public void dialogMothed(){
-
-        View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
-
-        mDefDialog = new DefDialog (this, 0, 0, view, R.style.styledialog);
-        mDefDialog.setCancelable(true);
-        mDefDialog.setTitle ("Downloading");
-
-        ArrayList<String> items =new ArrayList<String> ();
-
-        items.add ("1");
-        items.add ("2");
-        items.add ("3");
-        items.add ("5");
-        items.add ("7");
-        items.add ("9");
-
-
-        mDefDialog.setMessage (
-                "fota is downloading from remote server ,please make sure you have correct ip address!\n Don't interupt this dialog!!");
-/*
-        mDefDialog.witchNeedOnlyKey ();
-*/
-
-        mDefDialog.setOkClickListener (new DefDialog.OnOkListener(){
-
-            @Override
-            public void onOkKey () {
-
-          /*      Toast toast = Toast.makeText(MainActivity.this,"you click me!!! please let me update!!", Toast.LENGTH_LONG);
-                toast.show ();*/
-/*
-                startActivity(new Intent(com.nfp.update.MainActivity.this, com.nfp.update.DialogText.class));
-*/
-/*
-                startActivity(new Intent(com.nfp.update.MainActivity.this, com.nfp.update.TestProgress.class));
-*/
-            }
-
-            @Override
-            public void onCenterKey () {
-
-/*
-                startActivity(new Intent(MainActivity.this, com.nfp.update.ProgressActivity.class));
-*/
-
-         /*       Toast toast = Toast.makeText(MainActivity.this,"you click center key!!!  Update Stoped!!", Toast.LENGTH_LONG);
-                toast.show ();*/
-
-            }
-
-            @Override
-            public void onSpinnerSelect () {
-
-            }
-            @Override
-            public void onCancelKey () {
-
-            }
-        });
-
-
-
-        ArrayList<entity> mData = new java.util.ArrayList<entity> ();
-
-/*        mData.add(new entity("1.Set date"));
-        mData.add(new entity("2.Select time zone"));
-        mData.add(new entity("3.Select time"));
-        mData.add(new entity("4.Use 24-hour format"));*/
-
-        mData.add(new entity("Next"));
-        mData.add(new entity("2"));
-        mData.add(new entity("3"));
-        mData.add(new entity("4"));
-        mData.add(new entity("5"));
-        mData.add(new entity("6"));
-        mData.add(new entity("7"));
-        mData.add(new entity("8"));
-
-        mDefDialog.setSpinner (mData);
-
-/*
-        mDefDialog.setBackground (android.graphics.Color.GRAY, android.graphics.Color.BLACK);
-*/
-
-        mDefDialog.setListviewDialog (this,items);
-
-        mDefDialog.show();
-
-    }
 
     @Override
     protected void onResume() {
