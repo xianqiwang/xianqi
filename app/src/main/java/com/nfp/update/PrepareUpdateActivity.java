@@ -38,8 +38,6 @@ import com.nfp.update.nfpapp.app.util.NfpSoftkeyGuide;
 import com.nfp.update.R;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
-import org.apache.http.Header;
-
 public class PrepareUpdateActivity extends Activity{
     private String TAG = "PrepareUpdateActivity";
     private TextView mTextView;

@@ -40,7 +40,6 @@ import android.content.DialogInterface;
 import com.nfp.update.nfpapp.app.util.NfpSoftkeyGuide;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
 import  com.nfp.update.nfpapp.app.ActivityManagerUtil;
-import org.apache.http.Header;
 
 public class DownloadProgress extends Activity {
 

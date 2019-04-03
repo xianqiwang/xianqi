@@ -18,8 +18,6 @@ import android.os.PowerManager.WakeLock;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
 
-import org.apache.http.Header;
-
 import com.nfp.update.DownloadProgress;
 import com.nfp.update.PrepareUpdateActivity;
 import com.nfp.update.LessVolumeActivity;
