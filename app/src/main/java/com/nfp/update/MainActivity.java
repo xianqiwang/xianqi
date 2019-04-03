@@ -16,9 +16,14 @@
 
 package com.nfp.update;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import android.app.PendingIntent;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -40,6 +45,8 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.BroadcastReceiver;
 import java.io.File;
+import java.util.Date;
+
 import android.os.PowerManager;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -57,6 +64,7 @@ public class MainActivity extends Activity {
     private static String[] PERMISSIONS_STORAGE = {
             "android.permission.READ_EXTERNAL_STORAGE",
             "android.permission.WRITE_EXTERNAL_STORAGE" };
+    String mVersonNumber;
     String url;
     FileInfo fileInfo;
     private NetworkCheck networkCheck;
@@ -76,7 +84,44 @@ public class MainActivity extends Activity {
         }
     }
 
-    @Override
+
+  public boolean dateDiff(String Time) {
+        // 按照传入的格式生成一个simpledateformate对象
+        SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        long nd = 1000 * 24 * 60 * 60;// 一天的毫秒数
+        long nh = 1000 * 60 * 60;// 一小时的毫秒数
+        long nm = 1000 * 60;// 一分钟的毫秒数
+        long ns = 1000;// 一秒钟的毫秒数
+        long diff;
+        long day = 0;
+        try {
+            Date date = new Date(System.currentTimeMillis());
+            String times_now=sd.format(date);
+            // 获得两个时间的毫秒时间差异
+            diff = sd.parse(Time).getTime()
+                    - sd.parse(times_now).getTime();
+            day = diff / nd;// 计算差多少天
+            long hour = diff % nd / nh;// 计算差多少小时
+            long min = diff % nd % nh / nm;// 计算差多少分钟
+            long sec = diff % nd % nh % nm / ns;// 计算差多少秒
+
+            if (day>=1) {
+                return true;
+            }else {
+                if (day==0) {
+                    return false;
+                }else {
+                    return false;
+                }
+
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return false;
+
+    }
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences spref = this.getSharedPreferences("debug_comm", 0);
@@ -162,14 +207,490 @@ public class MainActivity extends Activity {
         dialogCategorical.A_N_12();
     }
 
+  //检查服务器上是否有新版本
+boolean checkSoftwareVersion(String softwareversion){
+   if(Build.DISPLAY.equals(softwareversion))
+       return false;
+
+   return true;
+
+}
+public void A_D_12_end(){
+    Resources res =MainActivity.this.getResources();;
+    View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
+    DialogCategorical dialogCategorical=new DialogCategorical (MainActivity.this, 0, 0, view);
+    //A-D-12
+    dialogCategorical.A_D_12 (mVersonNumber);
+    ListView  listView=dialogCategorical.getmDefDialog().getListView();
+    listView.setOnItemClickListener(new ListView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> arg0, View arg1,
+                                int position, long arg3) {
+            switch (position) {
+                case 0:
+                    Intent  notificationIntent = new android.content.Intent (context, com.nfp.update.DownloadProgress.class);
+                    //notificationIntent.putExtra("DOWNLOAD_FROM_NOTIFICATION", true);
+                    PendingIntent contentIntent = android.app.PendingIntent.getActivity (context, 0, notificationIntent, 0);
+                    UpdateUtil.setDownloadNotification (context, true);
+                    break;
+                case 1:
+                    Intent intent = new Intent();
+                    intent.setClass(MainActivity.this, UpdateSchedule.class);
+                    startActivity(intent);
+                    break;
+                case 2:
+                    Resources res =MainActivity.this.getResources();
+                    View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
+                    DialogCategorical dialogCategorical=new DialogCategorical (context, 0, 0, view);
+                    //A-D-21 服务器传来的array
+                    String[] str={"123","321","546"};
+                    dialogCategorical.A_D_21 (str);
+                    break;
+                case 3:
+                    Resources res1 =MainActivity.this.getResources();
+                    View view1= getLayoutInflater().inflate(R.layout.dialog_layout, null);
+                    DialogCategorical dialogCategorical1=new DialogCategorical (context, 0, 0, view1);
+                    //A-D-21 服务器传来的array
+                    String[] str1={"123","321","546"};
+                    String str2="123";
+                    dialogCategorical1.A_D_03(str1);
+                    dialogCategorical1.setCallbackConfirmKey (new DialogCategorical.CallbackConfirmKey () {
+
+                        @Override
+                        public void onConfirm () {
+
+                            android.util.Log.v ("yingbo","click");
+
+
+                        }
+                        @Override
+                        public void onCancel () {
+
+                            Resources res =MainActivity.this.getResources();;
+                            View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
+                            DialogCategorical dialogCategorical=new DialogCategorical (MainActivity.this, 0, 0, view);
+                            dialogCategorical.A_D_07 ();
+                            dialogCategorical.setCallbackConfirmKey (new DialogCategorical.CallbackConfirmKey () {
+                                @Override
+                                public void onConfirm () {
+
+                                    android.util.Log.v ("yingbo","click");
+
+
+                                }
+                                @Override
+                                public void onCancel () {
+
+                                    android.util.Log.v ("yingbo","click");
+
+
+                                }
+                            });
+                        }
+
+                    });
+                    ListView  listView=dialogCategorical1.getmDefDialog().getListView();
+                    listView.setOnItemClickListener(new ListView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> arg0, View arg1,
+                                                int position, long arg3) {
+                            switch (position) {
+                                case 0:
+
+                                    break;
+                                case 1:
+
+                                    break;
+                                case 2:
+
+                                    break;
+                                case 3:
+
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    });
+
+                    break;
+                default:
+                    break;
+            }
+        }
+    });
+
+
+}
+
+    public void A_D_20_end(){
+        Resources res =MainActivity.this.getResources();;
+        View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
+        DialogCategorical dialogCategorical=new DialogCategorical (MainActivity.this, 0, 0, view);
+        //A-D-12
+        dialogCategorical.A_D_20 (mVersonNumber);
+        ListView  listView=dialogCategorical.getmDefDialog().getListView();
+        listView.setOnItemClickListener(new ListView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1,
+                                    int position, long arg3) {
+                switch (position) {
+                    case 0:
+                        Intent  notificationIntent = new android.content.Intent (context, com.nfp.update.DownloadProgress.class);
+                        //notificationIntent.putExtra("DOWNLOAD_FROM_NOTIFICATION", true);
+                        PendingIntent contentIntent = android.app.PendingIntent.getActivity (context, 0, notificationIntent, 0);
+                        UpdateUtil.setDownloadNotification (context, true);
+                        break;
+                    case 1:
+                        Intent intent = new Intent();
+                        intent.setClass(MainActivity.this, UpdateSchedule.class);
+                        startActivity(intent);
+                        break;
+                    case 2:
+                        Resources res =MainActivity.this.getResources();
+                        View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
+                        DialogCategorical dialogCategorical=new DialogCategorical (context, 0, 0, view);
+                        //A-D-21 服务器传来的array
+                        String[] str={"123","321","546"};
+                        dialogCategorical.A_D_21 (str);
+                        break;
+                    case 3:
+                        Resources res1 =MainActivity.this.getResources();
+                        View view1= getLayoutInflater().inflate(R.layout.dialog_layout, null);
+                        DialogCategorical dialogCategorical1=new DialogCategorical (context, 0, 0, view1);
+                        //A-D-21 服务器传来的array
+                        String[] str1={"123","321","546"};
+                        String str2="123";
+                        dialogCategorical1.A_D_03(str1);
+                        dialogCategorical1.setCallbackConfirmKey (new DialogCategorical.CallbackConfirmKey () {
+
+                            @Override
+                            public void onConfirm () {
+
+                                android.util.Log.v ("yingbo","click");
+
+
+                            }
+                            @Override
+                            public void onCancel () {
+
+                                Resources res =MainActivity.this.getResources();;
+                                View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
+                                DialogCategorical dialogCategorical=new DialogCategorical (MainActivity.this, 0, 0, view);
+                                dialogCategorical.A_D_07 ();
+                                dialogCategorical.setCallbackConfirmKey (new DialogCategorical.CallbackConfirmKey () {
+                                    @Override
+                                    public void onConfirm () {
+
+                                        android.util.Log.v ("yingbo","click");
+
+
+                                    }
+                                    @Override
+                                    public void onCancel () {
+
+                                        android.util.Log.v ("yingbo","click");
+
+
+                                    }
+                                });
+                            }
+
+                        });
+                        ListView  listView=dialogCategorical1.getmDefDialog().getListView();
+                        listView.setOnItemClickListener(new ListView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> arg0, View arg1,
+                                                    int position, long arg3) {
+                                switch (position) {
+                                    case 0:
+
+                                        break;
+                                    case 1:
+
+                                        break;
+                                    case 2:
+
+                                        break;
+                                    case 3:
+
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                        });
+
+                        break;
+                    case 4:
+                        //清楚设置的计划时间的prefence
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+
+
+    }
+
+
+  public void A_D_17_end(){
+      Resources res =MainActivity.this.getResources();;
+      View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
+      DialogCategorical dialogCategorical=new DialogCategorical (MainActivity.this, 0, 0, view);
+      String str0="20190402";
+      dialogCategorical.A_D_17(str0);
+      dialogCategorical.setCallbackConfirmKey(new DialogCategorical.CallbackConfirmKey() {
+          @Override
+          public void onConfirm() {
+              A_D_20_end();
+          }
+
+          @Override
+          public void onCancel() {
+              Resources res =MainActivity.this.getResources();;
+              View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
+              DialogCategorical dialogCategorical=new DialogCategorical (MainActivity.this, 0, 0, view);
+              dialogCategorical.A_D_19 ();
+              dialogCategorical.setCallbackConfirmKey(new DialogCategorical.CallbackConfirmKey() {
+                  @Override
+                  public void onConfirm() {
+
+                  }
+
+                  @Override
+                  public void onCancel() {
+                      A_D_12_end();
+                  }
+              });
+          }
+      });
+
+  }
     public void checkNetwork(){
         if(networkCheck.checkSimCard ()&&networkCheck.isWifi ()){
 
          if(networkCheck.isNetWorkAvailable()){
+if(checkSoftwareVersion(mVersonNumber))  {
+                 SharedPreferences sprefs = context.getSharedPreferences("debug_comm", 0);
+                 if(sprefs.getInt("AUTO_UPDATE", 0)==0){
+                     //A-D-12
+                     A_D_12_end();
+                 }
+                 else{
+                     //自动更新开关 on
+                 Resources res =MainActivity.this.getResources();
+                 View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
+                 DialogCategorical dialogCategorical=new DialogCategorical (MainActivity.this, 0, 0, view);
+                   String time="2019-05-01 10:00";
+                   int i=2;
+                   //更新次数
+                   if(i>1){
+
+                       // A-D-14 ok->A-D-12
+                       dialogCategorical.A_D_14("n");
+                       dialogCategorical.setCallbackConfirmKey(new DialogCategorical.CallbackConfirmKey() {
+
+                           @Override
+                           public void onConfirm() {
+
+                               A_D_12_end();
+
+                           }
+
+                           @Override
+                           public void onCancel() {
+
+                               // finish();
+
+                           }
+
+                       });
+                       //A-D-14->A-D-16
+                       dialogCategorical.A_D_14("n");
+                       dialogCategorical.setCallbackConfirmKey(new DialogCategorical.CallbackConfirmKey() {
+                           @Override
+                           public void onConfirm() {
+                               Resources res = MainActivity.this.getResources();
+                               ;
+                               View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
+                               DialogCategorical dialogCategorical = new DialogCategorical(MainActivity.this, 0, 0, view);
+                               dialogCategorical.A_D_16();
+                               dialogCategorical.setCallbackConfirmKey(new DialogCategorical.CallbackConfirmKey() {
+                                   @Override
+                                   public void onConfirm() {
+                                       A_D_12_end();
+                                   }
+
+                                   @Override
+                                   public void onCancel() {
+                                       Resources res = MainActivity.this.getResources();
+                                       ;
+                                       View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
+                                       DialogCategorical dialogCategorical = new DialogCategorical(MainActivity.this, 0, 0, view);
+                                       dialogCategorical.A_D_19();
+                                       dialogCategorical.setCallbackConfirmKey(new DialogCategorical.CallbackConfirmKey() {
+                                           @Override
+                                           public void onConfirm() {
+                                               //返回主界面
+                                           }
+
+                                           @Override
+                                           public void onCancel() {
+//返回上一页
+                                           }
+                                       });
+                                   }
+                               });
+                           }
+
+                           @Override
+                           public void onCancel() {
+
+                           }
+                       });
+                       //A-D-14->A-D-17
+                       dialogCategorical.A_D_14("n");
+                       dialogCategorical.setCallbackConfirmKey(new DialogCategorical.CallbackConfirmKey() {
+                           @Override
+                           public void onConfirm() {
+                               A_D_17_end();
+                           }
+
+                           @Override
+                           public void onCancel() {
+
+                           }
+                       });
+                   }else{
+                     if(time!=null&&dateDiff(time)){
+                         String str0="20190402";
+                         dialogCategorical.A_D_17(str0);
+                         dialogCategorical.setCallbackConfirmKey(new DialogCategorical.CallbackConfirmKey() {
+                             @Override
+                             public void onConfirm() {
+                                 A_D_20_end();
+                             }
+
+                             @Override
+                             public void onCancel() {
+                                 Resources res =MainActivity.this.getResources();;
+                                 View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
+                                 DialogCategorical dialogCategorical=new DialogCategorical (MainActivity.this, 0, 0, view);
+                                 dialogCategorical.A_D_19 ();
+                                 dialogCategorical.setCallbackConfirmKey(new DialogCategorical.CallbackConfirmKey() {
+                                     @Override
+                                     public void onConfirm() {
+
+                                     }
+
+                                     @Override
+                                     public void onCancel() {
+                                         A_D_12_end();
+                                     }
+                                 });
+                             }
+                         });
+
+                     }
+else {
+
+                         // A-D-15 ->A-D-18
+                         dialogCategorical.A_D_15();
+                         dialogCategorical.setCallbackConfirmKey(new DialogCategorical.CallbackConfirmKey() {
+
+                             @Override
+                             public void onConfirm() {
+
+                                 A_D_12_end();
+
+                             }
+
+                             @Override
+                             public void onCancel() {
+
+                                 Resources res = MainActivity.this.getResources();
+                                 ;
+                                 View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
+                                 DialogCategorical dialogCategorical = new DialogCategorical(MainActivity.this, 0, 0, view);
+                                 dialogCategorical.A_D_18();
+                                 dialogCategorical.setCallbackConfirmKey(new DialogCategorical.CallbackConfirmKey() {
+
+                                     @Override
+                                     public void onConfirm() {
+                                         //返回主界面
+                                         android.util.Log.v("yingbo", "click");
+
+
+                                     }
+
+                                     @Override
+                                     public void onCancel() {
+
+                                         finish();
+
+                                     }
+
+                                 });
+                             }
+
+                         });
+                     }
+             }}
+             }
+             else{
+                 Resources res =MainActivity.this.getResources();;
+                 View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
+                 DialogCategorical dialogCategorical=new DialogCategorical (MainActivity.this, 0, 0, view);
+                 dialogCategorical.A_D_13 ();
+                 dialogCategorical.setCallbackConfirmKey (new DialogCategorical.CallbackConfirmKey () {
+
+                     @Override
+                     public void onConfirm () {
+
+                         android.util.Log.v ("yingbo","click");
+
+                         finish();
+
+                     }
+                     @Override
+                     public void onCancel () {
+
+
+
+                     }
+                 });
+
+             }
 
          }else{
-             Toast toast = Toast.makeText(MainActivity.this,"make sure you have a available network.", Toast.LENGTH_LONG);
-             toast.show ();
+             Resources res =MainActivity.this.getResources();;
+             View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
+             DialogCategorical dialogCategorical=new DialogCategorical (MainActivity.this, 0, 0, view);
+             dialogCategorical.A_D_13 ();
+             dialogCategorical.setCallbackConfirmKey (new DialogCategorical.CallbackConfirmKey () {
+
+                 @Override
+                 public void onConfirm () {
+
+                     android.util.Log.v ("yingbo","click");
+
+                     finish();
+
+                 }
+                 @Override
+                 public void onCancel () {
+
+                     android.util.Log.v ("yingbo","click");
+                     Resources res =MainActivity.this.getResources();;
+                     View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
+                     DialogCategorical dialogCategorical=new DialogCategorical (MainActivity.this, 0, 0, view);
+                     dialogCategorical.A_D_12 (mVersonNumber);
+
+                 }
+
+             });
          }
 
         }else{

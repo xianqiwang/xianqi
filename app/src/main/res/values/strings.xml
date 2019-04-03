@@ -53,7 +53,7 @@
     <string name="Signal_prompt">We recommend that you stay in a place \n with a good reception while exception</string>
     <string name="Services_unavailable">The serivce in unavailable \n in International Roaming.</string>
     <string name="been_updated">Your phone software is up-to-date. \n No update is required.</string>
-    <string name="to_update">To upgrade software to latest version execute updating \n times</string>
+    <string name="to_update">To upgrade software to latest \n version execute updating \n</string>
     <string name="Ready_update"> Your scheduled update is about to start.\n Use of this operation may cause your \n scheduled update to be cancelled.\n Continue?</string>
     <string name="ask_up_time"> New software is automatically downloaded at \n YYYY/MM/DD(ddd) \nhh:mm-hh:mm \n Do you want to download the software now or select another day and time?</string>
     <string name="ask_up_time_1"> New software is automatically \n downloaded at </string>

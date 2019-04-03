@@ -31,7 +31,9 @@ public class DialogCategorical {
         void onOther();
 
     }
-
+public DefDialog getmDefDialog(){
+        return mDefDialog;
+}
 
     public void setCallbackConfirmKey(CallbackConfirmKey callbackConfirmKey){
         this.callbackConfirmKey=callbackConfirmKey;
@@ -49,7 +51,7 @@ public class DialogCategorical {
 
     }
 
-    public void A_D_03(String sw){
+    public void A_D_03(String[] stringArray){
         Resources r=mContext.getResources();
 
 
@@ -75,9 +77,9 @@ public class DialogCategorical {
         });
         mDefDialog.setCancelable(false);
         mDefDialog.setTitle (r.getString(R.string.software_update));
-        mDefDialog.setMessage (sw);
+        mDefDialog.setMessage ("Terms of Use Contents List");
         mDefDialog.setCenterKeyGone();
-        mDefDialog.addListview_AD_03();
+        mDefDialog.addListview_AD_03(stringArray);
         mDefDialog.setMessageLGone();
         mDefDialog.setButtonConfirm(r.getString (R.string.select));
         mDefDialog.setButtonCancel(r.getString (R.string.cancel));
@@ -233,7 +235,7 @@ public class DialogCategorical {
         mDefDialog.show();
     }
 
-    public void A_D_14(){
+    public void A_D_14(String times){
 
         Resources r=mContext.getResources();
 
@@ -261,7 +263,10 @@ public class DialogCategorical {
 
         mDefDialog.setCancelable(false);
         mDefDialog.setTitle (r.getString(R.string.software_update));
-        mDefDialog.setMessage (r.getString (R.string.to_update));
+        String str0=r.getString (R.string.to_update);
+        String str1="times";
+        String str=str0+times+str1;
+        mDefDialog.setMessage (str);
         mDefDialog.setButtonConfirm (r.getString (R.string.ok));
         mDefDialog.setSpinnerGone ();
         mDefDialog.setMessageLGone ();

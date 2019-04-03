@@ -3,6 +3,7 @@ package com.nfp.update;
 import android.app.Dialog;
 import android.content.Context;
 
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -410,7 +411,9 @@ class DefDialog extends Dialog {
         listView.setLayoutParams(params);
 
     }
-
+public ListView getListView(){
+        return listView;
+}
     public void setMessageLVisible(){
         mMessageL.setVisibility (android.view.View.VISIBLE);
     }
@@ -541,17 +544,18 @@ class DefDialog extends Dialog {
             }
         });
     }
-    public void addListview_AD_03(){
+    public void addListview_AD_03(String[] stringArray){
         listView.setVisibility (android.view.View.VISIBLE);
 
-        String[] stringArray = mContext.getResources().getStringArray(R.array.up_chose03);
+       // String[] stringArray = mContext.getResources().getStringArray(R.array.up_chose03);
+
         ArrayList<String>   menuList = new ArrayList<String>();
         for (String str : stringArray) {
             menuList.add(str);
         }
         ArrayAdapter<String> myArrayAdapter = new ItemListAdapter(mContext, R.layout.main_item, menuList);
         listView.setAdapter(myArrayAdapter);
-        listView.setOnItemClickListener(new ListView.OnItemClickListener() {
+   /*     listView.setOnItemClickListener(new ListView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1,
                                     int position, long arg3) {
@@ -572,7 +576,7 @@ class DefDialog extends Dialog {
                         break;
                 }
             }
-        });
+        });*/
     }
  public void addListview_AD_12(){
         listView.setVisibility (android.view.View.VISIBLE);
@@ -584,13 +588,17 @@ class DefDialog extends Dialog {
         }
         ArrayAdapter<String> myArrayAdapter = new ItemListAdapter(mContext, R.layout.main_item, menuList);
         listView.setAdapter(myArrayAdapter);
-        listView.setOnItemClickListener(new ListView.OnItemClickListener() {
+      /*  listView.setOnItemClickListener(new ListView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1,
                                     int position, long arg3) {
                 switch (position) {
                     case 0:
-
+                        Resources res =mContext.getResources();
+                        View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
+                        DialogCategorical dialogCategorical=new DialogCategorical (mContext, 0, 0, view);
+                        //A-D-21
+                      //  dialogCategorical.A_D_21 ();
                         break;
                     case 1:
 
@@ -605,7 +613,7 @@ class DefDialog extends Dialog {
                         break;
                 }
             }
-        });
+        });*/
     }
     public void addListview_AD_20(){
         listView.setVisibility (android.view.View.VISIBLE);
@@ -617,7 +625,7 @@ class DefDialog extends Dialog {
         }
         ArrayAdapter<String> myArrayAdapter = new ItemListAdapter(mContext, R.layout.main_item, menuList);
         listView.setAdapter(myArrayAdapter);
-        listView.setOnItemClickListener(new ListView.OnItemClickListener() {
+   /*     listView.setOnItemClickListener(new ListView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1,
                                     int position, long arg3) {
@@ -638,7 +646,7 @@ class DefDialog extends Dialog {
                         break;
                 }
             }
-        });
+        });*/
     }
 public void addListview_AN_09(){
         listView.setVisibility (android.view.View.VISIBLE);
