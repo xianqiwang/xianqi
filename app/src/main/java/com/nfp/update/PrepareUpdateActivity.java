@@ -81,19 +81,10 @@ public class PrepareUpdateActivity extends Activity{
         startActivity(intent);
     }
 
-    private void setSoftKeyText() {
-        NfpSoftkeyGuide sNfpSoftkeyGuide = NfpSoftkeyGuide.getSoftkeyGuide(getWindow());
-        sNfpSoftkeyGuide.setEnabled(1, true);
-        sNfpSoftkeyGuide.setEnabled(2, true);
-        sNfpSoftkeyGuide.setText(1, R.string.schedule);
-        sNfpSoftkeyGuide.setText(2, R.string.update);
-        sNfpSoftkeyGuide.invalidate();
-        isDown = true;
-    }
+
 
     private void prepareUpdate() {
             mTextView.setText(downloadText());
-            setSoftKeyText();
     }
 
     private String downloadText() {
@@ -146,13 +137,6 @@ public class PrepareUpdateActivity extends Activity{
     }
 
     @Override
-    public void onBackPressed() {
-        HttpClient.cancleRequest(true);
-        super.onBackPressed();
-        backTopActivity();
-    }
-
-   @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if(keyCode ==KeyEvent.KEYCODE_DPAD_CENTER){
             //finish();

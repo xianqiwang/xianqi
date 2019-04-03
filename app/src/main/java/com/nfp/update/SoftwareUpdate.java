@@ -41,7 +41,8 @@ import com.nfp.update.nfpapp.app.util.NfpSoftkeyGuide;
 import com.nfp.update.R;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import android.net.Uri;
-import org.apache.http.Header;
+import cz.msebera.android.httpclient.Header;
+import java.io.File;
 
 public class SoftwareUpdate{
     private String TAG = "SoftwareUpdate";
@@ -49,7 +50,7 @@ public class SoftwareUpdate{
     private SharedPreferences spref;
     private final static String CONFIR_UPDATE_FILE = "confirm.cgi";
     private final static String DOWNLOAD_UPDATE_FILE = "download.cgi";
-    private static String TEST = "?VER=SII%20602SI%20v001%20/l001%20356475080000000%2000000001234%20000000000001234%20001%20B162";
+    private static String TEST = "?VER=SII 901SI v000 /l000 123456788103254 00000001234 000000000001234 001 12AB";
     private final static int INT_CONFIR_UPDATE_FILE = 0x01;
     private static Context context;
     private Intent intent;
@@ -60,17 +61,25 @@ public class SoftwareUpdate{
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case INT_CONFIR_UPDATE_FILE:
-                    HttpClient.get(context, CONFIR_UPDATE_FILE + TEST, null, new AsyncHttpResponseHandler() {
+                    HttpClient httpClient=new HttpClient ();
+
+                    httpClient.get(context, CONFIR_UPDATE_FILE + TEST, null, new AsyncHttpResponseHandler() {
 
                         @Override
-                        public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                        public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
                             Log.d("yingbo","confirm latest sw situation");
-                            if(i == 200){
-                                String error = new String(bytes);
+
+                            if(statusCode == 200){
+
+                                String error = new String(responseBody);
+
                                 switch (error){
+
                                     case "error00":
+
                                         insertEventLog(context,0, context.getString(R.string.update_result), 0, context.getString(R.string.fail), context.getString(R.string.ver_result), error);
-                                        Log.d(TAG,"When server connect success, check there is file update  situation");
+                                        Log.d("yingbo","When server connect success, check there is file update situation");
                                         //SharedPreferences sp = getSharedPreferences("down_file", MODE_WORLD_WRITEABLE);
                                         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
                                         String packageFile = sp.getString("PAC_NAME", null);
@@ -78,13 +87,15 @@ public class SoftwareUpdate{
                                         if(packageFile == null||!files.exists()){
 
                                             try{
+
                                                 openConfirmDialog(1);
+
                                             }catch(Exception e){
                                                 Log.e("AlertDialog  Exception:" , e.getMessage());
                                             }
 
                                         }else{
-                                            prepareUpdate();
+                                                prepareUpdate();
                                         }
                                         break;
 
@@ -182,8 +193,8 @@ public class SoftwareUpdate{
                         }
 
                         @Override
-                        public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
-                            String errorValue = String.valueOf(i);
+                        public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody, Throwable error) {
+                            String errorValue = String.valueOf(statusCode);
                             String errorCode = "404";//UpdateUtil.autoGenericCode(errorValue, 3);
                             String a = context.getResources().getString(R.string.network_connect_error);
                             String connectError = String.format(a, errorCode);
@@ -207,8 +218,6 @@ public class SoftwareUpdate{
         this.context=context;
 
             spref = PreferenceManager.getDefaultSharedPreferences(context);
-
-
 
             connectServer();
 

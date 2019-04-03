@@ -117,7 +117,9 @@ class DefDialog extends Dialog {
 
 //                setWheelPickerVisible();
 
+/*
                 android.util.Log.v ("yingbo","value"+getWheelPickerCurrentValue ());
+*/
 
                 /*
                    setViewOneGone();

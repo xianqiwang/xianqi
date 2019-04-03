@@ -56,6 +56,7 @@ public class PollingService extends Service {
         return null;
     }
 
+    @android.annotation.SuppressLint ("InvalidWakeLockTag")
     @Override
     public void onCreate() {
         super.onCreate();
@@ -71,6 +72,7 @@ public class PollingService extends Service {
         wakeLock = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP|PowerManager.FULL_WAKE_LOCK, "aquireCPUrunning");
     }
 
+    @android.support.annotation.RequiresApi (api = android.os.Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onStart(Intent intent, int startId) {
         Log.d(TAG, "PollingService -> onStart()");
@@ -117,14 +119,20 @@ public class PollingService extends Service {
 
     private Handler mhandler = new Handler() {
 
+        @android.support.annotation.RequiresApi (api = android.os.Build.VERSION_CODES.JELLY_BEAN)
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case 0:
                     Log.d(TAG, "HttpClient.get()  -> confir");
                     HttpClient.get(context, CONFIR_UPDATE_FILE + TEST, null, new AsyncHttpResponseHandler() {
+
+
+
+
+                        @android.support.annotation.RequiresApi (api = android.os.Build.VERSION_CODES.JELLY_BEAN)
                         @Override
-                        public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                        public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
                             Log.d(TAG, "confir -> onSuccess()");
                             String error = new String(responseBody);
                             switch (error) {
@@ -192,7 +200,7 @@ public class PollingService extends Service {
                         }
 
                         @Override
-                        public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                        public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody, Throwable error) {
                             Log.d(TAG, "confir -> onFailure()");
                             cyclePolling();
                         }
@@ -201,6 +209,8 @@ public class PollingService extends Service {
                         public void onProgress(long bytesWritten, long totalSize) {
 
                         }
+
+
                     });
                     break;
                 case 1:
@@ -210,15 +220,16 @@ public class PollingService extends Service {
                         UpdateUtil.showFotaNotification(context, R.string.Notification_download_ing, 6);
                     }
                     HttpClient.get(context, DOWNLOAD_UPDATE_FILE + TEST, null, FOTA_FILE, new FileAsyncHttpResponseHandler(new File(FOTA_FILE), true) {
+
                         @android.support.annotation.RequiresApi (api = android.os.Build.VERSION_CODES.KITKAT)
                         @Override
-                        public void onSuccess(int statusCode, Header[] headers, File file) {
+                        public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, java.io.File file) {
                             Log.d(TAG,"download -> onSuccess()");
                             if(!wakeLock.isHeld())
                                 wakeLock.acquire();
                             UpdateUtil.judgePolState(context, 0);
                             String fileName = null;
-                            for (Header header : headers){
+                            for (cz.msebera.android.httpclient.Header header : headers){
                                 if (header.getName().equals("Content-disposition")
                                         || header.getName().equals("Content-Disposition")){
                                     String string = header.getValue();
@@ -242,18 +253,12 @@ public class PollingService extends Service {
                                 }
                             }
 
-
-
-
-
-
-
                             if(wakeLock.isHeld())
                                 wakeLock.release();
                         }
 
                         @Override
-                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
+                        public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, Throwable throwable, java.io.File file) {
                             if(!wakeLock.isHeld())
                                 wakeLock.acquire();
                             UpdateUtil.showFotaNotification(context, R.string.Notification_download_failed, 0);

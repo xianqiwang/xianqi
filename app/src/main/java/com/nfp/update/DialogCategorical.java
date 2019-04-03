@@ -3,7 +3,6 @@ import android.content.Context;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.content.res.Resources;
-
 import java.util.ArrayList;
 import java.util.List;
 public class DialogCategorical {

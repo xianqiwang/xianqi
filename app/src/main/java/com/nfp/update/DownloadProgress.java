@@ -90,13 +90,14 @@ public class DownloadProgress extends Activity {
             switch (msg.what){
                 case INT_DOWNLOAD_UPDATE_FILE:
                     HttpClient.get(DownloadProgress.this, DOWNLOAD_UPDATE_FILE + TEST, null, FOTA_FILE, new FileAsyncHttpResponseHandler(new File(FOTA_FILE), true) {
+
                         @android.support.annotation.RequiresApi (api = android.os.Build.VERSION_CODES.KITKAT)
                         @Override
-                        public void onSuccess(int statusCode, Header[] headers, File file) {
+                        public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, java.io.File file) {
                             Log.d(TAG,"Download -> onSuccess");
                             String fileName = null;
                             pb.setProgress(0);
-                            for (Header header : headers){
+                            for (cz.msebera.android.httpclient.Header header : headers){
                                 Log.d(TAG,"head = " + header.getName() + ":" + header.getValue());
                                 if (header.getName().equals("Content-Disposition")
                                         || header.getName().equals("Content-disposition")){
@@ -124,7 +125,8 @@ public class DownloadProgress extends Activity {
 
                         @android.support.annotation.RequiresApi (api = android.os.Build.VERSION_CODES.KITKAT)
                         @Override
-                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
+                        public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers,
+                                              Throwable throwable, java.io.File file) {
                             Log.d(TAG,"Download -> onFailure");
                             insertEventLog(getApplicationContext (),0, getString(R.string.download), 0, getString(R.string.fail), null, null);
                             UpdateUtil.showFotaNotification(DownloadProgress.this, R.string.Notification_download_failed, 0);

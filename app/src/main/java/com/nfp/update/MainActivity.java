@@ -159,7 +159,9 @@ dialog.A_D_12(true,r.getString(R.string.software_update),false,r.getString(R.str
                             @Override
                             public void onConfirm () {
 
+/*
                                 android.util.Log.v ("yingbo","click");
+*/
 
                                 checkNetwork();
 
@@ -183,9 +185,8 @@ dialog.A_D_12(true,r.getString(R.string.software_update),false,r.getString(R.str
         HttpClient.cancleRequest(true);
         UpdateUtil.judgePolState(this, 0);
 
-		test();
     }
-        
+
 
     public static void verifyStoragePermissions(Activity activity) {
 
@@ -345,26 +346,140 @@ dialog.A_D_12(true,r.getString(R.string.software_update),false,r.getString(R.str
 
          if(networkCheck.isNetWorkAvailable()){
 
-
-
          }else{
              Toast toast = Toast.makeText(MainActivity.this,"make sure you have a available network.", Toast.LENGTH_LONG);
              toast.show ();
          }
 
         }else{
-/*
-            SoftwareUpdate softwareUpdate=new SoftwareUpdate (this);
-*/
-            checkUpdate();
+
 
             /*            final Intent intent = new Intent();
             intent.setClass(MainActivity.this, SoftwareUpdate.class);
             startActivity(intent);*/
-            Toast toast = Toast.makeText(MainActivity.this,"Input Icc card or make sure wifi is opened.", Toast.LENGTH_LONG);
-            toast.show ();
+/*            Toast toast = Toast.makeText(MainActivity.this,"Input Icc card or make sure wifi is opened.", Toast.LENGTH_LONG);
+            toast.show ();*/
 
         }
+
+        httpTest();
+
+/*        checkUpdate();*/
+
+/*
+        SoftwareUpdate softwareUpdate=new SoftwareUpdate (this);
+*/
+    }
+
+    public void httpTest(){
+
+
+/*        com.loopj.android.http.AsyncHttpClient client = new com.loopj.android.http.AsyncHttpClient ();
+
+        client.get("http://p9008-ipngnfx01funabasi.chiba.ocn.ne.jp", new com.loopj.android.http.TextHttpResponseHandler () {
+
+
+            @Override
+            public void onFailure (int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString, Throwable throwable) {
+                Toast.makeText(MainActivity.this,"onFailure",Toast.LENGTH_SHORT).show();
+                android.util.Log.v ("yingbo","onFailure");
+            }
+
+            @Override
+            public void onSuccess (int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString) {
+                Toast.makeText(MainActivity.this,"onSuccess",Toast.LENGTH_SHORT).show();
+                android.util.Log.v ("yingbo","onSuccess");
+            }
+
+        });*/
+/*
+        android.util.Log.v ("yingbo","getUserAgent()"+getUserAgent());
+*/
+
+        com.loopj.android.http.AsyncHttpClient client = new com.loopj.android.http.AsyncHttpClient ();
+
+/*
+        client.setUserAgent(getUserAgent());
+*/
+
+        client.get("http://p9008-ipngnfx01funabasi.chiba.ocn.ne.jp/cgi-bin/bcmdiff/confirm.cgi?VER=SII901SIv000/l0001234567881032540000000123400000000000123400112AB"
+                , new com.loopj.android.http.AsyncHttpResponseHandler () {
+
+            @Override
+            public void onSuccess (int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
+                Toast.makeText(MainActivity.this,"onSuccess"+statusCode,Toast.LENGTH_SHORT).show();
+                android.util.Log.v ("yingbo","statusCode"+statusCode);
+
+                String str1="";
+                byte str2;
+                for (cz.msebera.android.httpclient.Header head :headers){
+                    str1=head.getName ()+":"+head.getValue ()+":"+head.getElements ().toString ();
+                    android.util.Log.v ("yingbo","str1"+str1);
+                }
+                for (byte res :responseBody){
+                    str2=res;
+                    android.util.Log.v ("yingbo","str2"+str2);
+                }
+
+
+            }
+
+            @Override
+            public void onFailure (int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody, Throwable error) {
+                Toast.makeText(MainActivity.this,"onFailure"+statusCode,Toast.LENGTH_SHORT).show();
+
+                android.util.Log.v ("yingbo","statusCode"+statusCode
+                        +"headers"+headers+
+                        "responseBody"+responseBody
+                        +"error"+error);
+
+
+            }
+        });
+
+
+
+    }
+
+/*    private javax.servlet.http.HttpServletRequest request;
+
+    private java.util.Map<String, String> getHeadersInfo() {
+
+        java.util.Map<String, String> map = new java.util.HashMap<String, String> ();
+
+        java.util.Enumeration headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String key = (String) headerNames.nextElement();
+            String value = request.getHeader(key);
+            map.put(key, value);
+        }
+
+        return map;
+    }*/
+
+
+
+    private static String getUserAgent() {
+        String userAgent = "";
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            try {
+                userAgent = android.webkit.WebSettings.getDefaultUserAgent(getInstance());
+            } catch (Exception e) {
+                userAgent = System.getProperty("http.agent");
+            }
+        } else {
+            userAgent = System.getProperty("http.agent");
+        }
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0, length = userAgent.length(); i < length; i++) {
+            char c = userAgent.charAt(i);
+            if (c <= '\u001f' || c >= '\u007f') {
+                sb.append(String.format("\\u%04x", (int) c));
+            } else {
+                sb.append(c);
+            }
+        }
+        return sb.toString();
     }
 
     public void dialogMothed(){
