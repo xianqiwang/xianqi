@@ -166,6 +166,16 @@ dialog.A_D_12(true,r.getString(R.string.software_update),false,r.getString(R.str
                                 checkNetwork();
 
                             }
+                            @Override
+                            public void onCancel () {
+
+/*
+                                android.util.Log.v ("yingbo","click");
+*/
+
+                                checkNetwork();
+
+                            }
                         });
 
                         break;
@@ -537,7 +547,10 @@ dialog.A_D_12(true,r.getString(R.string.software_update),false,r.getString(R.str
             public void onSpinnerSelect () {
 
             }
+            @Override
+            public void onCancelKey () {
 
+            }
         });
 
 

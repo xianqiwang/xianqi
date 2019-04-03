@@ -98,7 +98,8 @@ class DefDialog extends Dialog {
 /*
                 android.util.Log.v("yingbo","mCancel");
 */
-                cancel ();
+                mOnCenterKeyListener.onCancelKey();
+             //   cancel ();
             }
 
         });
@@ -915,9 +916,9 @@ public void addListview_AN_09(){
     {
         public void onOkKey();
         public void onCenterKey();
-/*
+
         public void onCancelKey();
-*/
+
         public void onSpinnerSelect();
 
     }

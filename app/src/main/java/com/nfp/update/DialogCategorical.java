@@ -3,6 +3,7 @@ import android.content.Context;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.content.res.Resources;
+
 import java.util.ArrayList;
 import java.util.List;
 public class DialogCategorical {
@@ -22,7 +23,7 @@ public class DialogCategorical {
     interface CallbackConfirmKey{
 
         void onConfirm();
-
+        void onCancel();
     }
 
     interface CallbackOtherKey{
@@ -56,7 +57,7 @@ public class DialogCategorical {
         mDefDialog.setOkClickListener(new DefDialog.OnOkListener () {
             @Override
             public void onOkKey () {
-                // callbackConfirmKey.onConfirm ();
+                 callbackConfirmKey.onConfirm ();
             }
 
             @Override
@@ -66,6 +67,10 @@ public class DialogCategorical {
             @Override
             public void onSpinnerSelect () {
 
+            }
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
             }
         });
         mDefDialog.setCancelable(false);
@@ -99,7 +104,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
-
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
         mDefDialog.setCancelable(false);
         mDefDialog.setTitle (r.getString(R.string.software_update));
@@ -132,6 +140,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
 
         });
 
@@ -155,7 +167,7 @@ public class DialogCategorical {
         mDefDialog.setOkClickListener(new DefDialog.OnOkListener () {
             @Override
             public void onOkKey () {
-                // callbackConfirmKey.onConfirm ();
+                 callbackConfirmKey.onConfirm ();
             }
 
             @Override
@@ -165,6 +177,10 @@ public class DialogCategorical {
             @Override
             public void onSpinnerSelect () {
 
+            }
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
             }
         });
         mDefDialog.setCancelable(false);
@@ -199,7 +215,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
-
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
 
         mDefDialog.setCancelable(false);
@@ -232,6 +251,10 @@ public class DialogCategorical {
             @Override
             public void onSpinnerSelect () {
 
+            }
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
             }
 
         });
@@ -267,7 +290,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
-
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
 
         mDefDialog.setCancelable(false);
@@ -301,7 +327,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
-
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
 
         mDefDialog.setCancelable(false);
@@ -324,7 +353,7 @@ public class DialogCategorical {
             mDefDialog.setOkClickListener(new DefDialog.OnOkListener () {
                 @Override
                 public void onOkKey () {
-                    // callbackConfirmKey.onConfirm ();
+                     callbackConfirmKey.onConfirm ();
                 }
 
                 @Override
@@ -335,7 +364,10 @@ public class DialogCategorical {
                 public void onSpinnerSelect () {
 
                 }
-
+                @Override
+                public void onCancelKey () {
+                    callbackConfirmKey.onCancel();
+                }
 
             });
         mDefDialog.setCancelable(false);
@@ -373,7 +405,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
-
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
 
         mDefDialog.setCancelable(false);
@@ -393,13 +428,17 @@ public class DialogCategorical {
         mDefDialog.setOkClickListener(new DefDialog.OnOkListener () {
             @Override
             public void onOkKey () {
-                // callbackConfirmKey.onConfirm ();
+                 callbackConfirmKey.onConfirm ();
             }
             @Override
             public void onCenterKey () {
             }
             @Override
             public void onSpinnerSelect () {
+            }
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
             }
         });
         mDefDialog.setCancelable(false);
@@ -433,7 +472,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
-
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
 
         mDefDialog.setCancelable(false);
@@ -456,7 +498,7 @@ public class DialogCategorical {
         mDefDialog.setOkClickListener(new DefDialog.OnOkListener () {
             @Override
             public void onOkKey () {
-                // callbackConfirmKey.onConfirm ();
+                 callbackConfirmKey.onConfirm ();
             }
 
             @Override
@@ -466,6 +508,10 @@ public class DialogCategorical {
             @Override
             public void onSpinnerSelect () {
 
+            }
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
             }
         });
         mDefDialog.setCancelable(false);
@@ -487,13 +533,17 @@ public class DialogCategorical {
         mDefDialog.setOkClickListener(new DefDialog.OnOkListener () {
             @Override
             public void onOkKey () {
-                // callbackConfirmKey.onConfirm ();
+                 callbackConfirmKey.onConfirm ();
             }
             @Override
             public void onCenterKey () {
             }
             @Override
             public void onSpinnerSelect () {
+            }
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
             }
         });
         mDefDialog.setCancelable(false);
@@ -527,6 +577,10 @@ public class DialogCategorical {
             @Override
             public void onSpinnerSelect () {
 
+            }
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
             }
 
         });
@@ -562,6 +616,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
 
         });
 
@@ -596,7 +654,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
-
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
 
         mDefDialog.setCancelable(false);
@@ -629,6 +690,10 @@ public class DialogCategorical {
             @Override
             public void onSpinnerSelect () {
 
+            }
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
             }
 
         });
@@ -664,7 +729,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
-
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
 
         mDefDialog.setCancelable(false);
@@ -698,7 +766,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
-
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
 
         mDefDialog.setCancelable(false);
@@ -730,6 +801,10 @@ public class DialogCategorical {
             @Override
             public void onSpinnerSelect () {
 
+            }
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
             }
         });
         mDefDialog.setCancelable(false);
@@ -763,7 +838,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
-
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
 
         mDefDialog.setCancelable(false);
@@ -799,7 +877,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
-
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
 
         mDefDialog.setCancelable(false);
@@ -834,7 +915,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
-
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
 
         mDefDialog.setCancelable(false);
@@ -870,6 +954,10 @@ public class DialogCategorical {
             @Override
             public void onSpinnerSelect () {
 
+            }
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
             }
         });
         mDefDialog.setCancelable(false);
@@ -907,6 +995,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
         mDefDialog.setCancelable(false);
         mDefDialog.setTitle (r.getString(R.string.software_update));
@@ -943,7 +1035,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
-
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
 
         mDefDialog.setCancelable(false);
@@ -979,7 +1074,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
-
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
 
         mDefDialog.setCancelable(false);
@@ -1015,7 +1113,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
-
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
 
         mDefDialog.setCancelable(false);
@@ -1049,7 +1150,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
-
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
         mDefDialog.setCancelable(false);
         mDefDialog.setTitle (r.getString(R.string.software_update));
@@ -1085,7 +1189,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
-
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
 
         mDefDialog.setCancelable(false);
@@ -1119,7 +1226,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
-
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
 
         mDefDialog.setCancelable(false);
@@ -1153,7 +1263,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
-
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
 
         mDefDialog.setCancelable(false);
@@ -1187,7 +1300,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
-
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
 
         mDefDialog.setCancelable(false);
@@ -1221,7 +1337,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
-
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
 
         mDefDialog.setCancelable(false);
@@ -1255,7 +1374,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
-
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
 
         mDefDialog.setCancelable(false);
@@ -1289,7 +1411,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
-
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
 
         mDefDialog.setCancelable(false);
@@ -1326,7 +1451,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
-
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
 
         mDefDialog.setCancelable(false);
@@ -1361,7 +1489,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
-
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
 
         DisplayMetrics dm = r.getDisplayMetrics();
@@ -1400,7 +1531,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
-
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
 
         DisplayMetrics dm = r.getDisplayMetrics();
@@ -1439,7 +1573,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
-
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
 
         mDefDialog.setCancelable(false);
@@ -1473,7 +1610,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
-
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
 
         mDefDialog.setCancelable(false);
@@ -1507,7 +1647,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
-
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
 
         mDefDialog.setCancelable(false);
@@ -1541,7 +1684,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
-
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
 
         mDefDialog.setCancelable(false);
@@ -1575,7 +1721,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
-
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
 
         mDefDialog.setCancelable(false);
@@ -1609,7 +1758,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
-
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
 
         mDefDialog.setCancelable(false);
@@ -1643,7 +1795,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
-
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
 
         mDefDialog.setCancelable(false);
@@ -1677,7 +1832,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
-
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
 
         mDefDialog.setCancelable(false);
@@ -1711,7 +1869,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
-
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
 
         mDefDialog.setCancelable(false);
@@ -1745,7 +1906,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
-
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
 
         mDefDialog.setCancelable(false);
@@ -1779,7 +1943,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
-
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
 
         mDefDialog.setCancelable(false);
@@ -1813,7 +1980,10 @@ public class DialogCategorical {
             public void onSpinnerSelect () {
 
             }
-
+            @Override
+            public void onCancelKey () {
+                callbackConfirmKey.onCancel();
+            }
         });
 
         mDefDialog.setCancelable(false);
