@@ -16,43 +16,28 @@
 
 package com.nfp.update;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-
+import android.app.Activity;
 import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
-import android.app.Activity;
-import android.content.Intent;
-import android.preference.PreferenceManager;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.LinearLayout;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.widget.AbsListView;
-import android.widget.Toast;
-import android.support.v4.app.ActivityCompat;
-import android.content.IntentFilter;
-import android.content.pm.PackageManager;
-import android.content.BroadcastReceiver;
-import java.io.File;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-
-import android.os.PowerManager;
-import android.telephony.PhoneStateListener;
-import android.telephony.TelephonyManager;
-import android.os.RecoverySystem;
-
-import com.alibaba.fastjson.JSONObject;
 public class MainActivity extends Activity {
 
     private ListView mListView;
@@ -160,9 +145,9 @@ public class MainActivity extends Activity {
 /*
                                 android.util.Log.v ("yingbo","click");
 */
-/*
+
                                 startActivity(new Intent(MainActivity.this, com.loopj.android.http.sample.WaypointsActivity.class));
-*/
+
 /*
                                 checkNetwork();
 */
