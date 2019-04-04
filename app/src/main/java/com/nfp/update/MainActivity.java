@@ -160,8 +160,12 @@ public class MainActivity extends Activity {
 /*
                                 android.util.Log.v ("yingbo","click");
 */
-
+/*
+                                startActivity(new Intent(MainActivity.this, com.loopj.android.http.sample.WaypointsActivity.class));
+*/
+/*
                                 checkNetwork();
+*/
 
                             }
                             @Override
@@ -169,7 +173,9 @@ public class MainActivity extends Activity {
 /*
                                 android.util.Log.v ("yingbo","click");
 */
+/*
                                 checkNetwork();
+*/
 
                             }
                         });

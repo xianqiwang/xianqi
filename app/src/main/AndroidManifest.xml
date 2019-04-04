@@ -155,6 +155,46 @@
 <!--        <meta-data
             android:name="com.google.android.actions"
             android:resource="@xml/selector_green_bg" />-->
+        <activity android:name="com.loopj.android.http.sample.WaypointsActivity"/>
+        <activity android:name="com.loopj.android.http.sample.GetSample" />
+        <activity android:name="com.loopj.android.http.sample.PostSample" />
+        <activity android:name="com.loopj.android.http.sample.DeleteSample" />
+        <activity android:name="com.loopj.android.http.sample.HeadSample" />
+        <activity android:name="com.loopj.android.http.sample.PutSample" />
+        <activity android:name="com.loopj.android.http.sample.PatchSample" />
+        <activity android:name="com.loopj.android.http.sample.JsonSample" />
+        <activity android:name="com.loopj.android.http.sample.JsonStreamerSample" />
+        <activity android:name="com.loopj.android.http.sample.FileSample" />
+        <activity android:name="com.loopj.android.http.sample.DirectorySample" />
+        <activity android:name="com.loopj.android.http.sample.BinarySample" />
+        <activity android:name="com.loopj.android.http.sample.GzipSample" />
+        <activity android:name="com.loopj.android.http.sample.Redirect302Sample" />
+        <activity android:name="com.loopj.android.http.sample.ThreadingTimeoutSample" />
+        <activity android:name="com.loopj.android.http.sample.CancelAllRequestsSample" />
+        <activity android:name="com.loopj.android.http.sample.CancelRequestByTagSample" />
+        <activity android:name="com.loopj.android.http.sample.CancelRequestHandleSample" />
+        <activity android:name="com.loopj.android.http.sample.SynchronousClientSample" />
+        <activity android:name="com.loopj.android.http.sample.IntentServiceSample" />
+        <activity android:name="com.loopj.android.http.sample.SaxSample" />
+        <activity android:name="com.loopj.android.http.sample.FilesSample" />
+        <activity android:name="com.loopj.android.http.sample.PersistentCookiesSample" />
+        <activity android:name="com.loopj.android.http.sample.CustomCASample" />
+        <activity android:name="com.loopj.android.http.sample.RetryRequestSample" />
+        <activity android:name="com.loopj.android.http.sample.RangeResponseSample" />
+        <activity android:name="com.loopj.android.http.sample.Http401AuthSample" />
+        <activity android:name="com.loopj.android.http.sample.AsyncBackgroundThreadSample" />
+        <activity android:name="com.loopj.android.http.sample.ContentTypeForHttpEntitySample" />
+        <activity android:name="com.loopj.android.http.sample.ResumeDownloadSample" />
+        <activity android:name="com.loopj.android.http.sample.PrePostProcessingSample" />
+        <activity android:name="com.loopj.android.http.sample.DigestAuthSample" />
+        <activity android:name="com.loopj.android.http.sample.UsePoolThreadSample" />
+        <activity android:name="com.loopj.android.http.sample.RequestParamsDebug" />
+
+        <service android:name="com.loopj.android.http.sample.services.ExampleIntentService" />
+
+
+
+
     </application>
 
 </manifest>
