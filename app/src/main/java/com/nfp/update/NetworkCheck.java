@@ -1,91 +1,110 @@
 package com.nfp.update;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import java.lang.reflect.Method;
-import android.telephony.TelephonyManager;
-import android.net.NetworkInfo;
-import android.content.Intent;
-import android.content.ComponentName;
+import android.Manifest.permission;
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Build.VERSION_CODES;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.Settings;
+import android.support.annotation.RequiresApi;
+import android.support.annotation.VisibleForTesting;
+import android.support.v4.app.ActivityCompat;
+import android.telephony.PhoneStateListener;
+import android.telephony.ServiceState;
+import android.telephony.SignalStrength;
+import android.telephony.SubscriptionInfo;
+import android.telephony.SubscriptionManager;
+import android.telephony.TelephonyManager;
+import android.util.Log;
+
+import java.lang.reflect.Method;
+
 public class NetworkCheck {
 
-    private static Context context ;
+    private static Context context;
     /** 网络不可用 */
     public static final int NO_NET_WORK = 0;
     /** 是wifi连接 */
     public static final int WIFI = 1;
     /** 不是wifi连接 */
     public static final int NO_WIFI = 2;
-
-    NetworkCheck(android.content.Context context){
-     this.context=context;
+    private ServiceState serviceState;
+    @VisibleForTesting
+    private MobilePhoneStateListener phoneStateListener;
+    NetworkCheck (android.content.Context context) {
+        this.context = context;
     }
 
-    public static boolean isNetWorkAvailable(){
-        boolean isAvailable = false ;
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-        if(networkInfo!=null && networkInfo.isAvailable()){
+    public static boolean isNetWorkAvailable () {
+        boolean isAvailable = false;
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService (Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo ();
+
+        if (networkInfo != null && networkInfo.isAvailable ()) {
             isAvailable = true;
         }
         return isAvailable;
     }
 
-    public static int getNetWorkType() {
+    public static int getNetWorkType () {
 
-        if (!isNetWorkAvailable()) {
+        if (! isNetWorkAvailable ()) {
             return NO_NET_WORK;
         }
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService (Context.CONNECTIVITY_SERVICE);
         // cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-        if (cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnectedOrConnecting())
+        if (cm.getNetworkInfo (ConnectivityManager.TYPE_WIFI).isConnectedOrConnecting ())
             return WIFI;
         else
             return NO_WIFI;
     }
 
-    @SuppressWarnings("static-access")
-    public static boolean isWiFiConnected(){
-        ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
-        return networkInfo.getType() == manager.TYPE_WIFI ? true : false;
+    @SuppressWarnings ("static-access")
+    public static boolean isWiFiConnected () {
+        ConnectivityManager manager = (ConnectivityManager) context.getSystemService (Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = manager.getActiveNetworkInfo ();
+        return networkInfo.getType () == manager.TYPE_WIFI ? true : false;
     }
 
-    public static boolean isMobileDataEnable(){
-        ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+    public static boolean isMobileDataEnable () {
+        ConnectivityManager manager = (ConnectivityManager) context.getSystemService (Context.CONNECTIVITY_SERVICE);
         boolean isMobileDataEnable = false;
-        isMobileDataEnable = manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).isConnectedOrConnecting();
+        isMobileDataEnable = manager.getNetworkInfo (ConnectivityManager.TYPE_MOBILE).isConnectedOrConnecting ();
         return isMobileDataEnable;
     }
 
-    public static boolean isWifiDataEnable(){
-        ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+    public static boolean isWifiDataEnable () {
+        ConnectivityManager manager = (ConnectivityManager) context.getSystemService (Context.CONNECTIVITY_SERVICE);
         boolean isWifiDataEnable = false;
-        isWifiDataEnable = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnectedOrConnecting();
+        isWifiDataEnable = manager.getNetworkInfo (ConnectivityManager.TYPE_WIFI).isConnectedOrConnecting ();
         return isWifiDataEnable;
     }
 
 
-    public static void GoSetting(Activity activity){
-        Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
-        activity.startActivity(intent);
+    public static void GoSetting (Activity activity) {
+        Intent intent = new Intent (Settings.ACTION_ACCESSIBILITY_SETTINGS);
+        activity.startActivity (intent);
     }
 
 
-    public static void openSetting(android.app.Activity activity) {
+    public static void openSetting (android.app.Activity activity) {
         Intent intent = new Intent ("/");
-        ComponentName cn = new ComponentName("com.android.settings", "com.android.settings.WirelessSettings");
-        intent.setComponent(cn);
-        intent.setAction("android.intent.action.VIEW");
-        activity.startActivityForResult(intent, 0);
+        ComponentName cn = new ComponentName ("com.android.settings", "com.android.settings.WirelessSettings");
+        intent.setComponent (cn);
+        intent.setAction ("android.intent.action.VIEW");
+        activity.startActivityForResult (intent, 0);
     }
 
 
-    public static boolean getMobileDataState ( Object[] arg) {
+    public static boolean getMobileDataState (Object[] arg) {
         try {
-            ConnectivityManager mConnectivityManager = (ConnectivityManager)context.getSystemService (Context.CONNECTIVITY_SERVICE);
+            ConnectivityManager mConnectivityManager = (ConnectivityManager) context.getSystemService (Context.CONNECTIVITY_SERVICE);
 
             Class ownerClass = mConnectivityManager.getClass ();
             Class[] argsClass = null;
@@ -166,6 +185,102 @@ public class NetworkCheck {
         return false;
     }
 
+    class MobilePhoneStateListener extends PhoneStateListener {
+
+        public MobilePhoneStateListener(int subId, Looper looper) {
+    /*        super(subId, looper);*/
+        }
+        @Override
+        public void onCallStateChanged (int state, String incomingNumber) {
+            super.onCallStateChanged (state, incomingNumber);
+        }
+
+        @Override
+        public void onSignalStrengthsChanged (SignalStrength signalStrength) {
+            super.onSignalStrengthsChanged (signalStrength);
+        }
+
+        @Override
+        public void onServiceStateChanged (ServiceState state) {
+            super.onServiceStateChanged (state);
+            serviceState = state;
+        }
+
+        @Override
+        public void onDataConnectionStateChanged (int state, int networkType) {
+            super.onDataConnectionStateChanged (state, networkType);
+
+        }
+
+        @Override
+        public void onDataActivity (int direction) {
+            super.onDataActivity (direction);
+        }
+
+
+
+    }
+
+
+
+
+
+
+    @RequiresApi (api = VERSION_CODES.M)
+    public void checkRoaming () {
+
+
+
+        ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo info = manager.getActiveNetworkInfo();
+        if (info == null || !info.isConnected()) {
+
+        }
+        if (info.isRoaming()) {
+
+            // here is the roaming option you can change it if you want to
+            // disable internet while roaming, just return false
+
+        }
+
+        serviceState = new ServiceState ();
+        Log.v ("yingbo", "serviceState" + "serviceState.getState ()");
+        TelephonyManager mTelephonyManager = (TelephonyManager) context.getSystemService (Context.TELEPHONY_SERVICE);
+
+/*
+                                    mTelephonyManager.getSubscriberId ();
+*/
+
+        int mNumSims = mTelephonyManager.getPhoneCount ();
+
+        SubscriptionManager sm = SubscriptionManager.from (context);
+
+        Handler handler = new Handler (Looper.myLooper ());
+
+        if (mNumSims > 1) {
+
+            for (int i = 0; i < mNumSims; ++ i) {
+
+                if (ActivityCompat.checkSelfPermission (context, permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+
+                final SubscriptionInfo subInfo = sm.getActiveSubscriptionInfoForSimSlotIndex (i);
+                Integer info1= subInfo.getSubscriptionId();
+                phoneStateListener=new MobilePhoneStateListener (subInfo.getSubscriptionId (),Looper.myLooper ());
+                mTelephonyManager.listen (phoneStateListener,PhoneStateListener.LISTEN_SERVICE_STATE/*PhoneStateListener.LISTEN_CALL_STATE*/);
+            }
+        }
+
+/*        if(serviceState!=null && serviceState.getRoaming ())
+        serviceState.getRoaming ();
+        serviceState.getState ();
+
+        Log.v("yingbo","serviceState"+"serviceState.getState ()"+serviceState.getState ()
+                +"serviceState.getRoaming ()"+serviceState.getRoaming ());*/
+
+    }
+
     public boolean checkSimCard () {
         TelephonyManager tm = (TelephonyManager) context.getSystemService (context.TELEPHONY_SERVICE);//取得相关系统服务
         StringBuffer sb = new StringBuffer ();
@@ -179,7 +294,6 @@ public class NetworkCheck {
                 break;
             case TelephonyManager.SIM_STATE_NETWORK_LOCKED:
                 state= true;
-
                 break;
             case TelephonyManager.SIM_STATE_PIN_REQUIRED:
                 state= true;
