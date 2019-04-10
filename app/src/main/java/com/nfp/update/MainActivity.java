@@ -26,6 +26,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -49,6 +50,8 @@ public class MainActivity extends Activity {
     private static String[] PERMISSIONS_STORAGE = {
             "android.permission.READ_EXTERNAL_STORAGE",
             "android.permission.WRITE_EXTERNAL_STORAGE" };
+    private CustomDialog.Builder builder;
+    private CustomDialog mDialog;
     String mVersonNumber;
     String url;
     FileInfo fileInfo;
@@ -142,11 +145,46 @@ public class MainActivity extends Activity {
                             @Override
                             public void onConfirm () {
 
+
+
+
+/*                                builder.setMessage("このままご利用ください。")
+                                        .setSingleButton("Ok", new OnClickListener () {
+
+                                            @Override
+                                            public void onClick (View v) {
+
+                                            }
+
+                                        }).createSingleButtonDialog().show ();*/
+
+                                mDialog= new CustomDialog.Builder(MainActivity.this,400,200)
+                                        .setMessage("このままご利用ください。")
+                                        .setPositiveButton("OK",  new OnClickListener () {
+
+                                            @Override
+                                            public void onClick (View v) {
+
+                                            }
+
+                                        })
+                                        .setNegativeButton("No",  new OnClickListener () {
+
+                                            @Override
+                                            public void onClick (View v) {
+                                                mDialog.dismiss ();
+                                            }
+
+                                        })
+                                        .createTwoButtonDialog();
+                                mDialog.show ();
 /*
                                 android.util.Log.v ("yingbo","click");
 */
 
+/*
                                 startActivity(new Intent(MainActivity.this, com.loopj.android.http.sample.WaypointsActivity.class));
+*/
 
 /*
                                 checkNetwork();
