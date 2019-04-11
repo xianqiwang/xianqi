@@ -16,38 +16,70 @@
 
 package com.nfp.update;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import android.app.AlertDialog;
-import android.os.Bundle;
 import android.app.Activity;
-import android.content.Intent;
-import android.content.Context;
-import android.widget.Toast;
-import android.widget.TimePicker;
-import java.util.Calendar;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.app.DatePickerDialog;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
-import com.nfp.update.R;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class UpdateSchedule extends Activity implements TimePickerDialog.OnTimeSetListener, DialogInterface.OnCancelListener{
 
     public int scheduleValue = 0;
+    private ListView listview;
+    private MyAdapter myAdapter;
+    private ArrayList<Boolean> checkList = new ArrayList<Boolean>();
+
+    //设置选中的位置，将其他位置设置为未选
+    public void checkPosition(int position) {
+        for (int i = 0; i < checkList.size(); i++) {
+            if (position == i) {// 设置已选位置
+                checkList.set(i, true);
+            } else {
+                checkList.set(i, false);
+            }
+        }
+        myAdapter.notifyDataSetChanged();
+    }
+
+    public void init() {
+        listview = (ListView) findViewById(R.id.list);
+        for (int i = 0; i < list.size(); i++) {
+            checkList.add(false);
+        }
+        myAdapter = new MyAdapter(this, list);
+        listview.setAdapter(myAdapter);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_list);
+        init();
         Intent intent = getIntent();
         Bundle bundle=intent.getExtras();
         if(bundle!=null)
@@ -93,6 +125,7 @@ public class UpdateSchedule extends Activity implements TimePickerDialog.OnTimeS
         return tp;
     }
 
+
    static void setTime(Context context, int hourOfDay, int minute) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd HHmm");
         Calendar c = Calendar.getInstance();
@@ -108,6 +141,7 @@ public class UpdateSchedule extends Activity implements TimePickerDialog.OnTimeS
         Log.d("kevin","updates chedule dateTime="+ dateTime);
         insertEventLog(context,0, context.getString(R.string.auto_update_setting), 0, dateTime, null, null);
     }
+
     private static android.net.Uri insertEventLog (Context context, int eventNo, String eventName, int tid, String factor1, String factor2, String factor3) {
         final android.net.Uri uri = android.net.Uri.parse("content://com.ssol.eventlog/eventlog");
 
@@ -178,4 +212,94 @@ public class UpdateSchedule extends Activity implements TimePickerDialog.OnTimeS
     protected void onPause() {
         super.onPause();
     }
+
+
+    private ArrayList<String> list = new ArrayList<String>() {
+        {
+            add("ON");
+            add("OFF");
+
+        }
+    };
+
+    //自定义adapter
+    private class MyAdapter extends BaseAdapter {
+        private LayoutInflater inflater;
+        ArrayList<String> myList;
+
+        public MyAdapter(Context context, ArrayList<String> myList) {
+            this.inflater = LayoutInflater.from(context);
+            this.myList = myList;
+        }
+
+        @Override
+        public int getCount() {
+            // TODO Auto-generated method stub
+            return myList.size();
+        }
+
+        @Override
+        public Object getItem(int arg0) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public long getItemId(int arg0) {
+            // TODO Auto-generated method stub
+            return 0;
+        }
+
+        @Override
+        public View getView(final int position, View convertView,
+                            ViewGroup parent) {
+            Log.i("aaa", "getview");
+            ViewHolder holder = null;
+            if (convertView == null) {
+                convertView = inflater.inflate(R.layout.main_item_checkbox, null);
+                holder = new ViewHolder();
+                holder.txt = (TextView) convertView.findViewById(R.id.txt);
+                holder.checkBox = (CheckBox) convertView
+                        .findViewById(R.id.checkBox);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+            holder.txt.setText(myList.get(position));
+            holder.checkBox.setChecked(checkList.get(position));
+            holder.checkBox
+                    .setOnCheckedChangeListener(new OnCheckedChangeListener () {//单击checkbox实现单选，根据状态变换进行单选设置
+
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView,
+                                                     boolean isChecked) {
+                            // TODO Auto-generated method stub
+                            if (isChecked) {
+                                checkPosition(position);
+                            } else {
+                                checkList.set(position, false);//将已选择的位置设为选择
+                            }
+                        }
+                    });
+            convertView.setOnClickListener(new OnClickListener () {//item单击进行单选设置
+
+                @Override
+                public void onClick(View v) {
+                    // TODO Auto-generated method stub
+                    checkPosition(position);
+                }
+            });
+
+            return convertView;
+        }
+
+        public final class ViewHolder {
+            public TextView txt;
+            public CheckBox checkBox;
+        }
+    }
+
+
+
+
 }

@@ -4,7 +4,20 @@
     <string name="pb_download" translatable="false">download</string>
     <string name="pb_continue" translatable="false">contenue</string>
     <string name="pb_open" translatable="false">open</string>
-    <string name="software_update">Software Update</string>
+
+    <string name="only_hand_update">There is new software. This software is
+                                        Manual download only
+                                        It is available.</string>
+
+    <string name="new_hand_update">Manual update</string>
+
+    <string name="new_hand_update_settings">Automatic update setting</string>
+
+    <string name="new_hand_update_version">Version</string>
+
+    <string name="software_update">Software update</string>
+
+
     <string name="auto_update">Automatic Update Settings</string>
     <string name="update_schedule">Update Time &#038; Date Settings</string>
     <string name="large_file">The file size is large.\nPlease connect to the Wi-Fi and try again.</string>
@@ -150,14 +163,14 @@ The update time is currently set to </string>
     <string name="ok" translatable="false">OK</string>
 
     <string name="no">No</string>
-<string name="ok_dailog">OK</string>
+    <string name="ok_dailog" translatable="false">OK</string>
     <string name="select">Select</string>
     <string name="cancel">Cancel</string>
      <string name="confirmation">Confirmation</string>
      <string name="confirmation_messages">"Update the latest software?" All functions can not be used during SW updating.</string>
      <string name="download_info">Download the latest SW?</string>
      <string name="download_progress">SW downloading</string>
-    <string name="downloading">Downloading......</string>
+     <string name="downloading">Downloading......</string>
      <string name="cancel_download">Cancel to Download?</string>
 
      <string name="schedule">Schedule</string>

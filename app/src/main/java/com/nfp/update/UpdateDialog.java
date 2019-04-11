@@ -82,7 +82,7 @@ public class UpdateDialog extends Activity implements OnCancelListener {
                 .setNegativeButton(no, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                //android.util.Log.i("kevin","UpdateDialog onClick needCancel ="+needCancel);
+
                                 backTopActivity();
                                 finish();
                             }

@@ -24,9 +24,9 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -38,7 +38,10 @@ import android.widget.TextView;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+
 public class MainActivity extends Activity {
 
     private ListView mListView;
@@ -55,153 +58,70 @@ public class MainActivity extends Activity {
     String mVersonNumber;
     String url;
     FileInfo fileInfo;
+    private  Resources res;
     private NetworkCheck networkCheck;
 
     public static Context getInstance(){
         return context;
     }
 
-    private int getScale(Context context) {
-        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
-        if (fontScale < 1.1) {
-            return 0;
-        } else if (fontScale > 1.3) {
-            return 2;
-        } else {
-            return 1;
-        }
-    }
-
-
-  public boolean dateDiff(String Time) {
-        // 按照传入的格式生成一个simpledateformate对象
-        SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-        long nd = 1000 * 24 * 60 * 60;// 一天的毫秒数
-        long nh = 1000 * 60 * 60;// 一小时的毫秒数
-        long nm = 1000 * 60;// 一分钟的毫秒数
-        long ns = 1000;// 一秒钟的毫秒数
-        long diff;
-        long day = 0;
-        try {
-            Date date = new Date(System.currentTimeMillis());
-            String times_now=sd.format(date);
-            // 获得两个时间的毫秒时间差异
-            diff = sd.parse(Time).getTime()
-                    - sd.parse(times_now).getTime();
-            day = diff / nd;// 计算差多少天
-            long hour = diff % nd / nh;// 计算差多少小时
-            long min = diff % nd % nh / nm;// 计算差多少分钟
-            long sec = diff % nd % nh % nm / ns;// 计算差多少秒
-
-            if (day>=1) {
-                return true;
-            }else {
-                if (day==0) {
-                    return false;
-                }else {
-                    return false;
-                }
-
-            }
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return false;
-
-    }
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences spref = this.getSharedPreferences("debug_comm", 0);
-
+        res = this.getResources();
         if(spref.getInt("IS_OPEN", 0)==1){
             finish();
         }
+
         context = this;
+
+        handlerListView();
+        HttpClient.cancleRequest(true);
+        UpdateUtil.judgePolState(this, 0);
+        boolean manually=false;
+        //此处判断是否设定手动更新
+        if(manually){
+
+            mDialog= new CustomDialog.Builder(MainActivity.this,200,200)
+                    .setMessage(res.getString (R.string.only_hand_update))
+                    .setSingleButton("Ok", new View.OnClickListener () {
+
+                        @Override
+                        public void onClick (View v) {
+                            mDialog.dismiss ();
+                        }
+
+                    }).createSingleButtonDialog();
+            mDialog.show ();
+
+        }
+        testDatabase();
+    }
+
+     public String stampToDate(long timeMillis){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date(timeMillis);
+        return simpleDateFormat.format(date);
+    }
+
+    public void handlerListView(){
         final Intent intent = new Intent();
         setContentView(R.layout.activity_list);
         mListView = (ListView) findViewById(R.id.list);
-
-        mList.add(getString(R.string.software_update));
-        mList.add(getString(R.string.auto_update));
-        mList.add(getString(R.string.update_schedule));
+        mList.add(getString(R.string.new_hand_update));
+        mList.add(getString(R.string.new_hand_update_settings));
+        mList.add(getString(R.string.new_hand_update_version));
 
         networkCheck=new NetworkCheck (this);
         ArrayAdapter<String> myArrayAdapter = new ItemListAdapter(this, R.layout.main_item, mList);
         mListView.setAdapter(myArrayAdapter);
+
         mListView.setOnItemClickListener(new ListView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1,
-                    int position, long arg3) {
+                                    int position, long arg3) {
                 switch (position) {
                     case 0:
-
-                        Resources res =MainActivity.this.getResources();;
-                        View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
-                        DialogCategorical dialogCategorical=new DialogCategorical (MainActivity.this, 0, 0, view);
-                        dialogCategorical.A_N_02 ();
-                        dialogCategorical.setCallbackConfirmKey (new DialogCategorical.CallbackConfirmKey () {
-
-                            @Override
-                            public void onConfirm () {
-
-
-
-
-/*                                builder.setMessage("このままご利用ください。")
-                                        .setSingleButton("Ok", new OnClickListener () {
-
-                                            @Override
-                                            public void onClick (View v) {
-
-                                            }
-
-                                        }).createSingleButtonDialog().show ();*/
-
-                                mDialog= new CustomDialog.Builder(MainActivity.this,400,200)
-                                        .setMessage("このままご利用ください。")
-                                        .setPositiveButton("OK",  new OnClickListener () {
-
-                                            @Override
-                                            public void onClick (View v) {
-
-                                            }
-
-                                        })
-                                        .setNegativeButton("No",  new OnClickListener () {
-
-                                            @Override
-                                            public void onClick (View v) {
-                                                mDialog.dismiss ();
-                                            }
-
-                                        })
-                                        .createTwoButtonDialog();
-                                mDialog.show ();
-/*
-                                android.util.Log.v ("yingbo","click");
-*/
-
-/*
-                                startActivity(new Intent(MainActivity.this, com.loopj.android.http.sample.WaypointsActivity.class));
-*/
-
-/*
-                                checkNetwork();
-*/
-
-                            }
-                            @Override
-                            public void onCancel () {
-/*
-                                android.util.Log.v ("yingbo","click");
-*/
-/*
-                                checkNetwork();
-*/
-
-                            }
-                        });
 
                         break;
                     case 1:
@@ -215,26 +135,12 @@ public class MainActivity extends Activity {
                     default:
                         break;
                 }
-           }
+            }
         });
-        HttpClient.cancleRequest(true);
-        UpdateUtil.judgePolState(this, 0);
-
     }
 
-    private void test() {
 
-        View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
 
-        DialogCategorical dialogCategorical = new DialogCategorical(this, 0, 0, view);
-        /**
-         * 修改方法和参数
-         */
-//        "Software Update", false
-//        "Software Update", false, "2019/03/28\n2:00-3:00"
-        String[] strings = new  String[]{"111","22222","3","3","3","3","3","3","3","3","3","3","3",};
-        dialogCategorical.A_N_12();
-    }
 
   //检查服务器上是否有新版本
 boolean checkSoftwareVersion(String softwareversion){
@@ -667,8 +573,7 @@ else {
                          });
                      }
              }}
-             }
-             else{
+             } else {
                  Resources res =MainActivity.this.getResources();;
                  View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
                  DialogCategorical dialogCategorical=new DialogCategorical (MainActivity.this, 0, 0, view);
@@ -780,9 +685,11 @@ else {
         private Context context;
 
         public ItemListAdapter(Context context, int resourceId, ArrayList<String> list) {
+
             super(context, resourceId, list);
             resource = resourceId;
             this.context = context;
+
         }
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
@@ -801,5 +708,119 @@ else {
             ((TextView) convertView.findViewById(R.id.text1)).setText(getItem(position));
             return convertView;
         }
+
+
+
+
+
+
+    }
+
+    private int getScale(Context context) {
+        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+        if (fontScale < 1.1) {
+            return 0;
+        } else if (fontScale > 1.3) {
+            return 2;
+        } else {
+            return 1;
+        }
+    }
+
+    public boolean dateDiff(String Time) {
+        // 按照传入的格式生成一个simpledateformate对象
+        SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        long nd = 1000 * 24 * 60 * 60;// 一天的毫秒数
+        long nh = 1000 * 60 * 60;// 一小时的毫秒数
+        long nm = 1000 * 60;// 一分钟的毫秒数
+        long ns = 1000;// 一秒钟的毫秒数
+        long diff;
+        long day = 0;
+        try {
+            Date date = new Date(System.currentTimeMillis());
+            String times_now=sd.format(date);
+            // 获得两个时间的毫秒时间差异
+            diff = sd.parse(Time).getTime()
+                    - sd.parse(times_now).getTime();
+            day = diff / nd;// 计算差多少天
+            long hour = diff % nd / nh;// 计算差多少小时
+            long min = diff % nd % nh / nm;// 计算差多少分钟
+            long sec = diff % nd % nh % nm / ns;// 计算差多少秒
+
+            if (day>=1) {
+                return true;
+            }else {
+                if (day==0) {
+                    return false;
+                }else {
+                    return false;
+                }
+
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return false;
+
+    }
+    private void test() {
+
+        View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
+
+        DialogCategorical dialogCategorical = new DialogCategorical(this, 0, 0, view);
+        /**
+         * 修改方法和参数
+         */
+//        "Software Update", false
+//        "Software Update", false, "2019/03/28\n2:00-3:00"
+        String[] strings = new  String[]{"111","22222","3","3","3","3","3","3","3","3","3","3","3",};
+        dialogCategorical.A_N_12();
+    }
+    private void testDatabase(){
+
+        DatabaseUtil databaseUtil=new DatabaseUtil (MainActivity.this,
+                "my.db",null,1);
+
+        RecordStorage recordStorage=new RecordStorage ();
+
+        Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int date = c.get(Calendar.DATE);
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
+        int second = c.get(Calendar.SECOND);
+        SPUtils spUtils=new SPUtils (this);
+
+        List<RecordStorage> recordStorages=new ArrayList<RecordStorage> ();
+
+        for(int i=0 ;i<100;i++){
+
+            recordStorage.setImeinumber ("123455677888778898");
+            recordStorage.setCreatetime (year + "/" + (month+1) + "/" + date + " " +hour + ":" +minute + ":" + second);
+            recordStorage.setSettime (year + "/" + (month+1) + "/" + date + " " +hour + ":" +minute + ":" + second);
+
+            recordStorage.setId (i);
+
+            spUtils.put ("i"+i,i);
+
+            databaseUtil.getCount ();
+
+            spUtils.get ("i"+i,0);
+            spUtils.clear ();
+
+            Log.v("yingbo","spUtils.get"+spUtils.get ("i"+i,0));
+
+        }
+
+        recordStorages= databaseUtil.getScrollData (0,10);
+
+        for(RecordStorage recordStorage1 :recordStorages){
+            Log.v ("yingbo","getSettime"+recordStorage1.getSettime ()+recordStorage1.getImeinumber ());
+        }
+
+        Log.v ("yingbo","getCount"+databaseUtil.getCount ());
+
     }
 }

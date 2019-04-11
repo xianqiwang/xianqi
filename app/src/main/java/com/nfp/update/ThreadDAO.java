@@ -1,12 +1,6 @@
 package com.nfp.update;
 
 
-import java.util.List;
-
-/**
- * @author MR.ZHANG
- * @create 2018-06-05
- */
 public interface ThreadDAO {
     /**
      * 插入线程信息
