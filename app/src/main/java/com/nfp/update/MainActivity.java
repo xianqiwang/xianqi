@@ -26,6 +26,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -64,7 +65,15 @@ public class MainActivity extends Activity {
     public static Context getInstance(){
         return context;
     }
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish(); // back button
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences spref = this.getSharedPreferences("debug_comm", 0);
@@ -107,6 +116,7 @@ public class MainActivity extends Activity {
     public void handlerListView(){
         final Intent intent = new Intent();
         setContentView(R.layout.activity_list);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         mListView = (ListView) findViewById(R.id.list);
         mList.add(getString(R.string.new_hand_update));
         mList.add(getString(R.string.new_hand_update_settings));

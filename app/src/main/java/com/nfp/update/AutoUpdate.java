@@ -21,6 +21,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -36,10 +37,19 @@ public class AutoUpdate extends Activity {
     private Button mAuto;
     private SharedPreferences spref;
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish(); // back button
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.auto_update);
-
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         mAuto = (Button)findViewById(R.id.auto);
 
         spref = this.getSharedPreferences("debug_comm", 0);
