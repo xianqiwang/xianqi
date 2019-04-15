@@ -31,8 +31,8 @@ allprojects {
 }
 dependencies {
     /*
-                            provided files('libs/framework.jar')
-                        */
+                                            provided files('libs/framework.jar')
+                                        */
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:28.+'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'

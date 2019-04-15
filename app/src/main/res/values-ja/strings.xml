@@ -8,6 +8,8 @@
     　手動ダウンロードのみ
     　　ご利用可能です。"</string>
 
+    <string name="fota_install">インストール中 /n 電源を切らないでください</string>
+
 
 
     <string name="new_hand_update">手動更新</string>

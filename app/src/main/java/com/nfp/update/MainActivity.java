@@ -24,6 +24,8 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -42,6 +44,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends Activity {
 
@@ -105,6 +109,7 @@ public class MainActivity extends Activity {
 
         }
         testDatabase();
+
     }
 
      public String stampToDate(long timeMillis){
@@ -413,6 +418,7 @@ public void A_D_12_end(){
       });
 
   }
+
     public void checkNetwork(){
         if(networkCheck.checkSimCard ()&&networkCheck.isWifi ()){
 
@@ -774,19 +780,44 @@ else {
         return false;
 
     }
+    private DialogCategorical dialogCategorical;
+    private int i=0;
+    final Handler handler = new Handler (){
+
+        @Override
+        public void handleMessage (Message msg) {
+            super.handleMessage (msg);
+
+            dialogCategorical.N_0646_S01 (msg.what, R.string.fota_install);
+
+        }
+    };
     private void test() {
 
-        View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
+        View view = getLayoutInflater ().inflate (R.layout.dialog_layout, null);
 
-        DialogCategorical dialogCategorical = new DialogCategorical(this, 0, 0, view);
-        /**
-         * 修改方法和参数
-         */
-//        "Software Update", false
-//        "Software Update", false, "2019/03/28\n2:00-3:00"
-        String[] strings = new  String[]{"111","22222","3","3","3","3","3","3","3","3","3","3","3",};
-        dialogCategorical.A_N_12();
+        dialogCategorical = new DialogCategorical (this, 0, 0, view);
+
+            handler.postDelayed (new Runnable () {
+                Message msg=new Message ();
+                @Override
+                public void run () {
+                    test();
+                    i++;
+                    if(i>100)
+                    {
+                      return;
+                    }
+                    msg.what=i;
+                    handler.sendMessage (msg);
+
+                }
+            }, 1000);
+
+
+
     }
+
     private void testDatabase(){
 
         DatabaseUtil databaseUtil=new DatabaseUtil (MainActivity.this,

@@ -17,6 +17,8 @@
 
     <string name="software_update">Software update</string>
 
+    <string name="fota_install">During installation \n Please do not turn off the power</string>
+
 
     <string name="auto_update">Automatic Update Settings</string>
     <string name="update_schedule">Update Time &#038; Date Settings</string>

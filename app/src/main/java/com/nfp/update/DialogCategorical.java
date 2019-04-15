@@ -1,6 +1,8 @@
 package com.nfp.update;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.content.res.Resources;
 
@@ -31,9 +33,15 @@ public class DialogCategorical {
         void onOther();
 
     }
-public DefDialog getmDefDialog(){
-        return mDefDialog;
-}
+
+
+
+    public DefDialog getmDefDialog(){
+            return mDefDialog;
+    }
+
+
+
 
     public void setCallbackConfirmKey(CallbackConfirmKey callbackConfirmKey){
         this.callbackConfirmKey=callbackConfirmKey;
@@ -50,6 +58,34 @@ public DefDialog getmDefDialog(){
         mContext=context;
 
     }
+
+    public void N_0646_S01(int i,int msg){
+
+        Resources r=mContext.getResources();
+        mDefDialog.setCancelable(false);
+        mDefDialog.setMessageTextColor (Color.WHITE);
+        mDefDialog.setmMessageLTextColor (Color.WHITE);
+        mDefDialog.setLayoutBackground (Color.BLACK);
+        mDefDialog.setMessage (r.getString (msg));
+        mDefDialog.setMessagel ("                   "+i+"%");
+        mDefDialog.setListViewGone ();
+        mDefDialog.setViewTwoVisible ();
+        mDefDialog.setTitleGone ();
+        mDefDialog.setOkKeyGone();
+        mDefDialog.setMessageLCenter ();
+        mDefDialog.setViewOneheight (100);
+        mDefDialog.setViewTwoheight (50);
+        mDefDialog.setMessageLSize (30);
+        mDefDialog.setMessageLVisible ();
+        mDefDialog.setMessageSize (30);
+        mDefDialog.setCancelKeyGone ();
+        mDefDialog.setProgressGone ();
+        mDefDialog.setCenterKeyGone();
+        mDefDialog.setSpinnerGone();
+        mDefDialog.show();
+
+    }
+
 
     public void A_D_03(String[] stringArray){
         Resources r=mContext.getResources();

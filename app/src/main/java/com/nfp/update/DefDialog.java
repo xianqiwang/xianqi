@@ -57,6 +57,7 @@ class DefDialog extends Dialog {
     private android.widget.Button submit_workingAge;
     private android.widget.PopupWindow popupWindow;
     private com.nfp.update.WheelPicker wheelPicker;
+    private LinearLayout linearLayout;
 
     int mPosition = 0;
     int pro = 0;
@@ -82,6 +83,7 @@ class DefDialog extends Dialog {
         mViewTwo=layout.findViewById (com.nfp.update.R.id.view2);
         mViewThree=layout.findViewById (com.nfp.update.R.id.view3);
         wheelPicker=layout.findViewById (com.nfp.update.R.id.wheelpicker);
+        linearLayout=layout.findViewById (R.id.background);
         setWheelPicker ();
         Window window = getWindow();
         WindowManager.LayoutParams params = window.getAttributes();
@@ -312,6 +314,19 @@ class DefDialog extends Dialog {
         mMessage.setTextSize (size);
 
     }
+
+    public void setMessageTextColor(int color){
+
+        mMessage.setTextColor (color);
+
+    }
+
+    public void setmMessageLTextColor(int color){
+
+        mMessageL.setTextColor (color);
+
+    }
+
     public void setMessageGone(){
 
         mMessage.setVisibility (android.view.View.GONE);
@@ -320,6 +335,11 @@ class DefDialog extends Dialog {
     public void setMessageCenter(int height_pix){
         mMessage.setGravity(Gravity.CENTER_HORIZONTAL);
         mMessage.setPadding(0,height_pix/2, 0, height_pix/2);
+    }
+    public void setMessageLCenter(){
+
+        mMessage.setGravity(Gravity.CENTER_HORIZONTAL);
+
     }
     public void setMessage(String message){
         mMessage.setText (message);
@@ -342,6 +362,11 @@ class DefDialog extends Dialog {
     public String getMessagel(){
         return (String) mMessageL.getText ();
     }
+
+    public void setLayoutBackground(int color){
+        linearLayout.setBackgroundColor (color);
+    }
+
 
     public void setViewOneGone(){
     mViewOne.setVisibility (android.view.View.GONE);
@@ -367,12 +392,17 @@ class DefDialog extends Dialog {
 
     }
 
+    public void setMessageTextSize(int size){
+        mMessage.setTextSize (size);
+    }
+    public void setMessageLTextSize(int size){
+        mMessageL.setTextSize (size);
+    }
     public void setNumberPickerGone(){
 
         numberPicker.setVisibility (android.view.View.GONE);
 
     }
-
 
     public void setViewOneheight(int height){
 
@@ -496,6 +526,11 @@ public ListView getListView(){
         mCancel.setVisibility (android.view.View.GONE);
 
     }
+    public void setOkKeyGone(){
+
+        mConfirm.setVisibility (android.view.View.GONE);
+
+    }
 
     public void setCancelKeyVisible(){
 
@@ -578,6 +613,7 @@ public ListView getListView(){
             }
         });*/
     }
+
  public void addListview_AD_12(){
         listView.setVisibility (android.view.View.VISIBLE);
 
