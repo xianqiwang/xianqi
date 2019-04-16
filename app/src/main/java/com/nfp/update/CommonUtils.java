@@ -11,17 +11,22 @@ import android.os.Looper;
 import android.os.RecoverySystem;
 import android.os.StatFs;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
-
 import java.io.File;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 
 import static android.content.Context.BATTERY_SERVICE;
 
 
 public class CommonUtils {
+
+    private int mProgress;
+
     private static final String TAG = "CommonUtils";
     public static boolean isBlank(String str) {
         
@@ -39,8 +44,8 @@ public class CommonUtils {
         }
     }
 
-    public static void showToast(android.content.Context mContext, int str) {
-        android.widget.Toast.makeText(mContext, str, android.widget.Toast.LENGTH_SHORT).show();
+    public static void showToast(Context mContext, int str) {
+        android.widget.Toast.makeText(mContext, str, Toast.LENGTH_SHORT).show();
     }
 
     public static void showToastInService(final android.content.Context mContext, final int str) {
@@ -48,23 +53,17 @@ public class CommonUtils {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                android.widget.Toast.makeText(mContext, str, android.widget.Toast.LENGTH_SHORT).show();
+                android.widget.Toast.makeText(mContext, str, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    /**
-     * 判断某个服务是否正在运行的方法
-     *
-     * @param mContext
-     * @param serviceName 是包名+服务的类名（例如：com.beidian.test.service.BasicInfoService ）
-     * @return
-     */
+
     public static boolean isServiceWork(android.content.Context mContext, String serviceName) {
         boolean isWork = false;
-        android.app.ActivityManager myAM = (android.app.ActivityManager) mContext
+        ActivityManager myAM = (ActivityManager) mContext
                 .getSystemService(android.content.Context.ACTIVITY_SERVICE);
-        java.util.List<android.app.ActivityManager.RunningServiceInfo> myList = myAM.getRunningServices(100);
+        java.util.List<ActivityManager.RunningServiceInfo> myList = myAM.getRunningServices(100);
         if (myList.size() <= 0) {
             return false;
         }
@@ -78,7 +77,7 @@ public class CommonUtils {
         return isWork;
     }
 
-    public static int getBatteryPercent(android.content.Context mContext) {
+    public static int getBatteryPercent(Context mContext) {
         android.os.BatteryManager batteryManager = (android.os.BatteryManager) mContext.getSystemService(BATTERY_SERVICE);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             return batteryManager.getIntProperty(android.os.BatteryManager.BATTERY_PROPERTY_CAPACITY);
@@ -100,7 +99,7 @@ public class CommonUtils {
     }
 
     public static long readSystem() {
-        java.io.File root = android.os.Environment.getRootDirectory();
+        File root = android.os.Environment.getRootDirectory();
         android.util.Log.e("wesker", "root.getPath() : " + root.getPath());
         android.os.StatFs sf = new android.os.StatFs("/data");
         long blockSize = sf.getBlockSize();
@@ -110,7 +109,7 @@ public class CommonUtils {
     }
 
     //判断文件是否存在
-    public static java.io.File fileIsExists(String path, String strFile) {
+    public static File fileIsExists(String path, String strFile) {
         try {
             java.io.File f = new java.io.File(path, strFile);
             if (f.exists()) {
@@ -121,28 +120,35 @@ public class CommonUtils {
         }
         return null;
     }
-    public static void showUpdateNowDialog(final android.content.Context context, final java.io.File file) {
-        final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(context);
+    private static DialogCategorical dialogCategorical;
+    public static void showUpdateNowDialog(final Context context, final File file) {
+
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        final View view = layoutInflater.inflate (R.layout.dialog_layout, null);
+        final AlertDialog.Builder builder = new android.app.AlertDialog.Builder(context);
         builder.setTitle("Download Success");
         builder.setMessage("Update Now?");
         builder.setPositiveButton("OK", new android.content.DialogInterface.OnClickListener() {
             @Override
-            public void onClick(android.content.DialogInterface dialog, int which) {
+            public void onClick(DialogInterface dialog, int which) {
                 //Execute System Update
-                int mBatteryPercent = com.nfp.update.CommonUtils.getBatteryPercent(context);
+                int mBatteryPercent = CommonUtils.getBatteryPercent(context);
                 android.util.Log.d(TAG, "Current BatteryPercent --> " + mBatteryPercent);
                 if (mBatteryPercent >= 30) {
+
+
                     updateFirmware(context, file);
+
+                    dialogCategorical = new DialogCategorical (context, 0, 0, view);
+/*
+                    dialogCategorical.N_0646_S01 (50, R.string.fota_install);
+*/
                 } else {
-                    com.nfp.update.CommonUtils.showToastInService(context,R.string.toast_battery_low);
+                    CommonUtils.showToastInService(context,R.string.toast_battery_low);
                 }
             }
-        });
-        builder.setNegativeButton("Cancel", null);
-        android.app.AlertDialog alertDialog = builder.create();
-        alertDialog.getWindow().setType(android.view.WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
-        alertDialog.setCanceledOnTouchOutside(false);
-        alertDialog.show();
+        }).setNegativeButton("Cancel", null).show ();
+
     }
     public static void showDownloadFailDialog(final android.content.Context context) {
 		android.os.Handler mHandler = new android.os.Handler(android.os.Looper.getMainLooper());
@@ -160,16 +166,42 @@ public class CommonUtils {
             }
         });
     }
-    private static void updateFirmware(android.content.Context mContext, java.io.File packageFile) {
+    private static void updateFirmware(Context mContext, File packageFile) {
+        Log.v ("yingbo","updateFirmware"+packageFile.toString ());
+
+
         if (!packageFile.exists()) {
             android.util.Log.e(TAG, "packageFile not exists");
             return;
         }
         try {
-            android.os.RecoverySystem.installPackage(mContext,packageFile);
+
+            RecoverySystem.installPackage(mContext,packageFile);
         } catch (java.io.IOException mE) {
-            android.util.Log.e(TAG, "Install SystemUpdate Package failure");
+            Log.e(TAG, "Install SystemUpdate Package failure");
             mE.printStackTrace();
         }
+
+    }
+
+    public int installProgress(){
+
+        try {
+
+            RecoverySystem.verifyPackage(new File (""), new RecoverySystem.ProgressListener(){
+
+                @Override
+                public void onProgress (int progress) {
+                    mProgress=progress;
+                }
+            } , null);
+
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace ();
+        } catch (IOException e) {
+            e.printStackTrace ();
+        }
+
+        return mProgress;
     }
 }

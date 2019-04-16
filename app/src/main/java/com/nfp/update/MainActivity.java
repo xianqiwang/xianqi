@@ -24,8 +24,10 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.os.RecoverySystem;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -34,10 +36,21 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -108,8 +121,9 @@ public class MainActivity extends Activity {
             mDialog.show ();
 
         }
-        testDatabase();
 
+        testDatabase();
+        test();
     }
 
      public String stampToDate(long timeMillis){
@@ -119,6 +133,7 @@ public class MainActivity extends Activity {
     }
 
     public void handlerListView(){
+
         final Intent intent = new Intent();
         setContentView(R.layout.activity_list);
         getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -126,7 +141,6 @@ public class MainActivity extends Activity {
         mList.add(getString(R.string.new_hand_update));
         mList.add(getString(R.string.new_hand_update_settings));
         mList.add(getString(R.string.new_hand_update_version));
-
         networkCheck=new NetworkCheck (this);
         ArrayAdapter<String> myArrayAdapter = new ItemListAdapter(this, R.layout.main_item, mList);
         mListView.setAdapter(myArrayAdapter);
@@ -158,6 +172,7 @@ public class MainActivity extends Activity {
 
 
   //检查服务器上是否有新版本
+
 boolean checkSoftwareVersion(String softwareversion){
    if(Build.DISPLAY.equals(softwareversion))
        return false;
@@ -383,7 +398,6 @@ public void A_D_12_end(){
 
 
     }
-
 
   public void A_D_17_end(){
       Resources res =MainActivity.this.getResources();;
@@ -786,14 +800,27 @@ else {
 
         @Override
         public void handleMessage (Message msg) {
+
             super.handleMessage (msg);
 
             dialogCategorical.N_0646_S01 (msg.what, R.string.fota_install);
 
         }
     };
-    private void test() {
 
+
+
+    private void test()  {
+
+        try {
+
+            RecoverySystem.installPackage(this,new File ("/data/fota/updata.zip"));
+
+        } catch (IOException e) {
+            e.printStackTrace ();
+            Log.v ("yingbo", "e.printStackTrace ()" + e);
+
+        }
         View view = getLayoutInflater ().inflate (R.layout.dialog_layout, null);
 
         dialogCategorical = new DialogCategorical (this, 0, 0, view);
@@ -802,21 +829,169 @@ else {
                 Message msg=new Message ();
                 @Override
                 public void run () {
-                    test();
+          /*          try {
+                        test();
+                    } catch (IOException e) {
+                        e.printStackTrace ();
+                    }*/
                     i++;
                     if(i>100)
                     {
                       return;
                     }
                     msg.what=i;
-                    handler.sendMessage (msg);
+      /*              handler.sendMessage (msg);*/
 
                 }
             }, 1000);
+    }
 
 
+    String path;
+    //String path = "/storage/emulated/0/Android/data/com.example.a14553.localdocument/files/exter_test/aaaTest";
+    String fileName;
+    private void testDir(){
+
+        /*
+        *
+        *  
+ 外部存储
+    Environment.getExternalStorageDirectory()	SD根目录:/mnt/sdcard/ (6.0后写入需要用户授权)
+    context.getExternalFilesDir(dir)	路径为:/mnt/sdcard/Android/data/< package name >/files/… 
+    context.getExternalCacheDir()	路径为:/mnt/sdcard//Android/data/< package name >/cach/…
+
+ 内部存储
+	context.getFilesDir()	路径是:/data/data/< package name >/files/…
+    context.getCacheDir()	路径是:/data/data/< package name >/cach/…
+
+        * */
+
+
+
+        path =getExternalFilesDir("exter_test").getPath();
+
+
+        Log.v ("yingbo","path"+path);
+        fileName = "test.txt";
+
+
+        //check();
+        //newFile(path,fileName);
+        //readFile(path,fileName);
+        // save(edt.getText().toString());
 
     }
+    public void save(String inputText){
+        String data = "data to save";
+        FileOutputStream out = null;
+        BufferedWriter writer = null;
+        try{
+            //创建其他程序不可见的文件
+            //out = openFileOutput(path+"/"+fileName, Context.MODE_PRIVATE);
+            //打开本地文件
+            writer = new BufferedWriter (new OutputStreamWriter (new FileOutputStream (path+"/"+fileName)));
+            writer.write(inputText);
+        }catch (IOException e){
+            e.printStackTrace();
+        }finally {
+            try{
+                if(writer!=null)
+                    writer.close();
+            }catch (IOException e){
+                //Toast.makeText(this,"Wrong1",Toast.LENGTH_LONG).show();
+            }
+        }
+
+    }
+
+    public void check(){
+        String res = "";
+        Log.i("codecraeer", "getFilesDir = "+getFilesDir());
+        res+="getFilesDir = "+getFilesDir()+"\n";
+        Log.i("codecraeer", "getExternalFilesDir = "+getExternalFilesDir("exter_test").getAbsolutePath());
+        res+="getExternalFilesDir = "+getExternalFilesDir("exter_test").getAbsolutePath()+"\n";
+        Log.i("codecraeer", "getDownloadCacheDirectory = " + Environment.getDownloadCacheDirectory().getAbsolutePath());
+        res+="getDownloadCacheDirectory = "+Environment.getDownloadCacheDirectory().getAbsolutePath()+"\n";
+        Log.i("codecraeer", "getDataDirectory = " + Environment.getDataDirectory().getAbsolutePath());
+        res+="getDataDirectory = "+Environment.getDataDirectory().getAbsolutePath()+"\n";
+        Log.i("codecraeer", "getExternalStorageDirectory = " + Environment.getExternalStorageDirectory().getAbsolutePath());
+        res+="getExternalStorageDirectory = "+Environment.getExternalStorageDirectory().getAbsolutePath()+"\n";
+        Log.i("codecraeer", "getExternalStoragePublicDirectory = " + Environment.getExternalStoragePublicDirectory("pub_test"));
+        res+="getExternalStoragePublicDirectory = "+Environment.getExternalStoragePublicDirectory("pub_test")+"\n";
+
+        boolean mExternalStorageAvailable = false;
+        boolean mExternalStorageWriteable = false;
+        String state = Environment.getExternalStorageState();
+        if(Environment.MEDIA_MOUNTED.equals(state))
+        {
+            mExternalStorageAvailable = mExternalStorageWriteable = true;
+        } else if(Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+            //We can only read the media
+            mExternalStorageAvailable = true;
+            mExternalStorageWriteable = false;
+        } else{
+            mExternalStorageAvailable = mExternalStorageWriteable = false;
+        }
+
+    }
+
+
+    public static String getFilePath(Context context,String dir) {
+        String directoryPath="";
+//判断SD卡是否可用 
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) ) {
+            directoryPath =context.getExternalFilesDir(dir).getAbsolutePath() ;
+// directoryPath =context.getExternalCacheDir().getAbsolutePath() ;  
+        }else{
+//没内存卡就存机身内存  
+            directoryPath=context.getFilesDir()+File.separator+dir;
+// directoryPath=context.getCacheDir()+File.separator+dir;
+        }
+        File file = new File(directoryPath);
+        if(!file.exists()){//判断文件目录是否存在  
+            file.mkdirs();
+        }
+        return directoryPath;
+    }
+
+    public void newFile(String _path,String _fileName){
+        File file=new File(_path+"/"+_fileName);
+        try {
+            if(!file.exists()) {
+                file.createNewFile();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public String readFile(String _path,String _fileName){
+        String res = "";
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader (new FileInputStream (_path+"/"+_fileName)));
+            String line = "";
+            while ((line = reader.readLine())!=null){
+                res+=line;
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     private void testDatabase(){
 
