@@ -1,6 +1,21 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        fota {
+            keyAlias 'fota'
+            keyPassword '123456'
+            storeFile file('/home/gengyingbo/NewFota/lihuachun/fota.jks')
+            storePassword '123456'
+        }
+        debug {
+            keyAlias 'fota'
+            keyPassword '123456'
+            storeFile file('/home/gengyingbo/NewFota/lihuachun/fota.jks')
+            storePassword '123456'
+        }
+
+    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.nfp.update"
@@ -14,8 +29,18 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable true
+            jniDebuggable true
+            signingConfig signingConfigs.fota
+            renderscriptDebuggable true
+            pseudoLocalesEnabled true
+            zipAlignEnabled true
+        }
+        debug {
+            signingConfig signingConfigs.fota
         }
     }
+    buildToolsVersion '28.0.3'
 }
 
 allprojects {
@@ -31,8 +56,8 @@ allprojects {
 }
 dependencies {
     /*
-                                            provided files('libs/framework.jar')
-                                        */
+                                                    provided files('libs/framework.jar')
+                                                */
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:28.+'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'

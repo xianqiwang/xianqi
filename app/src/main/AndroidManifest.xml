@@ -1,8 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?><!--
- Copyright (c) 2011-2012 Qualcomm Technologies, Inc.  All Rights Reserved.
- Qualcomm Technologies Proprietary and Confidential.
--->
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:sharedUserId="android.uid.system"
     package="com.nfp.update">
 
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
@@ -46,6 +44,7 @@
     <uses-permission android:name="android.permission.TRUST_LISTENER" />
     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
     <uses-permission android:name="android.permission.RESET_FINGERPRINT_LOCKOUT" />
+
 <!--
     android:theme="@style/Theme.AppCompat.Light.NoActionBar"
 -->

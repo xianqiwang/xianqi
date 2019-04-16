@@ -156,7 +156,6 @@
      <string name="update_complete">ソフトウェア\n更新が完了\nしました。</string>
      <string name="update_fail">ソフトウェア\n更新に失敗\nしました。</string>
 
-     <string name="downlaod_fail">ソフトウェアのダウンロードに失敗しました。再度実施しますか？</string>
      <string name="downlaod_back_idle">画面を切り替えますか？</string>
 
      <string name="battery_low">電池残量が不足\nしています\n充電後に再度\n行ってください。</string>

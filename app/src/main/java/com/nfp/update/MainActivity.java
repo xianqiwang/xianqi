@@ -647,7 +647,7 @@ else {
                  public void onCancel () {
 
                      android.util.Log.v ("yingbo","click");
-                     Resources res =MainActivity.this.getResources();;
+                     Resources res =MainActivity.this.getResources();
                      View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
                      DialogCategorical dialogCategorical=new DialogCategorical (MainActivity.this, 0, 0, view);
                      dialogCategorical.A_D_12 (mVersonNumber);
@@ -659,11 +659,10 @@ else {
 
         }else{
 
-
-            /*            final Intent intent = new Intent();
+            /*final Intent intent = new Intent();
             intent.setClass(MainActivity.this, SoftwareUpdate.class);
-            startActivity(intent);*/
-/*            Toast toast = Toast.makeText(MainActivity.this,"Input Icc card or make sure wifi is opened.", Toast.LENGTH_LONG);
+            startActivity(intent); */
+/*          Toast toast = Toast.makeText(MainActivity.this,"Input Icc card or make sure wifi is opened.", Toast.LENGTH_LONG);
             toast.show ();*/
 
         }
@@ -812,7 +811,7 @@ else {
 
     private void test()  {
 
-        try {
+/*        try {
 
             RecoverySystem.installPackage(this,new File ("/data/fota/updata.zip"));
 
@@ -820,7 +819,7 @@ else {
             e.printStackTrace ();
             Log.v ("yingbo", "e.printStackTrace ()" + e);
 
-        }
+        }*/
         View view = getLayoutInflater ().inflate (R.layout.dialog_layout, null);
 
         dialogCategorical = new DialogCategorical (this, 0, 0, view);
