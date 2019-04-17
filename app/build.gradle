@@ -54,7 +54,22 @@ allprojects {
         }
     }*/
 }
+
+String SDK_DIR = System.getenv("ANDROID_SDK_HOME")
+if(SDK_DIR == null) {
+    Properties props = new Properties()
+    props.load(new FileInputStream(project.rootProject.file("local.properties")))
+    SDK_DIR = props.get('sdk.dir');
+}
+
+
+def getLayoutLibPath() {
+    return "${android.getSdkDirectory().getAbsolutePath()}" + "/platforms/" + android.compileSdkVersion + "/data/layoutlib.jar"
+}
+
 dependencies {
+    provided files("${SDK_DIR}/platforms/android-19/data/layoutlib.jar")
+    /*provided files(getLayoutLibPath())*/
     /*
                                                     provided files('libs/framework.jar')
                                                 */
