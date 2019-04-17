@@ -22,6 +22,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.PixelFormat;
+import android.net.Uri;
+import android.provider.Settings;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -33,6 +36,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -91,6 +95,24 @@ public class MainActivity extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 100){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (Settings.canDrawOverlays(this)) {
+                    WindowManager windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
+                    WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+                    params.type = WindowManager.LayoutParams.TYPE_PHONE;
+                    params.format = PixelFormat.RGBA_8888;
+                   // windowManager.addView(view,params);
+                }else {
+                    Toast.makeText(this,"ACTION_MANAGE_OVERLAY_PERMISSION权限已被拒绝",Toast.LENGTH_SHORT).show();;
+                }
+            }
+
+        }
+    }
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences spref = this.getSharedPreferences("debug_comm", 0);
@@ -100,7 +122,14 @@ public class MainActivity extends Activity {
         }
 
         context = this;
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if(!Settings.canDrawOverlays(getApplicationContext())) {
+                //启动Activity让用户授权
+                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+                intent.setData(Uri.parse("package:" + getPackageName()));
+                startActivityForResult(intent,100);
+            }
+        }
         handlerListView();
         HttpClient.cancleRequest(true);
         UpdateUtil.judgePolState(this, 0);
@@ -151,14 +180,15 @@ public class MainActivity extends Activity {
                                     int position, long arg3) {
                 switch (position) {
                     case 0:
-
+                        intent.setClass(MainActivity.this, SoftwareUpdate.class);
+                        startActivity(intent);
                         break;
                     case 1:
-                        intent.setClass(MainActivity.this, AutoUpdate.class);
+                        intent.setClass(MainActivity.this, UpdateSchedule.class);
                         startActivity(intent);
                         break;
                     case 2:
-                        intent.setClass(MainActivity.this, UpdateSchedule.class);
+                        intent.setClass(MainActivity.this, AutoUpdate.class);
                         startActivity(intent);
                         break;
                     default:

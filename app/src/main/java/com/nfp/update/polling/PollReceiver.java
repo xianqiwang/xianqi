@@ -1,11 +1,15 @@
 package com.nfp.update.polling;
 
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.View;
+import android.view.WindowManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,6 +20,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Calendar;
 
+import com.nfp.update.CustomDialog;
+import com.nfp.update.MainActivity;
 import com.nfp.update.UpdateUtil;
 import com.nfp.update.DebugReceiver;
 import com.nfp.update.R;
@@ -34,12 +40,14 @@ public class PollReceiver extends BroadcastReceiver {
     public final static String INSTALL = "/cache/redbend/result";
     public static String installResult = "";
     public static String  installValue = "";
-
+    CustomDialog  mDialog;
+    AlertDialog.Builder builder;
+    SharedPreferences spref;
     @android.support.annotation.RequiresApi (api = android.os.Build.VERSION_CODES.KITKAT)
     @Override
     public void onReceive(Context context, Intent intent) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences spref =context.getSharedPreferences("debug_comm", 0);
+       spref =context.getSharedPreferences("debug_comm", 0);
         if (intent.getAction().equals(ACTION_BOOT)){
             Log.d(TAG, "BOOT_COMPLETED");
             boolean updateFlag = false;
@@ -47,7 +55,7 @@ public class PollReceiver extends BroadcastReceiver {
             UpdateUtil.setBoot(context, true);
             boolean date_changed = sharedPreferences.getBoolean("date_changed", false);
             boolean hadPoll = sharedPreferences.getBoolean("had_poll", false);
-            Log.d(TAG, "firstBoot = " + UpdateUtil.getFirstBoot(context) + "   date_changed = " + date_changed + "   hadPoll = " + hadPoll);
+            Log.d(TAG, "firstBoot = " + UpdateUtil.getFirstBoot(context) + "   date_changed = " + date_changed + "   hadPoll = " + hadPoll+"--getNitz:"+UpdateUtil.getNitz(context));
 
             setNewUpdateTime(context);
 
@@ -73,8 +81,70 @@ public class PollReceiver extends BroadcastReceiver {
             }
 
             if (UpdateUtil.getInstallSchedule(context)){
-                UpdateUtil.showFotaNotification(context, R.string.Notification_schedule, 2);
+              //  UpdateUtil.showFotaNotification(context, R.string.Notification_schedule, 2);
             }
+            /*if (UpdateUtil.getFirstBoot(context)) {
+                UpdateUtil.setFirstBoot(context, false);
+                SharedPreferences.Editor editor = spref.edit();
+                editor.putInt("AUTO_UPDATE", 1);
+                editor.commit();
+            }*/
+String hour=String.valueOf(spref.getInt("update_hour", 1));
+            String minute=String.valueOf(spref.getInt("update_minute", 1));
+            Log.d(TAG, "AUTO_UPDATE:"+spref.getInt("AUTO_UPDATE", 1)+"hour:"+hour+"---"+"minute:"+minute+"--switch:"+spref.getInt("dialog_switch", 1));
+            if(spref.getInt("AUTO_UPDATE", 1)==1&&!hour.equals("")&&hour!=null&&spref.getInt("dialog_switch", 1)==1) {
+                String on;
+                if(spref.getInt("AUTO_UPDATE", 1)==1){
+
+                    on="on";
+
+                }
+                else{
+                    on="off";
+                }
+                String hour1=null,minute1=null;
+                if(hour.length()==2){
+                    hour1=hour;
+                }
+                if(minute.length()==2){
+                    minute1=minute;
+
+                }
+                if(minute.length()==1){
+                    minute1="0"+minute;
+
+                }
+                if(hour.length()==1){
+                    hour1="0"+hour;
+
+                }
+                //   if (UpdateUtil.getFirstBoot(context)) {
+                //  UpdateUtil.setBoot(context, false);
+                mDialog = new CustomDialog.Builder(context, 60, 120)
+                        .setMessage("Automatic software updates" + "\n" +
+                                ", automatic update time" + "\n" +
+                                "has been set as follows.\n" +
+                                "--------------------------------\n" +
+                                "Automatic updates　["+on+"]\n" +
+                                "automatic update time["+hour1+":"+minute1+"]"+"\n" +
+                                "--------------------------------")
+                        .setSingleButton("Ok", new View.OnClickListener() {
+
+                            @Override
+                            public void onClick(View v) {
+                                SharedPreferences.Editor editor = spref.edit();
+                                editor.putInt("dialog_switch", 0);
+                                editor.commit();
+                                mDialog.dismiss();
+                            }
+
+                        }).createSingleButtonDialog();
+                //需要把对话框的类型设为TYPE_SYSTEM_ALERT，否则对话框无法在广播接收器里弹出
+                mDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY);
+                mDialog.show();
+            }
+           // }
+            Log.d(TAG, "firstBoot1 = " + UpdateUtil.getFirstBoot(context) + "   date_changed = " + date_changed + "   hadPoll = " + hadPoll+"--getNitz:"+UpdateUtil.getNitz(context));
 
             if (UpdateUtil.getFirstBoot(context)){
                 //UpdateUtil.showFotaNotification(context, R.string.Notification_schedule, 2);
