@@ -16,7 +16,10 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.GeneralSecurityException;
 import java.util.List;
 
@@ -165,6 +168,42 @@ public class CommonUtils {
 		        alertDialog.show();
             }
         });
+    }
+
+    public static void copyFile(String oldPath, String newPath) {
+        try {
+            int bytesum = 0;
+            int byteread = 0;
+            File oldfile = new File(oldPath);
+            File newfile = new File(newPath);
+            if (oldfile.exists()) { //文件存在时
+                Log.e("lhc","exists"+oldfile.canRead()+oldfile.isFile());
+                Log.e("lhc","exists1"+newfile.canWrite()+newfile.isFile());
+                FileInputStream fileInputStream = new FileInputStream(oldPath);
+                Log.e("lhc","exists2"+newfile.canWrite()+newfile.isFile());
+                FileOutputStream fileOutputStream = new FileOutputStream(newPath);
+                Log.e("lhc","exists3"+newfile.canWrite()+newfile.isFile());
+
+                byte[] buffer = new byte[1024];
+                int byteRead;
+                while (-1 != (byteRead = fileInputStream.read(buffer))) {
+                    fileOutputStream.write(buffer, 0, byteRead);
+                }
+                fileInputStream.close();
+                fileOutputStream.flush();
+                fileOutputStream.close();
+
+            }
+        }
+        catch (Exception e) {
+            //System.out.println("复制单个文件操作出错");
+            Log.e("lhc","复制单个文件操作出错"+e.toString()
+
+            );
+            e.printStackTrace();
+
+        }
+
     }
     private static void updateFirmware(Context mContext, File packageFile) {
         Log.v ("yingbo","updateFirmware"+packageFile.toString ());
