@@ -21,6 +21,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.RecoverySystem;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -41,6 +43,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.loopj.android.http.sample.PrePostProcessingSample;
+import com.loopj.android.http.sample.WaypointsActivity;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -105,6 +110,11 @@ public class MainActivity extends Activity {
         HttpClient.cancleRequest(true);
         UpdateUtil.judgePolState(this, 0);
         boolean manually=false;
+
+/*        Intent intent = new Intent();
+        intent.setClass(MainActivity.this, TestProgress.class);
+        startActivity(intent);*/
+
         //此处判断是否设定手动更新
         if(manually){
 
@@ -121,16 +131,29 @@ public class MainActivity extends Activity {
             mDialog.show ();
 
         }
-
+        verifyStoragePermissions(this);
         testDatabase();
         test();
     }
+    public static void verifyStoragePermissions(Activity activity) {
 
+        try {
+            //检测是否有写的权限
+            int permission = ActivityCompat.checkSelfPermission(activity,
+                    "android.permission.WRITE_EXTERNAL_STORAGE");
+            if (permission != PackageManager.PERMISSION_GRANTED) {
+                // 没有写的权限，去申请写的权限，会弹出对话框
+                ActivityCompat.requestPermissions(activity, PERMISSIONS_STORAGE,REQUEST_EXTERNAL_STORAGE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
      public String stampToDate(long timeMillis){
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date(timeMillis);
         return simpleDateFormat.format(date);
-    }
+     }
 
     public void handlerListView(){
 
@@ -180,6 +203,7 @@ boolean checkSoftwareVersion(String softwareversion){
    return true;
 
 }
+
 public void A_D_12_end(){
     Resources res =MainActivity.this.getResources();;
     View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
@@ -603,7 +627,7 @@ else {
                          });
                      }
              }}
-             } else {
+        } else {
                  Resources res =MainActivity.this.getResources();;
                  View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
                  DialogCategorical dialogCategorical=new DialogCategorical (MainActivity.this, 0, 0, view);
@@ -738,11 +762,6 @@ else {
             return convertView;
         }
 
-
-
-
-
-
     }
 
     private int getScale(Context context) {
@@ -805,23 +824,17 @@ else {
             dialogCategorical.N_0646_S01 (msg.what, R.string.fota_install);
 
         }
+
     };
 
 
 
     private void test()  {
 
-/*        try {
+        CommonUtils.showUpdateNowDialog (this,new File("/data/update.zip"));
 
-            RecoverySystem.installPackage(this,new File ("/data/fota/updata.zip"));
 
-        } catch (IOException e) {
-            e.printStackTrace ();
-            Log.v ("yingbo", "e.printStackTrace ()" + e);
-
-        }*/
         View view = getLayoutInflater ().inflate (R.layout.dialog_layout, null);
-
         dialogCategorical = new DialogCategorical (this, 0, 0, view);
 
             handler.postDelayed (new Runnable () {
@@ -833,6 +846,7 @@ else {
                     } catch (IOException e) {
                         e.printStackTrace ();
                     }*/
+
                     i++;
                     if(i>100)
                     {
@@ -840,14 +854,13 @@ else {
                     }
                     msg.what=i;
       /*              handler.sendMessage (msg);*/
-
                 }
             }, 1000);
+            testDir ();
     }
 
 
     String path;
-    //String path = "/storage/emulated/0/Android/data/com.example.a14553.localdocument/files/exter_test/aaaTest";
     String fileName;
     private void testDir(){
 
@@ -865,20 +878,27 @@ else {
 
         * */
 
-
-
         path =getExternalFilesDir("exter_test").getPath();
+        Log.v ("yingbo","path"+getFilePath(this,"update.zip"));
 
+    }
 
-        Log.v ("yingbo","path"+path);
-        fileName = "test.txt";
-
-
-        //check();
-        //newFile(path,fileName);
-        //readFile(path,fileName);
-        // save(edt.getText().toString());
-
+    public String getFilePath(Context context,String dir) {
+        String directoryPath="";
+//判断SD卡是否可用 
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) ) {
+            directoryPath =context.getExternalFilesDir(dir).getAbsolutePath() ;
+// directoryPath =context.getExternalCacheDir().getAbsolutePath() ;  
+        }else{
+//没内存卡就存机身内存  
+            directoryPath=context.getFilesDir()+File.separator+dir;
+// directoryPath=context.getCacheDir()+File.separator+dir;
+        }
+        File file = new File(directoryPath);
+        if(!file.exists()){//判断文件目录是否存在  
+            file.mkdirs();
+        }
+        return directoryPath;
     }
     public void save(String inputText){
         String data = "data to save";
@@ -900,7 +920,6 @@ else {
                 //Toast.makeText(this,"Wrong1",Toast.LENGTH_LONG).show();
             }
         }
-
     }
 
     public void check(){
@@ -935,34 +954,8 @@ else {
     }
 
 
-    public static String getFilePath(Context context,String dir) {
-        String directoryPath="";
-//判断SD卡是否可用 
-        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) ) {
-            directoryPath =context.getExternalFilesDir(dir).getAbsolutePath() ;
-// directoryPath =context.getExternalCacheDir().getAbsolutePath() ;  
-        }else{
-//没内存卡就存机身内存  
-            directoryPath=context.getFilesDir()+File.separator+dir;
-// directoryPath=context.getCacheDir()+File.separator+dir;
-        }
-        File file = new File(directoryPath);
-        if(!file.exists()){//判断文件目录是否存在  
-            file.mkdirs();
-        }
-        return directoryPath;
-    }
 
-    public void newFile(String _path,String _fileName){
-        File file=new File(_path+"/"+_fileName);
-        try {
-            if(!file.exists()) {
-                file.createNewFile();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+
     public String readFile(String _path,String _fileName){
         String res = "";
         try {
@@ -976,21 +969,6 @@ else {
         }
         return res;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     private void testDatabase(){
 
