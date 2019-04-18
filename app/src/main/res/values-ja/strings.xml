@@ -10,8 +10,7 @@
 
     <string name="fota_install">インストール中 /n 電源を切らないでください</string>
 
-
-
+    <string name="set_off">自動更新がオフに設定されています</string>
     <string name="new_hand_update">手動更新</string>
 
 
@@ -156,6 +155,7 @@
      <string name="update_complete">ソフトウェア\n更新が完了\nしました。</string>
      <string name="update_fail">ソフトウェア\n更新に失敗\nしました。</string>
 
+     <string name="downlaod_fail">ソフトウェアのダウンロードに失敗しました。再度実施しますか？</string>
      <string name="downlaod_back_idle">画面を切り替えますか？</string>
 
      <string name="battery_low">電池残量が不足\nしています\n充電後に再度\n行ってください。</string>

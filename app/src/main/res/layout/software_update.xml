@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_gravity="center_horizontal"
-        android:text="@string/server_connect"
+
         android:paddingTop="4dip"
         android:textSize="18sp"
         android:lineSpacingMultiplier ="1.2" />

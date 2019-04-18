@@ -65,13 +65,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SoftwareUpdate" />
+        <activity android:name=".SoftwareUpdate"
+            android:label="@string/new_hand_update"
+            />
         <activity android:name=".DialogText" />
         <activity
             android:name=".PrepareUpdateActivity"
             android:allowTaskReparenting="true" />
         <activity android:name=".LowBatteryActivity" />
-        <activity android:name=".AutoUpdate" />
+        <activity android:name=".AutoUpdate"
+            android:label="@string/new_hand_update_version"
+            />
         <activity android:name=".TestProgress" />
         <activity android:name=".ProgressActivity" />
 
@@ -113,6 +117,7 @@
             android:launchMode="singleInstance" />
         <activity
             android:name=".UpdateSchedule"
+            android:label="@string/new_hand_update_settings"
             android:launchMode="singleInstance" />
 
         <service

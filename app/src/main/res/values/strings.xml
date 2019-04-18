@@ -8,6 +8,15 @@
     <string name="only_hand_update">There is new software. This software is
                                         Manual download only
                                         It is available.</string>
+    <string name="Network_error"> Network error has occurred. \n Please go again at a later time</string>
+    <string name="Conn_ser"> Connecting to server</string>
+    <string name="no_space">  Insufficient storage space
+   \n Please try again after securing the free space</string>
+
+    <string name="soft_download"> There is a new software. Do you want to download</string>
+
+    <string name="check_up"> Checking the update file.</string>
+    <string name="up_to_date">  Your software is up to date. Please continue to use as before</string>
 
     <string name="new_hand_update">Manual update</string>
 
@@ -180,6 +189,8 @@ The update time is currently set to </string>
      <string name="update">Update</string>
      <string name="update_done">Software is downloaded. Automatic update starts at the following date and time.All functions are not available during update.\n%1$s/%2$s %3$s:%4$s</string>
 
+    <string name="auto_change">The automatic update time have been changed</string>
+    <string name="set_off">Automatic Update has been set to off</string>
      <string name="update_complete">Software update has done</string>
      <string name="update_fail">Update latest sw fail</string>
 
@@ -259,6 +270,7 @@ The update time is currently set to </string>
     <string name="title_head_sample">HEAD</string>
     <string name="title_delete_sample">DELETE</string>
     <string name="title_file_sample">GET to File</string>
+    <string name="baidu">www.baidu.com</string>
     <string name="title_directory_sample">GET to Directory</string>
     <string name="title_binary_sample">GET binary data</string>
     <string name="title_cancel_all">Cancel all requests</string>
