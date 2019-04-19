@@ -129,8 +129,15 @@
         <activity
             android:name=".DownloadProgress"
             android:allowTaskReparenting="true"
-            android:screenOrientation="nosensor" />
+            android:screenOrientation="nosensor"
 
+            />
+        <activity
+            android:name=".DownLoadProgress"
+            android:allowTaskReparenting="true"
+            android:screenOrientation="nosensor"
+            android:label="@string/new_hand_update"
+            />
         <receiver
             android:name=".DebugReceiver"
             android:process=":remote">
