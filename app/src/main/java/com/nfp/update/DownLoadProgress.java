@@ -18,8 +18,11 @@ package com.nfp.update;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,6 +42,9 @@ import java.io.FileInputStream;
 public class DownLoadProgress extends Activity {
 
     private final static String TAG = "DownloadProgress";
+    private DownloadTask mDownloadTask = null;
+    private static final int MSG_INIT = 0;
+    private static final int MSG_INIT1 =1;
 
     private boolean downFlag = true;
     private ProgressBar pb;
@@ -54,12 +60,20 @@ public class DownLoadProgress extends Activity {
     private static String TEST = "?VER=SII%20602SI%20v001%20/l001%20356475080000000%2000000001234%20000000000001234%20001%20B162";
     private final static int INT_DOWNLOAD_UPDATE_FILE = 0x03;
     private long hadDownload = 0;
-    Handler mHandler = new Handler (){
+    Handler mmHandler = new Handler (){
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             pb.setProgress(msg.what);
             percent.setText(""+pro+"%");
+        }
+    };
+
+    BroadcastReceiver co=new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+           int i= intent.getIntExtra("finished",0);
+            percent.setText(""+i+"%");
         }
     };
     @Override
@@ -71,16 +85,127 @@ public class DownLoadProgress extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private FileInfo downloadFota() {
+
+      //  String baseurl="http://cachefly.cachefly.net/100mb.test";
+        String baseurl="http://static3.iyuba.cn/android/apk/news/news.apk";
+
+        String filecode="61";
+        String url=baseurl;
+     //   return new FileInfo(0, url, "100mb.test", 0, 0);
+return new FileInfo(0, url, "news.apk", 0, 0);
+    }
+
+    android.os.Handler mHandler = new android.os.Handler() {
+        @Override
+        public void handleMessage(android.os.Message msg) {
+            android.util.Log.e(TAG, "fileinfo.toString()");
+
+
+            switch (msg.what) {
+                case MSG_INIT:
+                    FileInfo fileinfo = (FileInfo) msg.obj;
+                    android.util.Log.e(TAG, fileinfo.toString());
+                    //启动下载任务
+                    mDownloadTask = new DownloadTask(DownLoadProgress.this, fileinfo);
+                    mDownloadTask.download();
+                    break;
+                case MSG_INIT1:
+                    android.util.Log.e(TAG, "lhc:"+DownloadTask.mFinished);
+                    break;
+            }
+        }
+    };
+    /**
+     * 初始化 子线程
+     */
+    class InitThread extends Thread {
+        private FileInfo tFileInfo;
+
+        public InitThread(FileInfo tFileInfo) {
+            this.tFileInfo = tFileInfo;
+        }
+
+        @Override
+        public void run() {
+            java.net.HttpURLConnection conn = null;
+            java.io.RandomAccessFile raf = null;
+            try {
+
+                //连接网络文件
+                java.net.URL url = new java.net.URL(tFileInfo.getUrl());
+                conn = (java.net.HttpURLConnection) url.openConnection();
+                conn.setConnectTimeout(3000);
+                conn.setReadTimeout(25000);
+                conn.setRequestMethod("GET");
+                int length = -1;
+                android.util.Log.e(TAG, conn.getResponseCode() + "");
+                if (conn.getResponseCode() == java.net.HttpURLConnection.HTTP_OK) {
+                    //获取文件长度
+                    length = conn.getContentLength();
+                    android.util.Log.e(TAG, length + "");
+                }
+
+                if (length < 0) {
+                    return;
+                }
+
+
+                java.io.File dir = new java.io.File("/data");
+                if (!dir.exists()) {
+                    boolean mMkdir = dir.mkdir();
+                    android.util.Log.d(TAG,"mMkdir : " + mMkdir);
+                }
+                //在本地创建文件
+                java.io.File file = new java.io.File(dir, tFileInfo.getFileName());
+
+
+
+
+                raf = new java.io.RandomAccessFile(file, "rwd");
+                //设置本地文件长度
+                raf.setLength(length);
+                tFileInfo.setLength(length);
+                android.util.Log.e(TAG, tFileInfo.getLength() + "");
+               mHandler.obtainMessage(MSG_INIT, tFileInfo).sendToTarget();
+
+            } catch (Exception e) {
+                android.util.Log.e(TAG, "exception1: " + e);
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (conn != null && raf != null) {
+                        raf.close();
+                        conn.disconnect();
+                    }
+                } catch (java.io.IOException e) {
+                    android.util.Log.e(TAG, "exception1: " + e);
+                    e.printStackTrace();
+                }
+
+            }
+        }
+    }
+
    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.download_file);
        getActionBar().setDisplayHomeAsUpEnabled(true);
+       DataCache.getInstance(this).setDownloadPath(DownloadService.DOWNLOAD_PATH);
+
         pb=(ProgressBar)findViewById(R.id.down_pb);
         mTextView=(TextView)findViewById(R.id.tv);
        percent=(TextView)findViewById(R.id.percent);
         messages = this.getResources().getString(R.string.downlaod_back_idle);
-       new Thread(new Runnable() {
+       IntentFilter intentFilter = new IntentFilter();
+       intentFilter.addAction(DownloadService.ACTION_UPDATE);
+
+       registerReceiver(co, intentFilter);
+       FileInfo file=downloadFota();
+       new InitThread(file).start();
+       /*new Thread(new Runnable() {
            @Override
            public void run() {
                int max = pb.getMax();
@@ -105,7 +230,7 @@ public class DownLoadProgress extends Activity {
                    e.printStackTrace();
                }
            }
-       }).start();
+       }).start();*/
         spref = PreferenceManager.getDefaultSharedPreferences(DownLoadProgress.this);
         try{
             TEST = UpdateUtil.getTestVersion(DownLoadProgress.this);
@@ -121,7 +246,7 @@ public class DownLoadProgress extends Activity {
         super.onResume();
     }
 
-    private Handler mhandler = new Handler() {
+    private Handler m11handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what){
@@ -235,8 +360,8 @@ public class DownLoadProgress extends Activity {
         insertEventLog(getApplicationContext (),0, getString(R.string.download), 0, getString(R.string.start), null, null);
         Message message = new Message();
         message.what = INT_DOWNLOAD_UPDATE_FILE;
-        mhandler.removeMessages(INT_DOWNLOAD_UPDATE_FILE);
-        mhandler.sendMessage(message);
+       // mhandler.removeMessages(INT_DOWNLOAD_UPDATE_FILE);
+      //  mhandler.sendMessage(message);
     }
 
 
