@@ -33,7 +33,7 @@ public class DownloadService extends Service {
     //下载路径
     //public static final String DOWNLOAD_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/wesker";
 
-	public static String DOWNLOAD_PATH = "/sdcard";
+	public static String DOWNLOAD_PATH = "/cache";
 	
     private DownloadTask mDownloadTask = null;
 
@@ -45,7 +45,8 @@ public class DownloadService extends Service {
             FileInfo fileInfo = (FileInfo) intent.getSerializableExtra("fileinfo");
             android.util.Log.e(TAG, "onStartCommand: ACTION_START-" + fileInfo.toString());
             new com.nfp.update.DownloadService.InitThread(fileInfo).start();
-
+            intent.setClass(this, DownLoadProgress.class);
+            startActivity(intent);
         } else if (ACTION_PAUSE.equals(intent.getAction())) {
             FileInfo fileInfo = (FileInfo) intent.getSerializableExtra("fileinfo");
             android.util.Log.e(TAG, "onStartCommand:ACTION_PAUSE- " + fileInfo.toString());

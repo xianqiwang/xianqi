@@ -35,6 +35,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
+import com.nfp.update.DownloadTask.OnDownloadProgress;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -45,7 +46,6 @@ public class DownLoadProgress extends Activity {
     private DownloadTask mDownloadTask = null;
     private static final int MSG_INIT = 0;
     private static final int MSG_INIT1 =1;
-
     private boolean downFlag = true;
     private ProgressBar pb;
     private TextView mTextView;
@@ -69,13 +69,7 @@ public class DownLoadProgress extends Activity {
         }
     };
 
-    BroadcastReceiver co=new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-           int i= intent.getIntExtra("finished",0);
-            percent.setText(""+i+"%");
-        }
-    };
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -86,16 +80,7 @@ public class DownLoadProgress extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    private FileInfo downloadFota() {
 
-      //  String baseurl="http://cachefly.cachefly.net/100mb.test";
-        String baseurl="http://static3.iyuba.cn/android/apk/news/news.apk";
-
-        String filecode="61";
-        String url=baseurl;
-     //   return new FileInfo(0, url, "100mb.test", 0, 0);
-return new FileInfo(0, url, "news.apk", 0, 0);
-    }
 
     android.os.Handler mHandler = new android.os.Handler() {
         @Override
@@ -112,81 +97,14 @@ return new FileInfo(0, url, "news.apk", 0, 0);
                     mDownloadTask.download();
                     break;
                 case MSG_INIT1:
+/*
                     android.util.Log.e(TAG, "lhc:"+DownloadTask.mFinished);
+*/
                     break;
             }
         }
     };
-    /**
-     * 初始化 子线程
-     */
-    class InitThread extends Thread {
-        private FileInfo tFileInfo;
 
-        public InitThread(FileInfo tFileInfo) {
-            this.tFileInfo = tFileInfo;
-        }
-
-        @Override
-        public void run() {
-            java.net.HttpURLConnection conn = null;
-            java.io.RandomAccessFile raf = null;
-            try {
-
-                //连接网络文件
-                java.net.URL url = new java.net.URL(tFileInfo.getUrl());
-                conn = (java.net.HttpURLConnection) url.openConnection();
-                conn.setConnectTimeout(3000);
-                conn.setReadTimeout(25000);
-                conn.setRequestMethod("GET");
-                int length = -1;
-                android.util.Log.e(TAG, conn.getResponseCode() + "");
-                if (conn.getResponseCode() == java.net.HttpURLConnection.HTTP_OK) {
-                    //获取文件长度
-                    length = conn.getContentLength();
-                    android.util.Log.e(TAG, length + "");
-                }
-
-                if (length < 0) {
-                    return;
-                }
-
-
-                java.io.File dir = new java.io.File("/data");
-                if (!dir.exists()) {
-                    boolean mMkdir = dir.mkdir();
-                    android.util.Log.d(TAG,"mMkdir : " + mMkdir);
-                }
-                //在本地创建文件
-                java.io.File file = new java.io.File(dir, tFileInfo.getFileName());
-
-
-
-
-                raf = new java.io.RandomAccessFile(file, "rwd");
-                //设置本地文件长度
-                raf.setLength(length);
-                tFileInfo.setLength(length);
-                android.util.Log.e(TAG, tFileInfo.getLength() + "");
-               mHandler.obtainMessage(MSG_INIT, tFileInfo).sendToTarget();
-
-            } catch (Exception e) {
-                android.util.Log.e(TAG, "exception1: " + e);
-                e.printStackTrace();
-            } finally {
-                try {
-                    if (conn != null && raf != null) {
-                        raf.close();
-                        conn.disconnect();
-                    }
-                } catch (java.io.IOException e) {
-                    android.util.Log.e(TAG, "exception1: " + e);
-                    e.printStackTrace();
-                }
-
-            }
-        }
-    }
 
    @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -199,12 +117,18 @@ return new FileInfo(0, url, "news.apk", 0, 0);
         mTextView=(TextView)findViewById(R.id.tv);
        percent=(TextView)findViewById(R.id.percent);
         messages = this.getResources().getString(R.string.downlaod_back_idle);
-       IntentFilter intentFilter = new IntentFilter();
-       intentFilter.addAction(DownloadService.ACTION_UPDATE);
 
-       registerReceiver(co, intentFilter);
-       FileInfo file=downloadFota();
-       new InitThread(file).start();
+       DownloadTask.setOnDownloadProgress (new OnDownloadProgress () {
+           @Override
+           public void onDownloadProgress (int progress) {
+               pb.setProgress (progress);
+           Log.v ("yingbo","mesgsdgfuishiuhfi_________--");
+
+               percent.setText (""+progress+"%");
+
+           }
+
+       });
        /*new Thread(new Runnable() {
            @Override
            public void run() {
@@ -241,10 +165,7 @@ return new FileInfo(0, url, "news.apk", 0, 0);
        // startDownload();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
+
 
     private Handler m11handler = new Handler() {
         @Override

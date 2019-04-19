@@ -165,11 +165,9 @@ public class MainActivity extends Activity {
 
         }
         verifyStoragePermissions(this);
-        testDatabase();
-        test();
-/*
+/*        testDatabase();
+        test();*/
         checkVersion();
-*/
     }
     private FileInfo downloadFota() {
 

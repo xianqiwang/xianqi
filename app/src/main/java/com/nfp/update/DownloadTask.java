@@ -24,7 +24,7 @@ public class DownloadTask {
     private ThreadDAOImpl mThreadDAO = null;
     private long mFinished = 0;
     public boolean isPause = false;
-
+    public static OnDownloadProgress downloadProgress;
     public DownloadTask(android.content.Context mContext, FileInfo mFileInfo) {
         this.mContext = mContext;
         this.mFileInfo = mFileInfo;
@@ -46,6 +46,13 @@ public class DownloadTask {
         new com.nfp.update.DownloadTask.DownloadThread(info).start();
     }
 
+    interface OnDownloadProgress{
+       void onDownloadProgress(int progress);
+    }
+
+    public static void setOnDownloadProgress(OnDownloadProgress onDownloadProgress){
+        downloadProgress=onDownloadProgress;
+    }
 
     /**
      * 下载线程
@@ -128,6 +135,7 @@ public class DownloadTask {
                             intent.putExtra("finished", (int)(mFinished * 100 / mFileInfo.getLength()));
                             mContext.sendBroadcast(intent);
                             android.util.Log.e(" mFinished percent===", mFinished * 100 / mFileInfo.getLength() + "");
+                            downloadProgress.onDownloadProgress ((int)(mFinished * 100 / mFileInfo.getLength()));
                         }
 
                     }
