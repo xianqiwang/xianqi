@@ -3,10 +3,6 @@ package com.nfp.update;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-/**
- * Created by wesker on 2017/11/2216:07.
- */
-
 public class DataCache {
     private static final String SHARENAME = "wtwd";
     private static volatile com.nfp.update.DataCache sInstance;

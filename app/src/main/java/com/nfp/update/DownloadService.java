@@ -17,7 +17,6 @@ import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-
 public class DownloadService extends Service {
 
     private static final String TAG = "DownloadService";
@@ -34,7 +33,7 @@ public class DownloadService extends Service {
     //下载路径
     //public static final String DOWNLOAD_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/wesker";
 
-	public static String DOWNLOAD_PATH = "/data";
+	public static String DOWNLOAD_PATH = "/sdcard";
 	
     private DownloadTask mDownloadTask = null;
 
@@ -42,6 +41,7 @@ public class DownloadService extends Service {
     public int onStartCommand(android.content.Intent intent, int flags, int startId) {
         //获得Activity传来的参数
         if (ACTION_START.equals(intent.getAction())) {
+
             FileInfo fileInfo = (FileInfo) intent.getSerializableExtra("fileinfo");
             android.util.Log.e(TAG, "onStartCommand: ACTION_START-" + fileInfo.toString());
             new com.nfp.update.DownloadService.InitThread(fileInfo).start();
@@ -69,7 +69,6 @@ public class DownloadService extends Service {
         public void handleMessage(android.os.Message msg) {
             android.util.Log.e(TAG, "fileinfo.toString()");
 
-
             switch (msg.what) {
                 case MSG_INIT:
                     FileInfo fileinfo = (FileInfo) msg.obj;
@@ -78,6 +77,7 @@ public class DownloadService extends Service {
                     mDownloadTask = new DownloadTask(com.nfp.update.DownloadService.this, fileinfo);
                     mDownloadTask.download();
                     break;
+
             }
         }
     };
@@ -113,7 +113,7 @@ public class DownloadService extends Service {
                 if (length < 0) {
                     return;
                 }
-                
+
 				boolean b = MD5Util.chmod755(com.nfp.update.DownloadService.DOWNLOAD_PATH);
 				android.util.Log.e(TAG, "chmodd 755 : " + b);
                 java.io.File dir = new java.io.File(DOWNLOAD_PATH);

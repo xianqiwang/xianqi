@@ -18,6 +18,7 @@ package com.nfp.update;
 
 import android.app.Activity;
 import android.app.PendingIntent;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -140,10 +141,12 @@ public class MainActivity extends Activity {
         HttpClient.cancleRequest(true);
         UpdateUtil.judgePolState(this, 0);
         boolean manually=false;
-/*
+        /*
         Intent intent = new Intent();
         intent.setClass(MainActivity.this, WaypointsActivity.class);
-        startActivity(intent);*/
+        startActivity(intent);
+
+        */
 
         //此处判断是否设定手动更新
         if(manually){
@@ -162,9 +165,11 @@ public class MainActivity extends Activity {
 
         }
         verifyStoragePermissions(this);
-/*        testDatabase();*/
-/*        test();*/
+        testDatabase();
+        test();
+/*
         checkVersion();
+*/
     }
     private FileInfo downloadFota() {
 
@@ -180,8 +185,6 @@ public class MainActivity extends Activity {
  /*       WtwdFotaServer mWtwdFotaServer = new WtwdFotaServer();
         mWtwdFotaServer.checkUpdate(MainActivity.this, "MT6739", "android7.1", "yk915", "ddd", 1);
 */
-
-
         DataCache.getInstance(this).setDownloadPath(DownloadService.DOWNLOAD_PATH);
         android.content.Intent intent = new android.content.Intent(this, DownloadService.class);
         intent.setAction(DownloadService.ACTION_START);
@@ -189,11 +192,6 @@ public class MainActivity extends Activity {
         startService(intent);
 
     }
-
-
-
-
-
 
     public static void verifyStoragePermissions(Activity activity) {
 
@@ -208,7 +206,9 @@ public class MainActivity extends Activity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
+
      public String stampToDate(long timeMillis){
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date(timeMillis);
@@ -892,7 +892,7 @@ else {
 
     private void test()  {
 
-        CommonUtils.showUpdateNowDialog (this,new File("/data/update.zip"));
+        CommonUtils.showUpdateNowDialog (this,new File("/sdcard/update.zip"));
 
 
         View view = getLayoutInflater ().inflate (R.layout.dialog_layout, null);
@@ -1049,9 +1049,9 @@ else {
 
         List<RecordStorage> recordStorages=new ArrayList<RecordStorage> ();
 
-        for(int i=0 ;i<100;i++){
+        for(int i=0 ;i<500;i++){
 
-            recordStorage.setImeinumber ("123455677888778898");
+/*            recordStorage.setImeinumber ("123455677888778898");
             recordStorage.setCreatetime (year + "/" + (month+1) + "/" + date + " " +hour + ":" +minute + ":" + second);
             recordStorage.setSettime (year + "/" + (month+1) + "/" + date + " " +hour + ":" +minute + ":" + second);
 
@@ -1064,8 +1064,9 @@ else {
             spUtils.get ("i"+i,0);
             spUtils.clear ();
 
-            Log.v("yingbo","spUtils.get"+spUtils.get ("i"+i,0));
+            Log.v("yingbo","spUtils.get"+spUtils.get ("i"+i,0));*/
 
+            insertEventLog(this, 0,"liliy",0,"factor3","factor1","factor2");
         }
 
         recordStorages= databaseUtil.getScrollData (0,10);
@@ -1077,4 +1078,45 @@ else {
         Log.v ("yingbo","getCount"+databaseUtil.getCount ());
 
     }
+
+    private Uri insertEventLog(Context context, int eventNo, String eventName,
+                               int tid, String factor1, String factor2, String factor3) {
+
+        final Uri uri = Uri.parse("content://com.ssol.eventlog/eventlog");
+
+        ContentResolver mContentResolver=context.getContentResolver();
+
+        mContentResolver.acquireContentProviderClient (uri);
+
+        android.content.ContentValues values = new android.content.ContentValues ();
+
+        if (android.text.TextUtils.isEmpty(eventName)) {
+            throw new IllegalArgumentException("Invalid event name : " + eventName);
+        } else {
+            values.put("EVENT_NAME", eventName);
+        }
+
+        if (tid < 1 || tid > 256) {
+            Log.w("yingbo", "Invalid tid : " + tid);
+        } else {
+            values.put("TID", new Integer(tid));
+        }
+
+        if (! android.text.TextUtils.isEmpty(factor1)) {
+            values.put("FACTOR1", factor1);
+        }
+
+        if (! android.text.TextUtils.isEmpty(factor2)) {
+            values.put("FACTOR2", factor2);
+        }
+
+        if (! android.text.TextUtils.isEmpty(factor3)) {
+            values.put("FACTOR3", factor3);
+        }
+
+        return  mContentResolver.insert (uri,values);
+
+    }
+
+
 }

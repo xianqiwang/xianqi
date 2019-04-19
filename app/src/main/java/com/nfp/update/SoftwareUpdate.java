@@ -22,8 +22,10 @@ import java.util.Date;
 import java.util.Calendar;
 import java.util.Locale;
 
+import android.content.ContentResolver;
 import android.content.res.Resources;
 import android.os.Build;
+import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
@@ -295,7 +297,8 @@ public void checksucess(){
         startActivity(intent);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+
+    @RequiresApi (api = VERSION_CODES.JELLY_BEAN_MR1)
     private void openConfirmDialog(final int identity) {
 
         String messages = "";
@@ -522,7 +525,7 @@ public void checksucess(){
                         }
 
                         @Override
-                        public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody, Throwable error) {
+                        public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                            progress.setVisibility(View.GONE);
 
 
@@ -665,12 +668,13 @@ public void checksucess(){
             mhandler.sendMessage(message);
         }
     }
+
     private Uri insertEventLog(Context context, int eventNo, String eventName,
                                int tid, String factor1, String factor2, String factor3) {
 
-        final android.net.Uri uri = android.net.Uri.parse("content://com.ssol.eventlog/eventlog");
+        final Uri uri = Uri.parse("content://com.ssol.eventlog/eventlog");
 
-        android.content.ContentResolver mContentResolver=context.getContentResolver();
+        ContentResolver mContentResolver=context.getContentResolver();
 
         mContentResolver.acquireContentProviderClient (uri);
 
@@ -703,9 +707,5 @@ public void checksucess(){
         return  mContentResolver.insert (uri,values);
 
     }
-
-
-
-
 
 }

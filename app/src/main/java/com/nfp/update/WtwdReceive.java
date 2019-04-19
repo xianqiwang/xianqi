@@ -1,5 +1,7 @@
 package com.nfp.update;
 
+import android.content.Intent;
+
 import com.nfp.update.nfpapp.app.core.Service2;
 
 public class WtwdReceive extends android.content.BroadcastReceiver {
@@ -10,7 +12,7 @@ public class WtwdReceive extends android.content.BroadcastReceiver {
 	private static final String NETWORK_STATUS_CHANGE = "android.net.conn.CONNECTIVITY_CHANGE";
 	
     @Override
-    public void onReceive(final android.content.Context context, android.content.Intent intent) {
+    public void onReceive(final android.content.Context context, Intent intent) {
         android.util.Log.e(TAG, "Receive Action --> " + intent.getAction());
         if (intent.getAction().equals(BOOT_COMPLETED)) {
             //first in, get random time of week
