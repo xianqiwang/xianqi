@@ -25,6 +25,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.PixelFormat;
 import android.net.Uri;
+import android.provider.FontsContract.FontInfo;
 import android.provider.Settings;
 import android.os.Build;
 import android.os.Bundle;
@@ -139,9 +140,9 @@ public class MainActivity extends Activity {
         HttpClient.cancleRequest(true);
         UpdateUtil.judgePolState(this, 0);
         boolean manually=false;
-
-/*        Intent intent = new Intent();
-        intent.setClass(MainActivity.this, TestProgress.class);
+/*
+        Intent intent = new Intent();
+        intent.setClass(MainActivity.this, WaypointsActivity.class);
         startActivity(intent);*/
 
         //此处判断是否设定手动更新
@@ -161,9 +162,39 @@ public class MainActivity extends Activity {
 
         }
         verifyStoragePermissions(this);
-        testDatabase();
-        test();
+/*        testDatabase();*/
+/*        test();*/
+        checkVersion();
     }
+    private FileInfo downloadFota() {
+
+        String baseurl="http://static3.iyuba.cn/android/apk/news/news.apk";
+        String filecode="61";
+        String url=baseurl;
+        return new FileInfo(0, url, "news.apk", 0, 0);
+
+    }
+
+    public void checkVersion(){
+
+ /*       WtwdFotaServer mWtwdFotaServer = new WtwdFotaServer();
+        mWtwdFotaServer.checkUpdate(MainActivity.this, "MT6739", "android7.1", "yk915", "ddd", 1);
+*/
+
+
+        DataCache.getInstance(this).setDownloadPath(DownloadService.DOWNLOAD_PATH);
+        android.content.Intent intent = new android.content.Intent(this, DownloadService.class);
+        intent.setAction(DownloadService.ACTION_START);
+        intent.putExtra("fileinfo", downloadFota());
+        startService(intent);
+
+    }
+
+
+
+
+
+
     public static void verifyStoragePermissions(Activity activity) {
 
         try {

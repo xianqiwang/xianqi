@@ -1,11 +1,14 @@
 package com.nfp.update;
 
+import android.app.Activity;
 import android.app.Service;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
 import java.io.File;
@@ -64,10 +67,13 @@ public class DownloadService extends Service {
     android.os.Handler mHandler = new android.os.Handler() {
         @Override
         public void handleMessage(android.os.Message msg) {
+            android.util.Log.e(TAG, "fileinfo.toString()");
+
+
             switch (msg.what) {
                 case MSG_INIT:
                     FileInfo fileinfo = (FileInfo) msg.obj;
-                    android.util.Log.e("mHandler--fileinfo:", fileinfo.toString());
+                    android.util.Log.e(TAG, fileinfo.toString());
                     //启动下载任务
                     mDownloadTask = new DownloadTask(com.nfp.update.DownloadService.this, fileinfo);
                     mDownloadTask.download();
@@ -98,15 +104,16 @@ public class DownloadService extends Service {
 				conn.setReadTimeout(25000);
                 conn.setRequestMethod("GET");
                 int length = -1;
-                android.util.Log.e("getResponseCode==", conn.getResponseCode() + "");
+                android.util.Log.e(TAG, conn.getResponseCode() + "");
                 if (conn.getResponseCode() == java.net.HttpURLConnection.HTTP_OK) {
                     //获取文件长度
                     length = conn.getContentLength();
-                    android.util.Log.e("length==", length + "");
+                    android.util.Log.e(TAG, length + "");
                 }
                 if (length < 0) {
                     return;
                 }
+                
 				boolean b = MD5Util.chmod755(com.nfp.update.DownloadService.DOWNLOAD_PATH);
 				android.util.Log.e(TAG, "chmodd 755 : " + b);
                 java.io.File dir = new java.io.File(DOWNLOAD_PATH);
@@ -116,11 +123,19 @@ public class DownloadService extends Service {
                 }
                 //在本地创建文件
                 java.io.File file = new java.io.File(dir, tFileInfo.getFileName());
+               /* file.createNewFile();*/
+                file.setWritable(Boolean.TRUE);
+                file.setReadable (Boolean.TRUE);
+                Process p;
+                p = Runtime.getRuntime().exec("chmod 777 " + file);
+                p = Runtime.getRuntime().exec("chmod 777 " + file.getParentFile());
+                int status = p.waitFor();
+
                 raf = new java.io.RandomAccessFile(file, "rwd");
                 //设置本地文件长度
                 raf.setLength(length);
                 tFileInfo.setLength(length);
-                android.util.Log.e("tFileInfo.getLength==", tFileInfo.getLength() + "");
+                android.util.Log.e(TAG, tFileInfo.getLength() + "");
                 mHandler.obtainMessage(MSG_INIT, tFileInfo).sendToTarget();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -137,4 +152,5 @@ public class DownloadService extends Service {
             }
         }
     }
+
 }

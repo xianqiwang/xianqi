@@ -17,14 +17,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-
-/**
- * Created by wesker on 2018/6/13 16:54.
- */
-
 public class WtwdFotaServer {
     private static final String TAG = "WtwdFotaServer";
-    private static final String BASE_URL = "https://www.waterworld.xin:8444/fota";
+    private static final String BASE_URL = "https://httpbin.org/robots.txt";
     private static final String CHECK_UPDATE = "/checkUpdate";
     private static final String DOWNLOAD_FULL = "/downloadFullVersion?";
     private static final String DOWNLOAD_DELTA = "/downloadDeltaVersion?";

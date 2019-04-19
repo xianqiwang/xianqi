@@ -18,10 +18,6 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.X509TrustManager;
 
-/**
- * @author MR.ZHANG
- * @create 2018-06-05
- */
 public class DownloadTask {
     private android.content.Context mContext = null;
     private FileInfo mFileInfo = null;
