@@ -17,25 +17,18 @@ import android.widget.ProgressBar;
 
 import java.text.DecimalFormat;
 
-/**
- * 说明：可以显示图标和文字的ProgressBar
- */
-public class CustomProgressBar extends android.widget.ProgressBar {
+public class CustomProgressBar extends ProgressBar {
 
     private android.content.Context mContext;
     private android.graphics.Paint mPaint;
     private android.graphics.PorterDuffXfermode mPorterDuffXfermode;
     private float mProgress;
     private int mState;
-
-    // IconTextProgressBar的状态
     private static final int STATE_DEFAULT = 101;
     private static final int STATE_DOWNLOADING = 102;
     private static final int STATE_PAUSE = 103;
     private static final int STATE_DOWNLOAD_FINISH = 104;
-    // IconTextProgressBar的文字大小(sp)
     private static final float TEXT_SIZE_SP = 17f;
-    // IconTextProgressBar的图标与文字间距(dp)
     private static final float ICON_TEXT_SPACING_DP = 5f;
 
     public CustomProgressBar(android.content.Context context) {
@@ -44,23 +37,19 @@ public class CustomProgressBar extends android.widget.ProgressBar {
         init();
     }
 
-    public CustomProgressBar(android.content.Context context, android.util.AttributeSet attrs) {
+    public CustomProgressBar(Context context,AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
         init();
     }
 
-    /**
-     * 设置下载状态
-     */
+
     public synchronized void setState(int state) {
         mState = state;
         invalidate();
     }
 
-    /**
-     * 设置下载进度
-     */
+
     public synchronized void setProgress(float progress) {
         super.setProgress((int) progress);
         mProgress = progress;
@@ -103,8 +92,8 @@ public class CustomProgressBar extends android.widget.ProgressBar {
         mPaint = new android.graphics.Paint();
         mPaint.setDither(true);
         mPaint.setAntiAlias(true);
-        mPaint.setStyle(android.graphics.Paint.Style.FILL_AND_STROKE);
-        mPaint.setTextAlign(android.graphics.Paint.Align.LEFT);
+        mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        mPaint.setTextAlign(Paint.Align.LEFT);
         mPaint.setTextSize(MeasureUtil.sp2px(mContext, TEXT_SIZE_SP));
         mPaint.setTypeface(android.graphics.Typeface.MONOSPACE);
 
@@ -151,9 +140,7 @@ public class CustomProgressBar extends android.widget.ProgressBar {
             float textY = (getHeight() / 2) - textRect.centerY();
             canvas.drawText(text, textX, textY, mPaint);
         } else {
-            // 绘制图标和文字
-            android.graphics.Bitmap icon = getIcon(state);
-
+            Bitmap icon = getIcon(state);
             float textX = (getWidth() / 2) -
                     getOffsetX(icon.getWidth(), textRect.centerX(), ICON_TEXT_SPACING_DP, true);
             float textY = (getHeight() / 2) - textRect.centerY();
@@ -162,24 +149,17 @@ public class CustomProgressBar extends android.widget.ProgressBar {
                     getOffsetX(icon.getWidth(), textRect.centerX(), ICON_TEXT_SPACING_DP, false);
             float iconY = (getHeight() / 2) - icon.getHeight() / 2;
             canvas.drawBitmap(icon, iconX, iconY, mPaint);
-
             if (state == STATE_DEFAULT) return;
-
-            android.graphics.Bitmap bufferBitmap = android.graphics.Bitmap.createBitmap(getWidth(), getHeight(), android.graphics.Bitmap.Config.ARGB_8888);
-            android.graphics.Canvas bufferCanvas = new android.graphics.Canvas(bufferBitmap);
+            Bitmap bufferBitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
+            Canvas bufferCanvas = new Canvas(bufferBitmap);
             bufferCanvas.drawBitmap(icon, iconX, iconY, mPaint);
             bufferCanvas.drawText(text, textX, textY, mPaint);
-            // 设置混合模式
             mPaint.setXfermode(mPorterDuffXfermode);
             mPaint.setColor(android.graphics.Color.WHITE);
-            android.graphics.RectF rectF = new android.graphics.RectF(0, 0, getWidth() * mProgress / 100, getHeight());
-            // 绘制源图形
+            RectF rectF = new RectF(0, 0, getWidth() * mProgress / 100, getHeight());
             bufferCanvas.drawRect(rectF, mPaint);
-            // 绘制目标图
             canvas.drawBitmap(bufferBitmap, 0, 0, null);
-            // 清除混合模式
             mPaint.setXfermode(null);
-
             if (!icon.isRecycled()) {
                 icon.isRecycled();
             }
@@ -241,9 +221,7 @@ public class CustomProgressBar extends android.widget.ProgressBar {
 
     private float getOffsetX(float iconWidth, float textHalfWidth, float spacing, boolean isText) {
         float totalWidth = iconWidth + MeasureUtil.dip2px(mContext, spacing) + textHalfWidth * 2;
-        // 文字偏移量
         if (isText) return totalWidth / 2 - iconWidth - spacing;
-        // 图标偏移量
         return totalWidth / 2 - iconWidth;
     }
 

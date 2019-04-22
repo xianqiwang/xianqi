@@ -62,7 +62,7 @@ public class TestProgress extends Activity implements View.OnClickListener {
         setContentView (com.nfp.update.R.layout.testprogress);
 
         mDownloadHandler = new DownloadHandler (this);
-        mCustomProgressBar = (CustomProgressBar) findViewById (R.id.icon_text_progressbar);
+        mCustomProgressBar =  findViewById (R.id.icon_text_progressbar);
         mCustomProgressBar.setOnClickListener (this);
         mStateType = STATE_DEFAULT;
         mCustomProgressBar.setState (mStateType);
