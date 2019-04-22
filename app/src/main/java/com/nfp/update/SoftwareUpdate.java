@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2017 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.nfp.update;
 
 import java.io.File;
@@ -98,12 +82,48 @@ public class SoftwareUpdate extends Activity{
         getActionBar().setDisplayHomeAsUpEnabled(true);
         mTextView = (TextView) findViewById(R.id.content);
         progress = (ProgressBar) findViewById(R.id.progress);
-     //   customDialog=(CustomDialog)findViewById(R.id.customDialog);
+        //   customDialog=(CustomDialog)findViewById(R.id.customDialog);
         spref = PreferenceManager.getDefaultSharedPreferences(this);
         //初始化dialog_0642_D1 dialog_0642_D2 dialog_0642_D3 dialog_0642_D4 dialog_0642_D5 dialog_0642_D6
+        initializateDialogFor0402();
+        // dialog_0642_D1.show ();
+        //  new myThread().run();
+        // checksucess();
+        Intent intent = getIntent();
+        Bundle bundle=intent.getExtras();
+        if(bundle!=null){
+            progress.setVisibility(View.GONE);
+            downResults = bundle.getBoolean("download_results");
+            downloadComplete(downResults);
+        }else{
+            try{
+                TEST = UpdateUtil.getTestVersion(SoftwareUpdate.this);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+             new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                       // dialog_0642_D1.show();
+                        try {
+                            sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        dialog_0642_D1.dismiss();
+                        connectServer();
+                    }
+                }).start();
+
+        }
+    }
+
+
+    private void initializateDialogFor0402(){
 
         Resources res = getResources();
-//dialog_0642_D2
+        //dialog_0642_D2
         dialog_0642_D2= new CustomDialog.Builder(SoftwareUpdate.this,200,200)
                 .setMessage(res.getString (R.string.check_up))
                 .setSingleButton("Cancel", new View.OnClickListener () {
@@ -117,7 +137,7 @@ public class SoftwareUpdate extends Activity{
                     }
 
                 }).createSingleButtonDialog();
-       // dialog_0642_D3
+        // dialog_0642_D3
         dialog_0642_D3= new CustomDialog.Builder(SoftwareUpdate.this,200,200)
                 .setMessage(res.getString (R.string.up_to_date))
                 .setSingleButton("OK", new View.OnClickListener () {
@@ -178,51 +198,21 @@ public class SoftwareUpdate extends Activity{
                         final Intent intent = new Intent();
                         intent.setClass(SoftwareUpdate.this, MainActivity.class);
                         startActivity(intent);
+                        finish ();
                     }
 
                 }).createSingleButtonDialog();
 
-
-
-       // dialog_0642_D1.show ();
-      //  new myThread().run();
-       // checksucess();
-        Intent intent = getIntent();
-        Bundle bundle=intent.getExtras();
-        if(bundle!=null){
-            progress.setVisibility(View.GONE);
-            downResults = bundle.getBoolean("download_results");
-            downloadComplete(downResults);
-        }else{
-            try{
-              TEST = UpdateUtil.getTestVersion(SoftwareUpdate.this);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            connectServer();
-          /*  new Thread(new Runnable() {
-                @Override
-                public void run() {
-                   // dialog_0642_D1.show();
-                    try {
-                        sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    dialog_0642_D1.dismiss();
-                    connectServer();
-                }
-            }).start();*/
-         //   connectServer();
-        }
     }
-public void checksucess(){
 
-    dialog_0642_D2.show();
-    dialog_0642_D3.show();
-    dialog_0642_D5.show();
-    dialog_0642_D6.show();
-}
+
+    public void checksucess(){
+
+        dialog_0642_D2.show();
+        dialog_0642_D3.show();
+        dialog_0642_D5.show();
+        dialog_0642_D6.show();
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -256,15 +246,7 @@ public void checksucess(){
 
     }
 
-    private void setSoftKeyText() {
-        NfpSoftkeyGuide sNfpSoftkeyGuide = NfpSoftkeyGuide.getSoftkeyGuide(getWindow());
-        sNfpSoftkeyGuide.setEnabled(1, true);
-        sNfpSoftkeyGuide.setEnabled(2, true);
-        sNfpSoftkeyGuide.setText(1, R.string.schedule);
-        sNfpSoftkeyGuide.setText(2, R.string.update);
-        sNfpSoftkeyGuide.invalidate();
-        isDown = true;
-    }
+
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void downloadError() {
@@ -315,7 +297,7 @@ public void checksucess(){
         pEdits.commit();
         AlertDialog.Builder mbuild = new AlertDialog.Builder(activity)
                 .setTitle(confirmation)
-              /*  .setIcon(com.android.internal.R.drawable.ic_dialog_confirm)*/
+                /*  .setIcon(com.android.internal.R.drawable.ic_dialog_confirm)*/
                 .setMessage(messages)
                 .setNegativeButton(no, new DialogInterface.OnClickListener() {
                             @Override
@@ -355,7 +337,7 @@ public void checksucess(){
                 });
         mDialog = mbuild.create();
         mDialog.show();
-        }
+    }
 
 
    /* class myThread implements Runnable {
@@ -382,7 +364,7 @@ public void checksucess(){
             switch (msg.what){
                 case INT_CONFIR_UPDATE_FILE:
                     dialog_0642_D1.show();
-                 //   dialog_0642_D1.dismiss();
+                    //   dialog_0642_D1.dismiss();
                     HttpClient httpClient=new HttpClient ();
 
                     httpClient.get(context, CONFIR_UPDATE_FILE + TEST, null, new AsyncHttpResponseHandler() {
@@ -424,7 +406,7 @@ public void checksucess(){
                                             }
 
                                         }else{
-                                                prepareUpdate();
+                                            prepareUpdate();
                                         }
                                         break;
 
@@ -478,9 +460,9 @@ public void checksucess(){
 */
                                         break;
                                     case "error28":
-                                       // dialog_0642_D2.dismiss();
-                                      //  dialog_0642_D2.dismiss();
-                                    //    insertEventLog(context,0, context.getString(R.string.update_result), 0, context.getString(R.string.fail), context.getString(R.string.ver_result), error);
+                                        // dialog_0642_D2.dismiss();
+                                        //  dialog_0642_D2.dismiss();
+                                        //    insertEventLog(context,0, context.getString(R.string.update_result), 0, context.getString(R.string.fail), context.getString(R.string.ver_result), error);
 //mTextView.setText(R.string.server_error28);
 /*
                                         mTextView.setText(R.string.server_error28);
@@ -518,7 +500,6 @@ public void checksucess(){
 /*
                                  String connectError = String.format(a, i);
 */
-
                                 HttpClient.cancleRequest(true);
                                 UpdateUtil.judgePolState(context, 0);
                             }
@@ -526,7 +507,7 @@ public void checksucess(){
 
                         @Override
                         public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                           progress.setVisibility(View.GONE);
+                            progress.setVisibility(View.GONE);
 
 
                             String errorValue = String.valueOf(statusCode);
@@ -535,7 +516,7 @@ public void checksucess(){
                             String connectError = String.format(a, errorCode);
                             HttpClient.cancleRequest(true);
                             UpdateUtil.judgePolState(context, 0);
-                          //  mTextView.setText(connectError);
+                            //  mTextView.setText(connectError);
                             dialog_0642_D1.dismiss();
                             dialog_0642_D4.show();
                     /*        Resources res = getResources();
@@ -557,7 +538,7 @@ public void checksucess(){
 
                         @Override
                         public void onProgress(long bytesWritten, long totalSize) {
-                        Log.v ("yingbo","totalSize"+totalSize);
+                            Log.v ("yingbo","totalSize"+totalSize);
                         }
 
                     });
@@ -579,27 +560,8 @@ public void checksucess(){
         };
     };
 
-   /* SoftwareUpdate(Context context){
-        this.context=context;
-
-            spref = PreferenceManager.getDefaultSharedPreferences(context);
-
-            connectServer();
-
-            downloadComplete(downResults);
-
-            try{
-                TEST = UpdateUtil.getTestVersion(context);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-
-    }*/
-
-
- @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
- @Override
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         boolean downResult = false;
         if(resultCode==1){
@@ -617,48 +579,6 @@ public void checksucess(){
         }
     }
 
-   /* private void downloadError() {
-
-        try{
-            openConfirmDialog(2);
-        }catch(Exception e){
-            Log.e("yingbo" , e.getMessage());
-        }
-    }*/
-
-  /*  private void prepareUpdate() {
-
-        SharedPreferences sprefs = context.getSharedPreferences("debug_comm", 0);
-
-        if(sprefs.getInt("AUTO_UPDATE", 0) ==0){
-            Log.d("yingbo","auto update start");
-            intent.setClass(context, PrepareUpdateActivity.class);
-            context.startActivity(intent);
-        }else{
-            Log.d("yingbo","auto update sse");
-            confirmInstall();
-        }
-
-    }*/
-
-   /* private void confirmInstall() {
-        intent.setClass(context, UpdateDialog.class);
-        context.startActivity(intent);
-    }*/
-
-/*    private void openConfirmDialog(final int identity) {
-
-        if(identity==1){
-            SharedPreferences.Editor pEdits = spref.edit();
-            pEdits.putInt("click_yes",1);
-            pEdits.commit();
-
-//            intent.setClass(context, DownloadProgress.class);
-
-        }else if(identity==2){
-
-        }
-    }*/
 
     public void connectServer() {
         if (true) {
