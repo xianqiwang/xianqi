@@ -50,6 +50,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.sample.PrePostProcessingSample;
 import com.loopj.android.http.sample.WaypointsActivity;
 
@@ -71,23 +72,25 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import cz.msebera.android.httpclient.Header;
+
 public class MainActivity extends Activity {
 
     private ListView mListView;
     private ArrayList<String> mList = new ArrayList<String>();
     private DefDialog mDefDialog;
     private static Context context;
-    private final static String CHECK_KEY = "waterworld";
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
             "android.permission.READ_EXTERNAL_STORAGE",
             "android.permission.WRITE_EXTERNAL_STORAGE" };
     private CustomDialog.Builder builder;
-    private CustomDialog mDialog;
+    private CustomDialog mDialog_0641_D1;
     String mVersonNumber;
     String url;
     FileInfo fileInfo;
     private  Resources res;
+    private SharedPreferences spref;
     private NetworkCheck networkCheck;
 
     public static Context getInstance(){
@@ -122,12 +125,13 @@ public class MainActivity extends Activity {
     }
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences spref = this.getSharedPreferences("debug_comm", 0);
+        spref = this.getSharedPreferences("debug_comm", 0);
         res = this.getResources();
+
         if(spref.getInt("IS_OPEN", 0)==1){
             finish();
         }
-
+        JudgeManualDialog();
         context = this;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if(!Settings.canDrawOverlays(getApplicationContext())) {
@@ -137,38 +141,59 @@ public class MainActivity extends Activity {
                 startActivityForResult(intent,100);
             }
         }
+
         handlerListView();
         HttpClient.cancleRequest(true);
         UpdateUtil.judgePolState(this, 0);
         boolean manually=false;
-        /*
+        verifyStoragePermissions(this);
+    }
+
+    public void JustForTest(){
+                /*
         Intent intent = new Intent();
         intent.setClass(MainActivity.this, WaypointsActivity.class);
         startActivity(intent);
 
         */
-
-        //此处判断是否设定手动更新
-        if(manually){
-
-            mDialog= new CustomDialog.Builder(MainActivity.this,200,200)
-                    .setMessage(res.getString (R.string.only_hand_update))
-                    .setSingleButton("Ok", new View.OnClickListener () {
-
-                        @Override
-                        public void onClick (View v) {
-                            mDialog.dismiss ();
-                        }
-
-                    }).createSingleButtonDialog();
-            mDialog.show ();
-
-        }
-        verifyStoragePermissions(this);
-/*        testDatabase();
-        test();*/
+        /*        testDatabase();
+          test();*/
         checkVersion();
     }
+
+    public void JudgeManualDialog(){
+
+
+        HttpClient.get (this,HttpClient.TEST_URL,null,new AsyncHttpResponseHandler(){
+
+            @Override
+            public void onSuccess (int statusCode, Header[] headers, byte[] responseBody) {
+                String error = new String(responseBody);
+                if(error.equals ("error00")){
+                    if(spref.getBoolean ("manual_auto",false)){
+
+                        mDialog_0641_D1= new CustomDialog.Builder(MainActivity.this,200,200)
+                                .setMessage(res.getString (R.string.only_hand_update))
+                                .setSingleButton("Ok", new View.OnClickListener () {
+                                    @Override
+                                    public void onClick (View v) {
+                                        mDialog_0641_D1.dismiss ();
+                                    }
+                                }).createSingleButtonDialog();
+                        mDialog_0641_D1.show ();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure (int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+
+        });
+
+    }
+
     private FileInfo downloadFota() {
 
         String baseurl="http://static3.iyuba.cn/android/apk/news/news.apk";
@@ -250,10 +275,7 @@ public class MainActivity extends Activity {
         });
     }
 
-
-
-
-  //检查服务器上是否有新版本
+    //检查服务器上是否有新版本
 
 boolean checkSoftwareVersion(String softwareversion){
    if(Build.DISPLAY.equals(softwareversion))
@@ -520,7 +542,7 @@ public void A_D_12_end(){
         if(networkCheck.checkSimCard ()&&networkCheck.isWifi ()){
 
          if(networkCheck.isNetWorkAvailable()){
-if(checkSoftwareVersion(mVersonNumber))  {
+            if(checkSoftwareVersion(mVersonNumber))  {
                  SharedPreferences sprefs = context.getSharedPreferences("debug_comm", 0);
                  if(sprefs.getInt("AUTO_UPDATE", 0)==0){
                      //A-D-12
@@ -659,7 +681,7 @@ else {
                              public void onCancel() {
 
                                  Resources res = MainActivity.this.getResources();
-                                 ;
+                                
                                  View view = getLayoutInflater().inflate(R.layout.dialog_layout, null);
                                  DialogCategorical dialogCategorical = new DialogCategorical(MainActivity.this, 0, 0, view);
                                  dialogCategorical.A_D_18();
@@ -883,10 +905,7 @@ else {
             dialogCategorical.N_0646_S01 (msg.what, R.string.fota_install);
 
         }
-
     };
-
-
 
     private void test()  {
 
