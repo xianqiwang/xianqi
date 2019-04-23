@@ -67,13 +67,4 @@ public class LowBatteryActivity extends Activity{
         startActivity(intent);
     }
 
-   @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if(keyCode ==KeyEvent.KEYCODE_DPAD_CENTER){
-            backTopActivity();
-            return true;
-        }
-        return super.onKeyUp(keyCode,event);
-    }
-
 }

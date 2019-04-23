@@ -82,13 +82,10 @@ public class SoftwareUpdate extends Activity{
         getActionBar().setDisplayHomeAsUpEnabled(true);
         mTextView = (TextView) findViewById(R.id.content);
         progress = (ProgressBar) findViewById(R.id.progress);
-        //   customDialog=(CustomDialog)findViewById(R.id.customDialog);
         spref = PreferenceManager.getDefaultSharedPreferences(this);
         //初始化dialog_0642_D1 dialog_0642_D2 dialog_0642_D3 dialog_0642_D4 dialog_0642_D5 dialog_0642_D6
         initializateDialogFor0402();
-        // dialog_0642_D1.show ();
-        //  new myThread().run();
-        // checksucess();
+        new myThread().run();
         Intent intent = getIntent();
         Bundle bundle=intent.getExtras();
         if(bundle!=null){
@@ -101,110 +98,22 @@ public class SoftwareUpdate extends Activity{
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-             new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                       // dialog_0642_D1.show();
-                        try {
-                            sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        dialog_0642_D1.dismiss();
-                        connectServer();
+         new Thread(new Runnable() {
+                @Override
+                public void run() {
+                   // dialog_0642_D1.show();
+                    try {
+                        sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
-                }).start();
+                    dialog_0642_D1.dismiss();
+                    connectServer();
+                }
+            }).start();
 
         }
     }
-
-
-    private void initializateDialogFor0402(){
-
-        Resources res = getResources();
-        //dialog_0642_D2
-        dialog_0642_D2= new CustomDialog.Builder(SoftwareUpdate.this,200,200)
-                .setMessage(res.getString (R.string.check_up))
-                .setSingleButton("Cancel", new View.OnClickListener () {
-
-                    @Override
-                    public void onClick (View v) {
-                        /*final Intent intent = new Intent();
-                        intent.setClass(SoftwareUpdate.this, MainActivity.class);
-                        startActivity(intent);*/
-                        dialog_0642_D2.dismiss();
-                    }
-
-                }).createSingleButtonDialog();
-        // dialog_0642_D3
-        dialog_0642_D3= new CustomDialog.Builder(SoftwareUpdate.this,200,200)
-                .setMessage(res.getString (R.string.up_to_date))
-                .setSingleButton("OK", new View.OnClickListener () {
-
-                    @Override
-                    public void onClick (View v) {
-                        final Intent intent = new Intent();
-                        intent.setClass(SoftwareUpdate.this, MainActivity.class);
-                        startActivity(intent);
-                    }
-
-                }).createSingleButtonDialog();
-        dialog_0642_D4= new CustomDialog.Builder(SoftwareUpdate.this,200,200)
-                .setMessage(res.getString (R.string.Network_error))
-                .setSingleButton("OK", new View.OnClickListener () {
-
-                    @Override
-                    public void onClick (View v) {
-                        final Intent intent = new Intent();
-                        intent.setClass(SoftwareUpdate.this, MainActivity.class);
-                        startActivity(intent);
-                    }
-
-                }).createSingleButtonDialog();
-
-        dialog_0642_D5= new CustomDialog.Builder(SoftwareUpdate.this,200,200)
-                .setMessage(res.getString (R.string.no_space))
-                .setSingleButton("OK", new View.OnClickListener () {
-
-                    @Override
-                    public void onClick (View v) {
-                        final Intent intent = new Intent();
-                        intent.setClass(SoftwareUpdate.this, MainActivity.class);
-                        startActivity(intent);
-                    }
-
-                }).createSingleButtonDialog();
-        dialog_0642_D6= new CustomDialog.Builder(SoftwareUpdate.this,200,200)
-                .setMessage(res.getString (R.string.soft_download))
-                .setPositiveButton("Ok", new View.OnClickListener () {            @Override
-                public void onClick (View v) {
-                    final Intent intent = new Intent();
-                    intent.setClass(SoftwareUpdate.this, DownloadProgress.class);
-                    startActivity(intent);
-
-                }        })
-                .setNegativeButton ("NO", new View.OnClickListener () {
-                    @Override            public void onClick (View v) {                dialog_0642_D6.dismiss ();            }        }).createTwoButtonDialog();
-        //dialog_0642_D6.show();
-
-
-        dialog_0642_D1= new CustomDialog.Builder(SoftwareUpdate.this,200,200)
-                .setMessage(res.getString (R.string.Conn_ser))
-                .setSingleButton("Cancel", new View.OnClickListener () {
-
-                    @Override
-                    public void onClick (View v) {
-                        final Intent intent = new Intent();
-                        intent.setClass(SoftwareUpdate.this, MainActivity.class);
-                        startActivity(intent);
-                        finish ();
-                    }
-
-                }).createSingleButtonDialog();
-
-    }
-
 
     public void checksucess(){
 
@@ -212,20 +121,7 @@ public class SoftwareUpdate extends Activity{
         dialog_0642_D3.show();
         dialog_0642_D5.show();
         dialog_0642_D6.show();
-    }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
     }
 
     public boolean checkDeviceStatus() {
@@ -246,8 +142,6 @@ public class SoftwareUpdate extends Activity{
 
     }
 
-
-
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void downloadError() {
         activity = SoftwareUpdate.this;
@@ -261,6 +155,8 @@ public class SoftwareUpdate extends Activity{
             Log.e("AlertDialog  Exception:" , e.getMessage());
         }
     }
+
+
 
     private void prepareUpdate() {
         SharedPreferences sprefs = getSharedPreferences("debug_comm", 0);
@@ -279,68 +175,7 @@ public class SoftwareUpdate extends Activity{
         startActivity(intent);
     }
 
-
-    @RequiresApi (api = VERSION_CODES.JELLY_BEAN_MR1)
-    private void openConfirmDialog(final int identity) {
-
-        String messages = "";
-        String confirmation = this.getResources().getString(R.string.confirmation);
-        String yes = this.getResources().getString(R.string.yes);
-        String no = this.getResources().getString(R.string.no);
-        if(identity==1){
-            messages = this.getResources().getString(R.string.download_info);
-        }else if(identity==2){
-            messages = this.getResources().getString(R.string.download_fail);
-        }
-        SharedPreferences.Editor pEdits = spref.edit();
-        pEdits.putInt("click_yes",0);
-        pEdits.commit();
-        AlertDialog.Builder mbuild = new AlertDialog.Builder(activity)
-                .setTitle(confirmation)
-                /*  .setIcon(com.android.internal.R.drawable.ic_dialog_confirm)*/
-                .setMessage(messages)
-                .setNegativeButton(no, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                if(identity==1){
-                                    finish();
-                                }else if(identity==2){
-                                    Intent intent = new Intent("android.intent.action.MAIN");
-                                    intent.setClassName("com.android.launcher3","com.android.launcher3.Launcher");
-                                    startActivity(intent);
-                                    //ActivityManagerUtil.setEndKeyBehavior(SoftwareUpdate.this, ActivityManagerUtil.ENDKEY_FINISH_TASK);
-                                }
-                            }
-                        }
-                )
-                .setPositiveButton(yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                if(identity==1){
-                                    SharedPreferences.Editor pEdits = spref.edit();
-                                    pEdits.putInt("click_yes",1);
-                                    pEdits.commit();
-                                    intent.setClass(SoftwareUpdate.this, DownloadProgress.class);
-                                    startActivityForResult(intent, 0);
-                                }else if(identity==2){
-                                    connectServer();
-                                }
-                            }
-                        }
-                )
-                .setOnDismissListener(new DialogInterface.OnDismissListener (){
-                    @Override
-                    public void onDismiss(DialogInterface dialog){
-                        if(spref.getInt("click_yes",0)!=1 || identity!=1)
-                            finish();
-                    }
-                });
-        mDialog = mbuild.create();
-        mDialog.show();
-    }
-
-
-   /* class myThread implements Runnable {
+    class myThread implements Runnable {
         public void run() {
             while (!Thread.currentThread().isInterrupted()) {
                 Message message = new Message();
@@ -355,7 +190,28 @@ public class SoftwareUpdate extends Activity{
                 }
             }
         }
-    }*/
+    }
+    private FileInfo downloadFota() {
+
+        String baseurl=HttpClient.TEST_URL;
+        String filecode="61";
+        String url=baseurl;
+        return new FileInfo(0, url, "news.apk", 0, 0);
+
+    }
+
+    public void checkVersion(){
+
+ /*       WtwdFotaServer mWtwdFotaServer = new WtwdFotaServer();
+        mWtwdFotaServer.checkUpdate(MainActivity.this, "MT6739", "android7.1", "yk915", "ddd", 1);
+*/
+        DataCache.getInstance(this).setDownloadPath(DownloadService.DOWNLOAD_PATH);
+        Intent intent = new Intent(this, DownloadService.class);
+        intent.setAction(DownloadService.ACTION_START);
+        intent.putExtra("fileinfo", downloadFota());
+        startService(intent);
+
+    }
 
     private Handler mhandler = new Handler() {
 
@@ -386,8 +242,6 @@ public class SoftwareUpdate extends Activity{
                                     case "error00":
 
                                         insertEventLog(context,0, context.getString(R.string.update_result), 0, context.getString(R.string.fail), context.getString(R.string.ver_result), error);
-                                        Log.d("yingbo","When server connect success, check there is file update situation");
-                                        //SharedPreferences sp = getSharedPreferences("down_file", MODE_WORLD_WRITEABLE);
                                         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
                                         String packageFile = sp.getString("PAC_NAME", null);
                                         File files = new File("/fota/softwareupdate.dat");
@@ -399,7 +253,11 @@ public class SoftwareUpdate extends Activity{
 
                                             try{
 
+                                                checkVersion();
+
+/*
                                                 openConfirmDialog(1);
+*/
 
                                             }catch(Exception e){
                                                 Log.e("AlertDialog  Exception:" , e.getMessage());
@@ -412,87 +270,63 @@ public class SoftwareUpdate extends Activity{
 
                                     case "error23":
                                         insertEventLog(context,0, context.getString(R.string.update_result), 0, context.getString(R.string.fail), context.getString(R.string.ver_result), error);
-/*
-                                        mTextView.setText(R.string.no_latest_sw);
-*/
-                                        Log.d(TAG,"This is the newest version!");
+                                        dialog_0642_D3.show ();
+
+                                    case "error24":
+                                        insertEventLog(context,0, context.getString(R.string.update_result), 0, context.getString(R.string.fail), context.getString(R.string.ver_result), error);
+                                        dialog_0642_D3.show ();
+
+
                                         break;
                                     case "error10":
                                         insertEventLog(context,0, context.getString(R.string.update_result), 0, context.getString(R.string.fail), context.getString(R.string.ver_result), error);
-/*
-                                        mTextView.setText(R.string.server_error10);
-*/
+
                                         break;
                                     case "error20":
                                         insertEventLog(context,0, context.getString(R.string.update_result), 0, context.getString(R.string.fail), context.getString(R.string.ver_result), error);
-/*
-                                        mTextView.setText(R.string.server_error20);
-*/
+
                                         break;
                                     case "error21":
                                         insertEventLog(context,0, context.getString(R.string.update_result), 0, context.getString(R.string.fail), context.getString(R.string.ver_result), error);
-/*
-                                        mTextView.setText(R.string.server_error21);
-*/
+
                                         break;
                                     case "error22":
                                         insertEventLog(context,0, context.getString(R.string.update_result), 0, context.getString(R.string.fail), context.getString(R.string.ver_result), error);
-/*
-                                        mTextView.setText(R.string.server_error22);
-*/
+
                                         break;
                                     case "error25":
                                         insertEventLog(context,0, context.getString(R.string.update_result), 0, context.getString(R.string.fail), context.getString(R.string.ver_result), error);
-/*
-                                        mTextView.setText(R.string.server_error25);
-*/
+
                                         break;
                                     case "error26":
                                         insertEventLog(context,0, context.getString(R.string.update_result), 0, context.getString(R.string.fail), context.getString(R.string.ver_result), error);
-/*
-                                        mTextView.setText(R.string.server_error26);
-*/
+
                                         break;
                                     case "error27":
                                         insertEventLog(context,0, context.getString(R.string.update_result), 0, context.getString(R.string.fail), context.getString(R.string.ver_result), error);
-/*
-                                        mTextView.setText(R.string.server_error27);
-*/
                                         break;
                                     case "error28":
                                         // dialog_0642_D2.dismiss();
                                         //  dialog_0642_D2.dismiss();
                                         //    insertEventLog(context,0, context.getString(R.string.update_result), 0, context.getString(R.string.fail), context.getString(R.string.ver_result), error);
-//mTextView.setText(R.string.server_error28);
-/*
-                                        mTextView.setText(R.string.server_error28);
-*/
+
                                         break;
                                     case "error29":
                                         insertEventLog(context,0, context.getString(R.string.update_result), 0, context.getString(R.string.fail), context.getString(R.string.ver_result), error);
-/*
-                                        mTextView.setText(R.string.server_error29);
-*/
+
                                         break;
                                     case "error30":
                                         insertEventLog(context,0, context.getString(R.string.update_result), 0, context.getString(R.string.fail), context.getString(R.string.ver_result), error);
-/*
-                                        mTextView.setText(R.string.server_error30);
-*/
+
                                         break;
                                     case "error31":
                                         insertEventLog(context,0, context.getString(R.string.update_result),
                                                 0, context.getString(R.string.fail), context.getString(R.string.ver_result), error);
-//                                        mTextView.setText(R.string.server_error31);
                                         Log.d(TAG,error);
                                         break;
                                     default:
                                         insertEventLog(context,0, context.getString(R.string.update_result),
                                                 0, context.getString(R.string.fail), context.getString(R.string.ver_result), "other");
-/*
-                                        mTextView.setText(R.string.server_error_other);
-*/
-                                        Log.d("yingbo","Other Errors");
                                         break;
                                 }
                             }else{
@@ -626,6 +460,149 @@ public class SoftwareUpdate extends Activity{
 
         return  mContentResolver.insert (uri,values);
 
+    }
+
+    private void initializateDialogFor0402(){
+
+        Resources res = getResources();
+        //dialog_0642_D2
+        dialog_0642_D2= new CustomDialog.Builder(SoftwareUpdate.this,200,200)
+                .setMessage(res.getString (R.string.check_up))
+                .setSingleButton("Cancel", new View.OnClickListener () {
+
+                    @Override
+                    public void onClick (View v) {
+                        /*final Intent intent = new Intent();
+                        intent.setClass(SoftwareUpdate.this, MainActivity.class);
+                        startActivity(intent);*/
+                        dialog_0642_D2.dismiss();
+                    }
+
+                }).createSingleButtonDialog();
+        // dialog_0642_D3
+        dialog_0642_D3= new CustomDialog.Builder(SoftwareUpdate.this,200,200)
+                .setMessage(res.getString (R.string.up_to_date))
+                .setSingleButton("OK", new View.OnClickListener () {
+
+                    @Override
+                    public void onClick (View v) {
+                        final Intent intent = new Intent();
+                        intent.setClass(SoftwareUpdate.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+
+                }).createSingleButtonDialog();
+        dialog_0642_D4= new CustomDialog.Builder(SoftwareUpdate.this,200,200)
+                .setMessage(res.getString (R.string.Network_error))
+                .setSingleButton("OK", new View.OnClickListener () {
+
+                    @Override
+                    public void onClick (View v) {
+                        final Intent intent = new Intent();
+                        intent.setClass(SoftwareUpdate.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+
+                }).createSingleButtonDialog();
+
+        dialog_0642_D5= new CustomDialog.Builder(SoftwareUpdate.this,200,200)
+                .setMessage(res.getString (R.string.no_space))
+                .setSingleButton("OK", new View.OnClickListener () {
+
+                    @Override
+                    public void onClick (View v) {
+                        final Intent intent = new Intent();
+                        intent.setClass(SoftwareUpdate.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+
+                }).createSingleButtonDialog();
+        dialog_0642_D6= new CustomDialog.Builder(SoftwareUpdate.this,200,200)
+                .setMessage(res.getString (R.string.soft_download))
+                .setPositiveButton("Ok", new View.OnClickListener () {            @Override
+                public void onClick (View v) {
+                    final Intent intent = new Intent();
+                    intent.setClass(SoftwareUpdate.this, DownloadProgress.class);
+                    startActivity(intent);
+
+                }        })
+                .setNegativeButton ("NO", new View.OnClickListener () {
+                    @Override            public void onClick (View v) {                dialog_0642_D6.dismiss ();            }        }).createTwoButtonDialog();
+        //dialog_0642_D6.show();
+
+
+        dialog_0642_D1= new CustomDialog.Builder(SoftwareUpdate.this,200,200)
+                .setMessage(res.getString (R.string.Conn_ser))
+                .setSingleButton("Cancel", new View.OnClickListener () {
+
+                    @Override
+                    public void onClick (View v) {
+                        final Intent intent = new Intent();
+                        intent.setClass(SoftwareUpdate.this, MainActivity.class);
+                        startActivity(intent);
+                        finish ();
+                    }
+
+                }).createSingleButtonDialog();
+
+    }
+    @RequiresApi (api = VERSION_CODES.JELLY_BEAN_MR1)
+    private void openConfirmDialog(final int identity) {
+
+        String messages = "";
+        String confirmation = this.getResources().getString(R.string.confirmation);
+        String yes = this.getResources().getString(R.string.yes);
+        String no = this.getResources().getString(R.string.no);
+        if(identity==1){
+            messages = this.getResources().getString(R.string.download_info);
+        }else if(identity==2){
+            messages = this.getResources().getString(R.string.download_fail);
+        }
+        SharedPreferences.Editor pEdits = spref.edit();
+        pEdits.putInt("click_yes",0);
+        pEdits.commit();
+        AlertDialog.Builder mbuild = new AlertDialog.Builder(activity)
+                .setTitle(confirmation)
+                /*  .setIcon(com.android.internal.R.drawable.ic_dialog_confirm)*/
+                .setMessage(messages)
+                .setNegativeButton(no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                if(identity==1){
+                                    finish();
+                                }else if(identity==2){
+                                    Intent intent = new Intent("android.intent.action.MAIN");
+                                    intent.setClassName("com.android.launcher3","com.android.launcher3.Launcher");
+                                    startActivity(intent);
+                                    //ActivityManagerUtil.setEndKeyBehavior(SoftwareUpdate.this, ActivityManagerUtil.ENDKEY_FINISH_TASK);
+                                }
+                            }
+                        }
+                )
+                .setPositiveButton(yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                if(identity==1){
+                                    SharedPreferences.Editor pEdits = spref.edit();
+                                    pEdits.putInt("click_yes",1);
+                                    pEdits.commit();
+                                    intent.setClass(SoftwareUpdate.this, DownloadProgress.class);
+                                    startActivityForResult(intent, 0);
+                                }else if(identity==2){
+                                    connectServer();
+                                }
+                            }
+                        }
+                )
+                .setOnDismissListener(new DialogInterface.OnDismissListener (){
+                    @Override
+                    public void onDismiss(DialogInterface dialog){
+                        if(spref.getInt("click_yes",0)!=1 || identity!=1)
+                            finish();
+                    }
+                });
+        mDialog = mbuild.create();
+        mDialog.show();
     }
 
 }

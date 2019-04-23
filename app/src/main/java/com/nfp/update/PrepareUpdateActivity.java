@@ -79,8 +79,6 @@ public class PrepareUpdateActivity extends Activity{
         startActivity(intent);
     }
 
-
-
     private void prepareUpdate() {
             mTextView.setText(downloadText());
     }

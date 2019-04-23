@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class SPUtils {
 
-    public static final String FILE_NAME = "fota_setings_parameter";
+    public static final String FILE_NAME = "fota_setings";
     private static Context context;
 
     public SPUtils(Context context){

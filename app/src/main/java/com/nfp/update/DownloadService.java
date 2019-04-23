@@ -37,23 +37,25 @@ public class DownloadService extends Service {
 	
     private DownloadTask mDownloadTask = null;
 
+    private Intent intent;
+
     @Override
     public int onStartCommand(android.content.Intent intent, int flags, int startId) {
+
+        this.intent=intent;
         //获得Activity传来的参数
         if (ACTION_START.equals(intent.getAction())) {
 
             FileInfo fileInfo = (FileInfo) intent.getSerializableExtra("fileinfo");
             android.util.Log.e(TAG, "onStartCommand: ACTION_START-" + fileInfo.toString());
-            new com.nfp.update.DownloadService.InitThread(fileInfo).start();
-            intent.setClass(this, DownLoadProgress.class);
-            startActivity(intent);
+            new DownloadService.InitThread(fileInfo).start();
+
         } else if (ACTION_PAUSE.equals(intent.getAction())) {
             FileInfo fileInfo = (FileInfo) intent.getSerializableExtra("fileinfo");
             android.util.Log.e(TAG, "onStartCommand:ACTION_PAUSE- " + fileInfo.toString());
             if (mDownloadTask != null) {
                 mDownloadTask.isPause = true;
             }
-
         }
         return super.onStartCommand(intent, flags, startId);
     }
@@ -74,9 +76,12 @@ public class DownloadService extends Service {
                 case MSG_INIT:
                     FileInfo fileinfo = (FileInfo) msg.obj;
                     android.util.Log.e(TAG, fileinfo.toString());
+                    intent.setClass(DownloadService.this, DownLoadProgress.class);
+                    startActivity(intent);
                     //启动下载任务
-                    mDownloadTask = new DownloadTask(com.nfp.update.DownloadService.this, fileinfo);
+                    mDownloadTask = new DownloadTask(DownloadService.this, fileinfo);
                     mDownloadTask.download();
+
                     break;
 
             }
@@ -99,14 +104,14 @@ public class DownloadService extends Service {
             java.io.RandomAccessFile raf = null;
             try {
                 //连接网络文件
-                java.net.URL url = new java.net.URL(tFileInfo.getUrl());
-                conn = (java.net.HttpURLConnection) url.openConnection();
+                URL url = new URL(tFileInfo.getUrl());
+                conn = (HttpURLConnection) url.openConnection();
                 conn.setConnectTimeout(3000);
 				conn.setReadTimeout(25000);
                 conn.setRequestMethod("GET");
                 int length = -1;
-                android.util.Log.e(TAG, conn.getResponseCode() + "");
-                if (conn.getResponseCode() == java.net.HttpURLConnection.HTTP_OK) {
+                Log.e(TAG, conn.getResponseCode() + "");
+                if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
                     //获取文件长度
                     length = conn.getContentLength();
                     android.util.Log.e(TAG, length + "");
@@ -115,15 +120,15 @@ public class DownloadService extends Service {
                     return;
                 }
 
-				boolean b = MD5Util.chmod755(com.nfp.update.DownloadService.DOWNLOAD_PATH);
-				android.util.Log.e(TAG, "chmodd 755 : " + b);
-                java.io.File dir = new java.io.File(DOWNLOAD_PATH);
+				boolean b = MD5Util.chmod755(DownloadService.DOWNLOAD_PATH);
+				Log.e(TAG, "chmodd 755 : " + b);
+                File dir = new File(DOWNLOAD_PATH);
                 if (!dir.exists()) {
                     boolean mMkdir = dir.mkdir();
-                    android.util.Log.d(TAG,"mMkdir : " + mMkdir);
+                    Log.d(TAG,"mMkdir : " + mMkdir);
                 }
                 //在本地创建文件
-                java.io.File file = new java.io.File(dir, tFileInfo.getFileName());
+                File file = new File(dir, tFileInfo.getFileName());
                /* file.createNewFile();*/
                 file.setWritable(Boolean.TRUE);
                 file.setReadable (Boolean.TRUE);

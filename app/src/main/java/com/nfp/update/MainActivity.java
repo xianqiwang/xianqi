@@ -1,23 +1,9 @@
-/*
- * Copyright (C) 2017 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.nfp.update;
 
 import android.app.Activity;
 import android.app.PendingIntent;
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -26,6 +12,9 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.PixelFormat;
 import android.net.Uri;
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
+import android.os.Process;
 import android.provider.FontsContract.FontInfo;
 import android.provider.Settings;
 import android.os.Build;
@@ -92,7 +81,8 @@ public class MainActivity extends Activity {
     private  Resources res;
     private SharedPreferences spref;
     private NetworkCheck networkCheck;
-
+    private WakeLock wakeLock;
+    private boolean iswakeLock = true;// 是否常亮
     public static Context getInstance(){
         return context;
     }
@@ -123,10 +113,23 @@ public class MainActivity extends Activity {
 
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        PowerManager pm=(PowerManager) getSystemService(POWER_SERVICE);
+        wakeLock=pm.newWakeLock(PowerManager.FULL_WAKE_LOCK,"Update");
+        if (iswakeLock) {
+            wakeLock.acquire();
+        }
+    }
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         spref = this.getSharedPreferences("debug_comm", 0);
         res = this.getResources();
+
 
         if(spref.getInt("IS_OPEN", 0)==1){
             finish();
@@ -149,16 +152,23 @@ public class MainActivity extends Activity {
         verifyStoragePermissions(this);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause ();
+/*        if (wakeLock != null) {
+            wakeLock.release ();
+        }
+        Process.killProcess (Process.myPid ());*/
+    }
+
     public void JustForTest(){
-                /*
         Intent intent = new Intent();
         intent.setClass(MainActivity.this, WaypointsActivity.class);
         startActivity(intent);
 
-        */
         /*        testDatabase();
           test();*/
-        checkVersion();
+
     }
 
     public void JudgeManualDialog(){
@@ -194,27 +204,6 @@ public class MainActivity extends Activity {
 
     }
 
-    private FileInfo downloadFota() {
-
-        String baseurl="http://static3.iyuba.cn/android/apk/news/news.apk";
-        String filecode="61";
-        String url=baseurl;
-        return new FileInfo(0, url, "news.apk", 0, 0);
-
-    }
-
-    public void checkVersion(){
-
- /*       WtwdFotaServer mWtwdFotaServer = new WtwdFotaServer();
-        mWtwdFotaServer.checkUpdate(MainActivity.this, "MT6739", "android7.1", "yk915", "ddd", 1);
-*/
-        DataCache.getInstance(this).setDownloadPath(DownloadService.DOWNLOAD_PATH);
-        android.content.Intent intent = new android.content.Intent(this, DownloadService.class);
-        intent.setAction(DownloadService.ACTION_START);
-        intent.putExtra("fileinfo", downloadFota());
-        startService(intent);
-
-    }
 
     public static void verifyStoragePermissions(Activity activity) {
 
@@ -389,8 +378,6 @@ public void A_D_12_end(){
             }
         }
     });
-
-
 }
 
     public void A_D_20_end(){
@@ -773,11 +760,6 @@ else {
         }
 
 
-/*        checkUpdate();*/
-
-/*
-        SoftwareUpdate softwareUpdate=new SoftwareUpdate (this);
-*/
     }
 
     private static String getUserAgent() {
@@ -804,15 +786,7 @@ else {
     }
 
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
 
     private class ItemListAdapter extends ArrayAdapter<String> {
         private int resource;
@@ -1134,6 +1108,5 @@ else {
         return  mContentResolver.insert (uri,values);
 
     }
-
 
 }
