@@ -51,12 +51,12 @@ public class FileSample extends SampleParentActivity {
 
     @Override
     public String getDefaultURL() {
-        return "https://httpbin.org/robots.txt";
+        return "http://p9008-ipngnfx01funabasi.chiba.ocn.ne.jp/cgi-bin/bcmdiff/download.cgi?VER=SII%20901SI%20v000%20/l000%20123456788103254%2000000001234%20000000000001234%20001%206259";
     }
 
     @Override
-    public com.loopj.android.http.ResponseHandlerInterface getResponseHandler() {
-        return new com.loopj.android.http.FileAsyncHttpResponseHandler(this) {
+    public ResponseHandlerInterface getResponseHandler() {
+        return new FileAsyncHttpResponseHandler(this) {
             @Override
             public void onStart() {
                 clearOutputs();
@@ -95,7 +95,8 @@ public class FileSample extends SampleParentActivity {
     }
 
     @Override
-    public com.loopj.android.http.RequestHandle executeSample(com.loopj.android.http.AsyncHttpClient client, String URL, cz.msebera.android.httpclient.Header[] headers, cz.msebera.android.httpclient.HttpEntity entity, com.loopj.android.http.ResponseHandlerInterface responseHandler) {
+    public RequestHandle executeSample(AsyncHttpClient client, String URL, Header[] headers, HttpEntity entity, com.loopj.android.http.ResponseHandlerInterface responseHandler) {
+        client.setUserAgent ("SB-901SI");
         return client.get(this, URL, headers, null, responseHandler);
     }
 }

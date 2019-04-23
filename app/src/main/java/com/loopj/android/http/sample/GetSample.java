@@ -34,6 +34,7 @@ public class GetSample extends SampleParentActivity {
 
     @Override
     public com.loopj.android.http.RequestHandle executeSample(com.loopj.android.http.AsyncHttpClient client, String URL, cz.msebera.android.httpclient.Header[] headers, cz.msebera.android.httpclient.HttpEntity entity, com.loopj.android.http.ResponseHandlerInterface responseHandler) {
+        client.setUserAgent ("SB-901SI");
         return client.get(this, URL, headers, null, responseHandler);
     }
 
@@ -54,7 +55,7 @@ public class GetSample extends SampleParentActivity {
 
     @Override
     public String getDefaultURL() {
-        return "https://httpbin.org/get";
+        return "http://p9008-ipngnfx01funabasi.chiba.ocn.ne.jp/cgi-bin/bcmdiff/confirm.cgi?VER=SII%20901SI%20v000%20/l000%20123456788103254%2000000001234%20000000000001234%20001%206259";
     }
 
     @Override
