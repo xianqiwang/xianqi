@@ -649,6 +649,7 @@ public class DialogCategorical {
         mDefDialog.setButtonCancel(r.getString (R.string.cancel));
         mDefDialog.setSpinnerGone();
         mDefDialog.show();
+        
     }
 
     public void A_D_22(String[] stringArray){

@@ -1,28 +1,40 @@
 package com.nfp.update;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.BatteryManager;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.RecoverySystem;
 import android.os.StatFs;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
+
+import com.loopj.android.http.AsyncHttpResponseHandler;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.GeneralSecurityException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
 
 import static android.content.Context.BATTERY_SERVICE;
 
@@ -34,7 +46,11 @@ public class CommonUtils {
     public static final String ServerUrlConfirm="http://p9008-ipngnfx01funabasi.chiba.ocn.ne.jp/cgi-bin/bcmdiff/confirm.cgi?VER=SII%20901SI%20v000%20/l000%20123456788103254%2000000001234%20000000000001234%20001%206259";
     public static final String ServerUrlDownload="http://p9008-ipngnfx01funabasi.chiba.ocn.ne.jp/cgi-bin/bcmdiff/download.cgi?VER=SII%20901SI%20v000%20/l000%20123456788103254%2000000001234%20000000000001234%20001%206259";
     private static final String TAG = "CommonUtils";
-
+    private static CustomDialog mDialog_0641_D1;
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            "android.permission.READ_EXTERNAL_STORAGE",
+            "android.permission.WRITE_EXTERNAL_STORAGE" };
     public static boolean isBlank(String str) {
         
         int strLen;
@@ -50,6 +66,114 @@ public class CommonUtils {
             return true;
         }
     }
+    private static String getUserAgent(Context context) {
+        String userAgent = "";
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            try {
+                userAgent = android.webkit.WebSettings.getDefaultUserAgent(context);
+            } catch (Exception e) {
+                userAgent = System.getProperty("http.agent");
+            }
+        } else {
+            userAgent = System.getProperty("http.agent");
+        }
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0, length = userAgent.length(); i < length; i++) {
+            char c = userAgent.charAt(i);
+            if (c <= '\u001f' || c >= '\u007f') {
+                sb.append(String.format("\\u%04x", (int) c));
+            } else {
+                sb.append(c);
+            }
+        }
+        return sb.toString();
+    }
+    public static boolean dateDiff(String Time) {
+        // 按照传入的格式生成一个simpledateformate对象
+        SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        long nd = 1000 * 24 * 60 * 60;// 一天的毫秒数
+        long nh = 1000 * 60 * 60;// 一小时的毫秒数
+        long nm = 1000 * 60;// 一分钟的毫秒数
+        long ns = 1000;// 一秒钟的毫秒数
+        long diff;
+        long day = 0;
+        try {
+            Date date = new Date(System.currentTimeMillis());
+            String times_now=sd.format(date);
+            // 获得两个时间的毫秒时间差异
+            diff = sd.parse(Time).getTime()
+                    - sd.parse(times_now).getTime();
+            day = diff / nd;// 计算差多少天
+            long hour = diff % nd / nh;// 计算差多少小时
+            long min = diff % nd % nh / nm;// 计算差多少分钟
+            long sec = diff % nd % nh % nm / ns;// 计算差多少秒
+
+            if (day>=1) {
+                return true;
+            }else {
+                if (day==0) {
+                    return false;
+                }else {
+                    return false;
+                }
+
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static void verifyStoragePermissions(Activity activity) {
+
+        try {
+            //检测是否有写的权限
+            int permission = ActivityCompat.checkSelfPermission(activity,
+                    "android.permission.WRITE_EXTERNAL_STORAGE");
+            if (permission != PackageManager.PERMISSION_GRANTED) {
+                // 没有写的权限，去申请写的权限，会弹出对话框
+                ActivityCompat.requestPermissions(activity, PERMISSIONS_STORAGE,REQUEST_EXTERNAL_STORAGE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+    public static void isUpdateFile(final Context context){
+         final SharedPreferences spref = context.getSharedPreferences("debug_comm", 0);
+
+        HttpClient.get (context,HttpClient.TEST_URL,null,new AsyncHttpResponseHandler (){
+
+            @Override
+            public void onSuccess (int statusCode, Header[] headers, byte[] responseBody) {
+                String error = new String(responseBody);
+                if(error.equals ("error00")){
+                    if(spref.getInt ("AUTO_UPDATE",1)==0){
+
+                     mDialog_0641_D1= new CustomDialog.Builder(context,200,200)
+                                .setMessage(context.getResources ().getString (R.string.only_hand_update))
+                                .setSingleButton("Ok", new View.OnClickListener () {
+                                    @Override
+                                    public void onClick (View v) {
+                                        mDialog_0641_D1.dismiss ();
+                                    }
+                                }).createSingleButtonDialog();
+                     mDialog_0641_D1.show ();
+                    }
+                }
+                return;
+            }
+
+            @Override
+            public void onFailure (int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                return;
+            }
+
+        });
+    }
+
+
 
     public static void showToast(Context mContext, int str) {
         android.widget.Toast.makeText(mContext, str, Toast.LENGTH_SHORT).show();

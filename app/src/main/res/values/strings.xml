@@ -41,7 +41,7 @@
      <string name="start1" translatable="false">start</string>
      <string name="pause" translatable="false">stop</string>
      <string name="check" translatable="false">check version</string>
-    <string name="download_cancel">Download has been\ncancelled.The file size\nis large.Please\nconnect to the Wi-Fi\nand try again.</string>
+     <string name="download_cancel">Download has been\ncancelled.The file size\nis large.Please\nconnect to the Wi-Fi\nand try again.</string>
      <string name="toast_network_unavailable" translatable="false">Network unavailable</string>
      <string name="toast_storage_not_enough" translatable="false">not enough storage space</string>
      <string name="toast_battery_low" translatable="false">The current power is too low and the installed refresh power needs to be greater than 30%</string>
