@@ -729,13 +729,10 @@ public class UpdateUtil {
     }
 
     public static long getAvailableInternalMemorySize () {
-        // TODO: move statfs() to background thread
-        File path = new File ("/fota");
+
+        File path = new File ("/cache");
         long available = path.getFreeSpace () / (1024 * 1024);
-        Log.d ("kevin", "available free space =" + available + " M");
         return available;
-
-
     }
 
     public static boolean checkNetworkConnection () {

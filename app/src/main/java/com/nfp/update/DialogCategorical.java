@@ -51,17 +51,100 @@ public class DialogCategorical {
         this.callbackOtherKey=callbackOtherKey;
     }
 
-    DialogCategorical(Context context, int width, int height , View layout){
+    DialogCategorical(Context context){
 
-        mDefDialog = new DefDialog (context, 0, 0, layout, R.style.styledialog);
-
+        mDefDialog = new DefDialog (context, R.style.styledialog);
         mContext=context;
 
     }
 
-    public void N_0646_S01(int i,int msg){
+    public  static DefDialog N_0670_s01(Context context,int msg,int button1,int button2){
 
-        Resources r=mContext.getResources();
+        DefDialog  mDefDialog = new DefDialog (context, R.style.styledialog);
+        Resources r=context.getResources();
+
+        mDefDialog.setProgressGone ();
+        mDefDialog.setMessageLVisible ();
+        mDefDialog.setCancelable(false);
+        mDefDialog.setCenterKeyGone();
+        mDefDialog.setSpinnerGone();
+        mDefDialog.setMessage (r.getString (msg));
+        mDefDialog.setListViewGone ();
+        mDefDialog.setViewTwoVisible ();
+        mDefDialog.setButtonConfirm (r.getString (button1));
+        mDefDialog.setButtonCancel (r.getString (button2));
+        mDefDialog.setMessageLCenter ();
+        mDefDialog.setViewOneheight (100);
+        mDefDialog.setViewTwoheight (50);
+        mDefDialog.setMessageLSize (30);
+        mDefDialog.setMessageLVisible ();
+        mDefDialog.setMessageSize (30);
+        mDefDialog.show();
+        return mDefDialog;
+
+    }
+
+    public  static DefDialog N_0671_s01(Context context,int msg,int button1,int button2,int button3){
+
+        DefDialog  mDefDialog = new DefDialog (context, R.style.styledialog);
+        Resources r=context.getResources();
+        mDefDialog.setProgressGone ();
+        mDefDialog.setMessageLVisible ();
+        mDefDialog.setCancelable(false);
+        mDefDialog.setSpinnerGone();
+        mDefDialog.setMessage (r.getString (msg));
+        mDefDialog.setListViewGone ();
+        mDefDialog.setViewTwoVisible ();
+        mDefDialog.setButtonConfirm (r.getString (button1));
+        mDefDialog.setButtonCancel (r.getString (button2));
+        mDefDialog.setButtonCenter (r.getString (button3));
+        mDefDialog.setMessageLCenter ();
+        mDefDialog.setViewOneheight (100);
+        mDefDialog.setViewTwoheight (50);
+        mDefDialog.setMessageLSize (30);
+        mDefDialog.setMessageLVisible ();
+        mDefDialog.setMessageSize (30);
+        mDefDialog.show();
+        return mDefDialog;
+
+    }
+
+    public  static void N_0645_s01(Context context, int i,int msg,boolean dismiss){
+
+        DefDialog  mDefDialog = new DefDialog (context, R.style.styledialog);
+        Resources r=context.getResources();
+        if(dismiss){
+
+         mDefDialog.dismiss ();
+
+        }
+        mDefDialog.setProgressVisible ();
+        mDefDialog.setMessageLVisible ();
+        mDefDialog.setCancelable(false);
+        mDefDialog.setCancelKeyGone ();
+        mDefDialog.setCenterKeyGone();
+        mDefDialog.setTitleGone ();
+        mDefDialog.setOkKeyGone();
+        mDefDialog.setSpinnerGone();
+        mDefDialog.setMessage (r.getString (msg));
+        mDefDialog.setMessagel ("                   "+i+"%");
+        mDefDialog.setListViewGone ();
+        mDefDialog.setViewTwoVisible ();
+
+        mDefDialog.setMessageLCenter ();
+        mDefDialog.setViewOneheight (100);
+        mDefDialog.setViewTwoheight (50);
+        mDefDialog.setMessageLSize (30);
+        mDefDialog.setMessageLVisible ();
+        mDefDialog.setMessageSize (30);
+
+        mDefDialog.show();
+        }
+
+    public  static void N_0646_S01(Context context, int i,int msg){
+
+        DefDialog  mDefDialog = new DefDialog (context, R.style.styledialog);
+        Resources r=context.getResources();
         mDefDialog.setCancelable(false);
         mDefDialog.setMessageTextColor (Color.WHITE);
         mDefDialog.setmMessageLTextColor (Color.WHITE);

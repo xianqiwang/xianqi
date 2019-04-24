@@ -27,6 +27,7 @@
     <string name="software_update">Software update</string>
 
     <string name="fota_install">During installation \n Please do not turn off the power</string>
+    <string name="select">select</string>
 
 
     <string name="auto_update">Automatic Update Settings</string>
@@ -175,21 +176,37 @@ The update time is currently set to </string>
 
     <string name="no">No</string>
     <string name="ok_dailog" translatable="false">OK</string>
-    <string name="select">Select</string>
+    <string name="b_set_time">set auto update time</string>
+    <string name="b_now_update">Update Now</string>
     <string name="cancel">Cancel</string>
-     <string name="confirmation">Confirmation</string>
+    <string name="contenus_progress">Continue from the last downloaded progress?</string>
+
+    <string name="download_progress_set_time">
+        Download of new software is complete.\n
+        Please software update automatically at the following date and time.\n
+        All functions can not be used while updating.\n
+        M月DD日hh:mm
+    </string>
+
+    <string name ="battery_insufficient">The battery level is insufficient. Please try again after charging.</string>
+    <string name="auto_change">The automatic update time have been changed</string>
+    <string name="download_finish">Software download is complete.Do you want to update now?</string>>
+    <string name ="usim_restore">"Restoring phone book data from USIM card, please wait for a while."</string>>
+    <string name ="battery_level">The battery level is insufficient. Please try again after charging.</string>>
+    <string name ="not_using_while_update">Do you want to update the software?\n
+    All functions can not be used while updating.</string>
+
+    <string name="confirmation">Confirmation</string>
      <string name="confirmation_messages">"Update the latest software?" All functions can not be used during SW updating.</string>
      <string name="download_info">Download the latest SW?</string>
-     <string name="download_progress">SW downloading</string>
+     <string name="download_progress">Software Downloading</string>
      <string name="downloading">Downloading......</string>
      <string name="cancel_download">Cancel to Download?</string>
-
      <string name="schedule">Schedule</string>
     <string name="setup_time">Time for Software\nUpdate is set.\nIt is currently set to\n</string>
      <string name="update">Update</string>
      <string name="update_done">Software is downloaded. Automatic update starts at the following date and time.All functions are not available during update.\n%1$s/%2$s %3$s:%4$s</string>
 
-    <string name="auto_change">The automatic update time have been changed</string>
     <string name="set_off">Automatic Update has been set to off</string>
      <string name="update_complete">Software update has done</string>
      <string name="update_fail">Update latest sw fail</string>
@@ -251,7 +268,7 @@ The update time is currently set to </string>
     <string name="field_password">Password</string>
 
     <string name="button_run">Run</string>
-    <string name="button_cancel">Cancel</string>
+    <string name="button_cancel" translatable="false">Cancel</string>
     <string name="button_delete_target_file">Delete original target file</string>
 
     <string name="menu_use_https">Use HTTPS</string>

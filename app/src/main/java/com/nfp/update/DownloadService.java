@@ -154,7 +154,6 @@ public class DownloadService extends Service {
                 } catch (java.io.IOException e) {
                     e.printStackTrace();
                 }
-
             }
         }
     }

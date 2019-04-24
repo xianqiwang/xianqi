@@ -14,6 +14,7 @@ public class Service2 extends android.app.Service {
 	/**
 	 * 使用aidl 启动Service1
 	 */
+
 	private StrongService startS1 = new StrongService.Stub() {
 
 		@Override
@@ -29,6 +30,7 @@ public class Service2 extends android.app.Service {
 			getBaseContext().startService(i);
 
 		}
+
 	};
 
 	/**

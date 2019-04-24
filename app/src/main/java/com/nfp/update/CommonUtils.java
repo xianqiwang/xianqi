@@ -4,6 +4,7 @@ import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.BatteryManager;
 import android.os.Environment;
 import android.os.Handler;
@@ -29,8 +30,11 @@ import static android.content.Context.BATTERY_SERVICE;
 public class CommonUtils {
 
     private int mProgress;
-
+    public static final String UpdateFileName="update";
+    public static final String ServerUrlConfirm="http://p9008-ipngnfx01funabasi.chiba.ocn.ne.jp/cgi-bin/bcmdiff/confirm.cgi?VER=SII%20901SI%20v000%20/l000%20123456788103254%2000000001234%20000000000001234%20001%206259";
+    public static final String ServerUrlDownload="http://p9008-ipngnfx01funabasi.chiba.ocn.ne.jp/cgi-bin/bcmdiff/download.cgi?VER=SII%20901SI%20v000%20/l000%20123456788103254%2000000001234%20000000000001234%20001%206259";
     private static final String TAG = "CommonUtils";
+
     public static boolean isBlank(String str) {
         
         int strLen;
@@ -142,13 +146,25 @@ public class CommonUtils {
 
                     updateFirmware(context, file);
 
-                    dialogCategorical = new DialogCategorical (context, 0, 0, view);
+                    dialogCategorical = new DialogCategorical (context);
 /*
                     dialogCategorical.N_0646_S01 (50, R.string.fota_install);
 */
                 } else {
-                    CommonUtils.showToastInService(context,R.string.toast_battery_low);
+
+                    new CustomDialog.Builder(context,200,200)
+                            .setMessage(context.getResources ().getString (R.string.battery_insufficient))
+                            .setPositiveButton ("Ok", new View.OnClickListener () {
+                                @Override
+                                public void onClick (View v) {
+                                    final Intent intent = new Intent();
+                                    intent.setClass(context, MainActivity.class);
+                                    context.startActivity(intent);
+                                }
+                            }).createSingleButtonDialog ().show ();
+
                 }
+
             }
         }).setNegativeButton("Cancel", null).show ();
 

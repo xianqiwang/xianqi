@@ -2,11 +2,28 @@
 <resources>
 
 
+    <string name="contenus_progress">前回ダウンロード済みの場所から続行しますか?</string>
+    <string name="b_set_time">後で更新</string>
+    <string name="b_now_update">今すぐ更新</string>
+
 
     <string name="only_hand_update">"新しいソフトウェアがあり
     　ます。このソフトウェアは
     　手動ダウンロードのみ
     　　ご利用可能です。"</string>
+    <string name="download_progress_set_time">
+    新しいソフトウェアをダウンロードしました。\n
+    以下の日時に自動でソフトウェア更新を行います。\n
+    更新中はすべての機能がご利用になれません。
+    M月DD日hh:mm</string>
+    <string name ="battery_insufficient">電池残量が不足しています。充電後に再度行ってください。</string>
+    <string name="auto_change">"自動更新時間を変更しました"</string>
+    <string name="download_finish">ソフトウェアのダウンロードが完了しました。今すぐ更新しますか？</string>>
+    <string name ="usim_restore">ソフトウェアを更新しますか？更新中は全ての機能がご利用になれません。</string>>
+    <string name ="battery_level">電池残量が不足しています。充電後に再度行ってください。</string>>
+    <string name ="not_using_while_update">ソフトウェアを更新しますか？\n更新中は全ての機能がご利用になれません。</string>
+
+
 
     <string name="fota_install">インストール中 /n 電源を切らないでください</string>
 
@@ -140,7 +157,7 @@
 
      <string name="yes">はい</string>
      <string name="no">いいえ</string>
-    <string name="cancel">中断</string>
+     <string name="cancel">中断</string>
      <string name="confirmation">確認</string>
      <string name="confirmation_messages">ソフトウェアを更新しますか？更新中は全ての機能がご利用になれません。</string>
      <string name="download_info">更新ファイルのダウンロードを実施しますか？</string>

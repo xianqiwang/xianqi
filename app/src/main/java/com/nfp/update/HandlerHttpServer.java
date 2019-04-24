@@ -1,15 +1,26 @@
 package com.nfp.update;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.os.Looper;
+import android.util.Log;
+import android.view.View;
+
+import java.io.File;
+
 public class HandlerHttpServer {
 
     private static final String TAG = "HandlerHttpServer";
 
     private static final String BASE_URL = "http://static3.iyuba.cn/android/apk/news/news.apk";
 
-    private android.os.Handler mHandler = new android.os.Handler(android.os.Looper.getMainLooper());
+    private android.os.Handler mHandler = new android.os.Handler(Looper.getMainLooper());
 
-    public  void checkUpdate(final android.content.Context mContext, String hardware, String system, String board, String customer, int build) {
+    private Context context;
 
+    public  void checkUpdate(final Context mContext, String hardware, String system, String board, String customer, int build) {
+        context=mContext;
         if (NetStatUtils.getNetWorkConnectionType(mContext) == -1) {
             android.util.Log.e(TAG, "The NetWorkConnection is incorrect");
             CommonUtils.showToastInService(mContext,R.string.toast_network_unavailable);
@@ -33,25 +44,20 @@ public class HandlerHttpServer {
 
                                 String mDownloadPath = DataCache.getInstance(mContext).getDownloadPath();
 
-                                java.io.File mFile = CommonUtils.fileIsExists(mDownloadPath, "update_" + downloadFota()+ ".zip");
+                                File mFile = CommonUtils.fileIsExists(mDownloadPath, CommonUtils.UpdateFileName);
                                 if (mFile != null) {
+
                                     CommonUtils.showUpdateNowDialog(mContext, mFile);
+
                                 } else {
 
                                     if (NetStatUtils.getNetWorkConnectionType(mContext) == -1) {
                                         CommonUtils.showToastInService(mContext, R.string.toast_network_unavailable);
                                         return;
-                                    } else if (CommonUtils.readSystem() > 100) {
-                                        DownloadService.DOWNLOAD_PATH = "/data";
-                                    } else if (CommonUtils.readSDCard() > 100) {
-                                        DownloadService.DOWNLOAD_PATH = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/system_update";
-                                    } else {
-                                        CommonUtils.showToastInService(mContext, R.string.toast_storage_not_enough);
-                                        DataCache.getInstance(mContext).setDownloadPath("null");
-                                        return;
+                                    } else if (UpdateUtil.getAvailableInternalMemorySize()>100) {
+                                        showDialog ();
                                     }
 
-                                    DataCache.getInstance(mContext).setDownloadPath(DownloadService.DOWNLOAD_PATH);
                                     android.content.Intent intent = new android.content.Intent(mContext, DownloadService.class);
                                     intent.setAction(DownloadService.ACTION_START);
                                     intent.putExtra("fileinfo",downloadFota());
@@ -66,13 +72,29 @@ public class HandlerHttpServer {
         }).start();
     }
 
+    public void showDialog(){
+        Resources res=context.getResources ();
+
+        CustomDialog   dialog_0642_D5= new CustomDialog.Builder(context,200,200)
+                .setMessage(res.getString (R.string.no_space))
+                .setSingleButton("OK", new View.OnClickListener () {
+
+                    @Override
+                    public void onClick (View v) {
+                        final Intent intent = new Intent();
+                        intent.setClass(context, MainActivity.class);
+                        context.startActivity(intent);
+                    }
+
+                }).createSingleButtonDialog();
+
+    }
+
 
     private FileInfo downloadFota() {
 
-        String baseurl="http://static3.iyuba.cn/android/apk/news/news.apk";
-        String filecode="61";
-        String url=baseurl;
-        return new FileInfo(0, url, "news.apk", 0, 0);
+        String baseurl=CommonUtils.ServerUrlDownload;
+        return new FileInfo(0, baseurl, "update.zip", 0, 0);
 
     }
 

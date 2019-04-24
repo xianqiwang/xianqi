@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class DataCache {
-    private static final String SHARENAME = "wtwd";
+    private static final String SHARENAME = "simfota";
     private static volatile com.nfp.update.DataCache sInstance;
 
     private static android.content.SharedPreferences sPreferences;

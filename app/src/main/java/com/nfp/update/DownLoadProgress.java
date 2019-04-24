@@ -81,8 +81,7 @@ public class DownLoadProgress extends Activity {
     }
 
 
-
-    android.os.Handler mHandler = new android.os.Handler() {
+    android.os.Handler mHandler = new Handler() {
         @Override
         public void handleMessage(android.os.Message msg) {
             android.util.Log.e(TAG, "fileinfo.toString()");
