@@ -27,12 +27,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Calendar;
 
+import android.app.NotificationChannel;
 import android.content.Context;
 import android.content.Intent;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.net.ConnectivityManager;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NotificationCompat;
 import android.telephony.TelephonyManager;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -640,15 +642,28 @@ public class UpdateUtil {
     public static void showFotaNotification (android.content.Context context, int text, int type) {
         Intent notificationIntent;
         PendingIntent contentIntent;
-
+        NotificationCompat.Builder builder;
         NotificationManager mNotificationManager = (NotificationManager) context.getSystemService (context.NOTIFICATION_SERVICE);
-        NewNotification notification = (com.nfp.update.UpdateUtil.NewNotification) new android.app.Notification ();
-        notification.icon = com.nfp.update.R.drawable.pict_software_update;
+       // NewNotification notification = (com.nfp.update.UpdateUtil.NewNotification) new android.app.Notification ();
+       // notification.icon = com.nfp.update.R.drawable.pict_software_update;
+       /* Notification notification = new Notification();
+        notification.icon = R.drawable.pict_software_update;*/
+        NotificationChannel chan1 = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            chan1 = new NotificationChannel("static", "Primary Channel", NotificationManager.IMPORTANCE_HIGH);
+            mNotificationManager.createNotificationChannel(chan1);
+            builder = new NotificationCompat.Builder(context, "static");
+        }
+
+        builder = new NotificationCompat.Builder(context, "static");
+
 
         if (type == 1 || type == 3) {
-            notification.flags = Notification.FLAG_NO_CLEAR;
+     //       notification.flags = Notification.FLAG_NO_CLEAR;
+            builder.setAutoCancel(true);
         } else {
-            notification.flags = Notification.FLAG_AUTO_CANCEL;
+           // notification.flags = Notification.FLAG_AUTO_CANCEL;
+            builder.setAutoCancel(false);
         }
 
         android.content.Context mcontext = context.getApplicationContext ();
@@ -683,12 +698,22 @@ public class UpdateUtil {
             notificationIntent = new android.content.Intent (mcontext, com.nfp.update.MainActivity.class);
             contentIntent = android.app.PendingIntent.getActivity (mcontext, 0, notificationIntent, 0);
         }
+        builder.setContentTitle(contentTitle) //设置通知栏标题
+                .setContentText(contentText) //设置通知栏显示内容
+                .setPriority(NotificationCompat.PRIORITY_MAX) //设置通知优先级
+                .setSmallIcon(R.drawable.icon)
+                .setDefaults(1)
+                .setAutoCancel(true); //设置这个标志当用户单击面板就可以将通知取消
+       // notification.setLatestEventInfo(mcontext, contentTitle, contentText, contentIntent);
 
-        notification.setLatestEventInfo (mcontext, contentTitle, contentText, contentIntent);
+      //  notification.setLatestEventInfo (mcontext, contentTitle, contentText, contentIntent);
+        builder.setContentIntent(contentIntent);
+        mNotificationManager.notify(0, builder.build());
         if (type == 2) {
-            mNotificationManager.notify (0x02, notification);
+
+           // mNotificationManager.notify (0x02, notification);
         } else {
-            mNotificationManager.notify (0x01, notification);
+           // mNotificationManager.notify (0x01, notification);
         }
 
 
