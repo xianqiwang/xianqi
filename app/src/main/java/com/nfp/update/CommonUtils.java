@@ -49,6 +49,19 @@ public class CommonUtils {
     public static final String UpdateFileName="update.zip";
     public static final String ServerUrlConfirm="http://p9008-ipngnfx01funabasi.chiba.ocn.ne.jp/cgi-bin/bcmdiff/confirm.cgi?VER=SII%20901SI%20v000%20/l000%20123456788103254%2000000001234%20000000000001234%20001%206259";
     public static final String ServerUrlDownload="http://p9008-ipngnfx01funabasi.chiba.ocn.ne.jp/cgi-bin/bcmdiff/download.cgi?VER=SII%20901SI%20v000%20/l000%20123456788103254%2000000001234%20000000000001234%20001%206259";
+    public static final String ServerUrlConfirmOne="http://p9008-ipngnfx01funabasi.chiba.ocn.ne.jp/cgi-bin/bcmdiff/confirm.cgi?VER=SII%20901SI%20v001%20/l000%20123456788103254%2000000001234%20000000000001234%20001%20476C";
+    public static final String ServerUrlDownloadOne="http://p9008-ipngnfx01funabasi.chiba.ocn.ne.jp/cgi-bin/bcmdiff/download.cgi?VER=SII%20901SI%20v001%20/l000%20123456788103254%2000000001234%20000000000001234%20001%20476C";
+    public static final String ServerUrlConfirmTwo="http://p9008-ipngnfx01funabasi.chiba.ocn.ne.jp/cgi-bin/bcmdiff/confirm.cgi?VER=SII%20901SI%20v002%20/l000%20123456788103254%2000000001234%20000000000001234%20001%202833";
+    public static final String ServerUrlDownloadTwo="http://p9008-ipngnfx01funabasi.chiba.ocn.ne.jp/cgi-bin/bcmdiff/download.cgi?VER=SII%20901SI%20v002%20/l000%20123456788103254%2000000001234%20000000000001234%20001%202833";
+    public static final String ServerUrlConfirmThree="http://p9008-ipngnfx01funabasi.chiba.ocn.ne.jp/cgi-bin/bcmdiff/confirm.cgi?VER=SII%20901SI%20v003%20/l000%20123456788103254%2000000001234%20000000000001234%20001%200D06";
+    public static final String ServerUrlDownloadThree="http://p9008-ipngnfx01funabasi.chiba.ocn.ne.jp/cgi-bin/bcmdiff/download.cgi?VER=SII%20901SI%20v003%20/l000%20123456788103254%2000000001234%20000000000001234%20001%200D06";
+
+
+/*    v000/l000 ==> v001/l000 : dummy file
+    v001/l000 ==> v002/l000 : update.zip (in Large folder)
+    v002/l000 ==> v003/l000 : update.zip (in Small folder)*/
+
+
     private static final String TAG = "CommonUtils";
     private static CustomDialog mDialog_0641_D1;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
