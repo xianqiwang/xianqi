@@ -241,8 +241,6 @@
                 <action android:name="com.wtwd.action.download.success" />
             </intent-filter>
         </receiver>
-
-
     </application>
 
 </manifest>

@@ -50,9 +50,8 @@ public class CustomDialog extends Dialog {
             dialog.addContentView(layout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             Width=width;
             Height=height;
+
                     }
-
-
 
         public Builder setMessage(String message) {
             this.message = message;

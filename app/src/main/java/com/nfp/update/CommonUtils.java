@@ -3,6 +3,8 @@ package com.nfp.update;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
+import android.app.TimePickerDialog;
+import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,6 +21,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -31,6 +34,7 @@ import java.io.InputStream;
 import java.security.GeneralSecurityException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -42,7 +46,7 @@ import static android.content.Context.BATTERY_SERVICE;
 public class CommonUtils {
 
     private int mProgress;
-    public static final String UpdateFileName="update";
+    public static final String UpdateFileName="update.zip";
     public static final String ServerUrlConfirm="http://p9008-ipngnfx01funabasi.chiba.ocn.ne.jp/cgi-bin/bcmdiff/confirm.cgi?VER=SII%20901SI%20v000%20/l000%20123456788103254%2000000001234%20000000000001234%20001%206259";
     public static final String ServerUrlDownload="http://p9008-ipngnfx01funabasi.chiba.ocn.ne.jp/cgi-bin/bcmdiff/download.cgi?VER=SII%20901SI%20v000%20/l000%20123456788103254%2000000001234%20000000000001234%20001%206259";
     private static final String TAG = "CommonUtils";
@@ -66,7 +70,41 @@ public class CommonUtils {
             return true;
         }
     }
-    private static String getUserAgent(Context context) {
+
+    public static void setTimePicker(final Context context){
+
+        int scheduleValue=1;
+        final Calendar calendar = Calendar.getInstance();
+        int hour =0;
+        int minute =0;
+        if(scheduleValue ==1){
+            hour = UpdateUtil.getHourTemp(context);
+            minute =UpdateUtil.getMinuteTemp(context);
+        }else{
+            hour = UpdateUtil.getHour(context);
+            minute = UpdateUtil.getMinute(context);
+        }
+        TimePickerDialog tp = new TimePickerDialog (context, AlertDialog.THEME_HOLO_LIGHT, new OnTimeSetListener () {
+            @Override
+            public void onTimeSet (TimePicker view, int hourOfDay, int minute) {
+
+                SharedPreferences sprefs = context.getSharedPreferences ("debug_comm", 0);
+
+                SharedPreferences.Editor editor = sprefs.edit();
+                editor.putInt("AUTO_UPDATE", 0);
+                editor.commit();
+
+                CommonUtils.showToastInService(context,R.string.auto_change);
+
+            }
+        }, hour, minute, true);
+
+        tp.setTitle(context.getString (R.string.update_schedule_title));
+
+    }
+
+
+    public static String getUserAgent(Context context) {
         String userAgent = "";
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
             try {

@@ -41,8 +41,6 @@ public class DownloadTask {
     public int progress_g;
     public static OnDownloadProgress downloadProgress;
     public CustomDialog customDialog_2;
-    public CustomDialog customDialog_3;
-
     public Handler handler =new Handler (Looper.myLooper ()){
 
         @Override
@@ -71,33 +69,9 @@ public class DownloadTask {
 
                     @Override
                     public void onCancelKey () {
-                        int scheduleValue=1;
-                        final Calendar calendar = Calendar.getInstance();
-                        int hour =0;
-                        int minute =0;
-                        if(scheduleValue ==1){
-                            hour = UpdateUtil.getHourTemp(mContext);
-                            minute =UpdateUtil.getMinuteTemp(mContext);
-                        }else{
-                            hour = UpdateUtil.getHour(mContext);
-                            minute = UpdateUtil.getMinute(mContext);
-                        }
-                        TimePickerDialog tp = new TimePickerDialog (mContext, AlertDialog.THEME_HOLO_LIGHT, new OnTimeSetListener () {
-                            @Override
-                            public void onTimeSet (TimePicker view, int hourOfDay, int minute) {
 
-                                SharedPreferences sprefs = mContext.getSharedPreferences ("debug_comm", 0);
+                        CommonUtils.setTimePicker (mContext);
 
-                                SharedPreferences.Editor editor = sprefs.edit();
-                                editor.putInt("AUTO_UPDATE", 0);
-                                editor.commit();
-
-                                CommonUtils.showToastInService(mContext,R.string.auto_change);
-
-                            }
-                        }, hour, minute, true);
-
-                        tp.setTitle(mContext.getString (R.string.update_schedule_title));
                     }
 
                     @Override
@@ -106,7 +80,7 @@ public class DownloadTask {
                     }
                 });
                     }else{
-                        DialogCategorical.N_0671_s01 (mContext,
+                      DialogCategorical.N_0671_s01 (mContext,
                                 R.string.download_progress_set_time
                                 ,R.string.b_now_update
                                 ,R.string.b_set_time,R.string.cancel)
@@ -118,33 +92,8 @@ public class DownloadTask {
 
                             @Override
                             public void onCenterKey () {
-                                int scheduleValue=1;
-                                final Calendar calendar = Calendar.getInstance();
-                                int hour =0;
-                                int minute =0;
-                                if(scheduleValue ==1){
-                                    hour = UpdateUtil.getHourTemp(mContext);
-                                    minute =UpdateUtil.getMinuteTemp(mContext);
-                                }else{
-                                    hour = UpdateUtil.getHour(mContext);
-                                    minute = UpdateUtil.getMinute(mContext);
-                                }
-                                TimePickerDialog tp = new TimePickerDialog (mContext, AlertDialog.THEME_HOLO_LIGHT, new OnTimeSetListener () {
-                                    @Override
-                                    public void onTimeSet (TimePicker view, int hourOfDay, int minute) {
 
-                                        SharedPreferences sprefs = mContext.getSharedPreferences ("debug_comm", 0);
-
-                                        SharedPreferences.Editor editor = sprefs.edit();
-                                        editor.putInt("AUTO_UPDATE", 0);
-                                        editor.commit();
-
-                                        CommonUtils.showToastInService(mContext,R.string.auto_change);
-
-                                    }
-                                }, hour, minute, true);
-
-                                tp.setTitle(mContext.getString (R.string.update_schedule_title));
+                                CommonUtils.setTimePicker (mContext);
 
                             }
 
@@ -220,7 +169,6 @@ public class DownloadTask {
                 }).createTwoButtonDialog();
 
     }
-
 
     public DownloadTask(android.content.Context mContext, FileInfo mFileInfo) {
         this.mContext = mContext;

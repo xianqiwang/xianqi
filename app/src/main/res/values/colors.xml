@@ -168,4 +168,11 @@
     <color name="purple_normal">#9932CC</color>
     <color name="purple_pressed">#9F79EE</color>
 
+
+
+    <color name="transparent_black">#aa000000</color>
+
+
+
+
 </resources>

@@ -70,20 +70,17 @@ public class DownloadService extends Service {
     android.os.Handler mHandler = new android.os.Handler() {
         @Override
         public void handleMessage(android.os.Message msg) {
+
             android.util.Log.e(TAG, "fileinfo.toString()");
 
             switch (msg.what) {
                 case MSG_INIT:
                     FileInfo fileinfo = (FileInfo) msg.obj;
-                    android.util.Log.e(TAG, fileinfo.toString());
-                    intent.setClass(DownloadService.this, DownLoadProgress.class);
-                    startActivity(intent);
+                    Log.e(TAG, fileinfo.toString());
                     //启动下载任务
                     mDownloadTask = new DownloadTask(DownloadService.this, fileinfo);
                     mDownloadTask.download();
-
                     break;
-
             }
         }
     };
@@ -143,6 +140,7 @@ public class DownloadService extends Service {
                 tFileInfo.setLength(length);
                 android.util.Log.e(TAG, tFileInfo.getLength() + "");
                 mHandler.obtainMessage(MSG_INIT, tFileInfo).sendToTarget();
+
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
