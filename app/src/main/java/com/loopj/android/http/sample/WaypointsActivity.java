@@ -21,6 +21,7 @@ package com.loopj.android.http.sample;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -64,10 +65,19 @@ public class WaypointsActivity extends android.app.ListActivity {
             new com.loopj.android.http.sample.WaypointsActivity.SampleConfig(R.string.title_use_pool_thread, UsePoolThreadSample.class),
             new com.loopj.android.http.sample.WaypointsActivity.SampleConfig(R.string.title_request_params_debug, RequestParamsDebug.class)
     };
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish(); // back button
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
     @Override
     protected void onCreate(android.os.Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         setListAdapter(new android.widget.ArrayAdapter<>(this, android.R.layout.simple_list_item_1, getTitlesList()));
     }
 
