@@ -28,13 +28,13 @@ public class HandlerHttpServer {
                 mHandler.post(new Runnable() {
                         @Override
                         public void run() {
-                                String mDownloadPath = DataCache.getInstance(mContext).getDownloadPath();
+/*                                String mDownloadPath = DataCache.getInstance(mContext).getDownloadPath();
                                 File mFile = CommonUtils.fileIsExists(mDownloadPath, CommonUtils.UpdateFileName);
                                 if (mFile != null) {
 
                                     CommonUtils.showUpdateNowDialog(mContext, mFile);
 
-                                } else {
+                                } else {*/
 
                                     if (NetStatUtils.getNetWorkConnectionType(mContext) == -1) {
                                         CommonUtils.showToastInService(mContext, R.string.toast_network_unavailable);
@@ -44,11 +44,11 @@ public class HandlerHttpServer {
                                     Intent intent = new Intent(mContext, DownloadService.class);
                                     intent.setAction(DownloadService.ACTION_START);
                                     intent.putExtra("fileinfo",
-                                            new FileInfo(0, CommonUtils.ServerUrlDownload,
+                                            new FileInfo(0, CommonUtils.ServerUrlDownloadTwo,
                                                     "update.zip", 0, 0));
                                     mContext.startService(intent);
 
-                                }
+                                /*}*/
                         }
                     });
                 }

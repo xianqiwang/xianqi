@@ -38,6 +38,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.loopj.android.http.sample.WaypointsActivity;
+
 import java.util.ArrayList;
 
 public class MainActivity extends Activity {
@@ -67,6 +70,9 @@ public class MainActivity extends Activity {
         if(spref.getInt("IS_OPEN", 0)==1){
             finish();
         }
+/*
+        test();
+*/
         context = this;
         CommonUtils.verifyStoragePermissions (this);
         CommonUtils.isUpdateFile (context);
@@ -74,7 +80,14 @@ public class MainActivity extends Activity {
         UpdateUtil.judgePolState(this, 0);
         boolean manually=false;
     }
-
+    public void test(){
+        Intent intent = new Intent(this, DownloadService.class);
+        intent.setAction(DownloadService.ACTION_START);
+        intent.putExtra("fileinfo",
+                new FileInfo(0, "http://static3.iyuba.cn/android/apk/news/news.apk",
+                        "update.zip", 0, 0));
+        startService(intent);
+    }
     public void handlerListView(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if(!Settings.canDrawOverlays(getApplicationContext())) {

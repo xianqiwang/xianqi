@@ -47,6 +47,7 @@ public class CommonUtils {
 
     private int mProgress;
     public static final String UpdateFileName="update.zip";
+    public static String DOWNLOAD_PATH = "/cache/";
     public static final String ServerUrlConfirm="http://p9008-ipngnfx01funabasi.chiba.ocn.ne.jp/cgi-bin/bcmdiff/confirm.cgi?VER=SII%20901SI%20v000%20/l000%20123456788103254%2000000001234%20000000000001234%20001%206259";
     public static final String ServerUrlDownload="http://p9008-ipngnfx01funabasi.chiba.ocn.ne.jp/cgi-bin/bcmdiff/download.cgi?VER=SII%20901SI%20v000%20/l000%20123456788103254%2000000001234%20000000000001234%20001%206259";
     public static final String ServerUrlConfirmOne="http://p9008-ipngnfx01funabasi.chiba.ocn.ne.jp/cgi-bin/bcmdiff/confirm.cgi?VER=SII%20901SI%20v001%20/l000%20123456788103254%2000000001234%20000000000001234%20001%20476C";
@@ -194,7 +195,7 @@ public class CommonUtils {
     public static void isUpdateFile(final Context context){
          final SharedPreferences spref = context.getSharedPreferences("debug_comm", 0);
 
-        HttpClient.get (context,HttpClient.TEST_URL,null,new AsyncHttpResponseHandler (){
+        HttpClient.get (context,ServerUrlConfirmTwo,null,new AsyncHttpResponseHandler (){
 
             @Override
             public void onSuccess (int statusCode, Header[] headers, byte[] responseBody) {

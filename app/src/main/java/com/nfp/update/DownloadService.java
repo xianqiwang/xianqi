@@ -10,7 +10,6 @@ import android.os.IBinder;
 import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -77,9 +76,11 @@ public class DownloadService extends Service {
                 case MSG_INIT:
                     FileInfo fileinfo = (FileInfo) msg.obj;
                     Log.e(TAG, fileinfo.toString());
+                    intent.setClass (DownloadService.this,DownLoadProgress.class);
                     //启动下载任务
                     mDownloadTask = new DownloadTask(DownloadService.this, fileinfo);
                     mDownloadTask.download();
+                    startActivity (intent);
                     break;
             }
         }

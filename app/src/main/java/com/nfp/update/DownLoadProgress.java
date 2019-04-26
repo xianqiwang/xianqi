@@ -80,80 +80,29 @@ public class DownLoadProgress extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-
-    android.os.Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(android.os.Message msg) {
-            android.util.Log.e(TAG, "fileinfo.toString()");
-
-
-            switch (msg.what) {
-                case MSG_INIT:
-                    FileInfo fileinfo = (FileInfo) msg.obj;
-                    android.util.Log.e(TAG, fileinfo.toString());
-                    //启动下载任务
-                    mDownloadTask = new DownloadTask(DownLoadProgress.this, fileinfo);
-                    mDownloadTask.download();
-                    break;
-                case MSG_INIT1:
-/*
-                    android.util.Log.e(TAG, "lhc:"+DownloadTask.mFinished);
-*/
-                    break;
-            }
-        }
-    };
-
-
-   @Override
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.download_file);
-       getActionBar().setDisplayHomeAsUpEnabled(true);
-       DataCache.getInstance(this).setDownloadPath(DownloadService.DOWNLOAD_PATH);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        DataCache.getInstance(this).setDownloadPath(DownloadService.DOWNLOAD_PATH);
 
         pb=(ProgressBar)findViewById(R.id.down_pb);
         mTextView=(TextView)findViewById(R.id.tv);
-       percent=(TextView)findViewById(R.id.percent);
+        percent=(TextView)findViewById(R.id.percent);
         messages = this.getResources().getString(R.string.downlaod_back_idle);
 
-       DownloadTask.setOnDownloadProgress (new OnDownloadProgress () {
-           @Override
-           public void onDownloadProgress (int progress) {
-               pb.setProgress (progress);
-           Log.v ("yingbo","mesgsdgfuishiuhfi_________--");
+        DownloadTask.setOnDownloadProgress (new OnDownloadProgress () {
+            @Override
+            public void onDownloadProgress (int progress, boolean is_finish) {
+                pb.setProgress (progress);
+                Log.v ("yingbo","mesgsdgfuishiuhfi_________--");
 
-               percent.setText (""+progress+"%");
+                percent.setText (""+progress+"%");
+            }
 
-           }
+        });
 
-       });
-       /*new Thread(new Runnable() {
-           @Override
-           public void run() {
-               int max = pb.getMax();
-               try {
-                   //子线程循环间隔消息
-                   while (pro < max) {
-                       pro += 10;
-                       Message msg = new Message();
-                       msg.what = pro;
-
-                       if(msg == null){
-
-                           mHandler.postDelayed(this, 2000L);
-
-                       }
-
-                       mHandler.sendMessage(msg);
-
-                       Thread.sleep(1000);
-                   }
-               } catch (InterruptedException e) {
-                   e.printStackTrace();
-               }
-           }
-       }).start();*/
         spref = PreferenceManager.getDefaultSharedPreferences(DownLoadProgress.this);
         try{
             TEST = UpdateUtil.getTestVersion(DownLoadProgress.this);
@@ -161,17 +110,17 @@ public class DownLoadProgress extends Activity {
             e.printStackTrace();
         }
         UpdateUtil.judgePolState(this, 2);
-       // startDownload();
+        startDownload();
     }
 
 
 
-    private Handler m11handler = new Handler() {
+    private Handler mhandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case INT_DOWNLOAD_UPDATE_FILE:
-                    HttpClient.get(DownLoadProgress.this, DOWNLOAD_UPDATE_FILE + TEST, null, FOTA_FILE, new FileAsyncHttpResponseHandler(new File(FOTA_FILE), true) {
+                    HttpClient.get(DownLoadProgress.this, CommonUtils.ServerUrlDownloadTwo, null, FOTA_FILE, new FileAsyncHttpResponseHandler(new File(FOTA_FILE), true) {
 
                         @android.support.annotation.RequiresApi (api = android.os.Build.VERSION_CODES.KITKAT)
                         @Override
@@ -218,21 +167,21 @@ public class DownLoadProgress extends Activity {
                             restartPolling();
                         }
 
-                       @Override
-                       public void onProgress(long bytesWritten, long totalSize) {
-                           // TODO Auto-generated method stub
-                           //int count = (int) ((bytesWritten * 1.0 / totalSize) * 100);
-                           long total = totalSize + hadDownload;
-                           if(downFlag){
-                               downFlag = false;
-                               SharedPreferences.Editor pEdit = spref.edit();
-                               pEdit.putLong("total_size", total);
-                               pEdit.commit();
-                           }
-                           int count = (int) (((bytesWritten + hadDownload) * 1.0 / total) * 100);
-                           Log.d(TAG, "Download -> onProgress, count = " + count);
-                           pb.setProgress(count);
-                       }
+                        @Override
+                        public void onProgress(long bytesWritten, long totalSize) {
+                            // TODO Auto-generated method stub
+                            //int count = (int) ((bytesWritten * 1.0 / totalSize) * 100);
+                            long total = totalSize + hadDownload;
+                            if(downFlag){
+                                downFlag = false;
+                                SharedPreferences.Editor pEdit = spref.edit();
+                                pEdit.putLong("total_size", total);
+                                pEdit.commit();
+                            }
+                            int count = (int) (((bytesWritten + hadDownload) * 1.0 / total) * 100);
+                            Log.d(TAG, "Download -> onProgress, count = " + count);
+                            pb.setProgress(count);
+                        }
                     });
                     break;
             }
@@ -280,8 +229,8 @@ public class DownLoadProgress extends Activity {
         insertEventLog(getApplicationContext (),0, getString(R.string.download), 0, getString(R.string.start), null, null);
         Message message = new Message();
         message.what = INT_DOWNLOAD_UPDATE_FILE;
-       // mhandler.removeMessages(INT_DOWNLOAD_UPDATE_FILE);
-      //  mhandler.sendMessage(message);
+        mhandler.removeMessages(INT_DOWNLOAD_UPDATE_FILE);
+        mhandler.sendMessage(message);
     }
 
 
@@ -384,12 +333,12 @@ public class DownLoadProgress extends Activity {
                             }
                         }
                 ).setOnDismissListener(new DialogInterface.OnDismissListener (){
-                     @Override
-                     public void onDismiss(DialogInterface dialog){
-                         if(spref.getInt("click_cancel_download",0)!= 1)
-                             startDownload();
-                     }
-        });
+                    @Override
+                    public void onDismiss(DialogInterface dialog){
+                        if(spref.getInt("click_cancel_download",0)!= 1)
+                            startDownload();
+                    }
+                });
         mbuild.show();
     }
 
@@ -399,11 +348,11 @@ public class DownLoadProgress extends Activity {
         if(spref.getInt("pol_switch",1)!=0){
             UpdateUtil.stopPollingService(this);
             UpdateUtil.startPollingService(this, UpdateUtil.getPollStartTime(this));
-       }
+        }
     }
 
-   @android.support.annotation.RequiresApi (api = android.os.Build.VERSION_CODES.JELLY_BEAN_MR1)
-   @Override
+    @android.support.annotation.RequiresApi (api = android.os.Build.VERSION_CODES.JELLY_BEAN_MR1)
+    @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if(keyCode ==KeyEvent.KEYCODE_DPAD_CENTER||keyCode ==KeyEvent.KEYCODE_BACK){
             cancleDownload();
@@ -411,5 +360,30 @@ public class DownLoadProgress extends Activity {
         }
         return super.onKeyUp(keyCode,event);
     }
+/*       new Thread(new Runnable() {
+           @Override
+           public void run() {
+               int max = pb.getMax();
+               try {
+                   //子线程循环间隔消息
+                   while (pro < max) {
+                       pro += 10;
+                       Message msg = new Message();
+                       msg.what = pro;
 
+                       if(msg == null){
+
+                           mHandler.postDelayed(this, 2000L);
+
+                       }
+
+                       mHandler.sendMessage(msg);
+
+                       Thread.sleep(1000);
+                   }
+               } catch (InterruptedException e) {
+                   e.printStackTrace();
+               }
+           }
+       }).start();*/
 }

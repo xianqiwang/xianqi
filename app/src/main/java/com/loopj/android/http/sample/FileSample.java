@@ -1,21 +1,3 @@
-/*
-    Android Asynchronous Http Client Sample
-    Copyright (c) 2014 Marek Sebera <marek.sebera@gmail.com>
-    https://loopj.com
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-        https://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-*/
-
 package com.loopj.android.http.sample;
 
 import android.util.Log;
@@ -27,6 +9,8 @@ import com.loopj.android.http.ResponseHandlerInterface;
 import com.loopj.android.http.sample.util.FileUtil;
 
 import java.io.File;
+
+import com.nfp.update.CommonUtils;
 import com.nfp.update.R;
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.HttpEntity;
@@ -51,7 +35,7 @@ public class FileSample extends SampleParentActivity {
 
     @Override
     public String getDefaultURL() {
-        return "http://p9008-ipngnfx01funabasi.chiba.ocn.ne.jp/cgi-bin/bcmdiff/download.cgi?VER=SII%20901SI%20v000%20/l000%20123456788103254%2000000001234%20000000000001234%20001%206259";
+        return CommonUtils.ServerUrlDownloadTwo;
     }
 
     @Override

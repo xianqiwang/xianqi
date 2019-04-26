@@ -33,12 +33,6 @@ public class HttpClient {
     private static final String COMMERCIAL_URL = "http://bcm.ms.seiko-sol.co.jp/cgi-bin/bcmdiff/";
     public static String TEST_URL = "http://p9008-ipngnfx01funabasi.chiba.ocn.ne.jp/cgi-bin/bcmdiff/";
     private static String BASE_URL =  COMMERCIAL_URL;
-    private static String INITIAL_URL =  COMMERCIAL_URL;
-
-/*
-    private static String USER_AGENT = "Mozilla/5.0 (Linux; Android 6.0.1; "+UpdateUtil.getBuildModel()+" Build/MMB29M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.119 Mobile Safari/537.36";
-*/
-
     private static String USER_AGENT = "SB-901SI";
 
     private static AsyncHttpClient client = new AsyncHttpClient();
@@ -53,18 +47,20 @@ public class HttpClient {
 
         client.setConnectTimeout(30 * 1000);
         client.setResponseTimeout(30 * 1000);
-        Log.d(TAG, "USER_AGENT = " + USER_AGENT);
-        client.get(context, getAbsoluteUrl(url, context), params, responseHandler);
+
+        client.get(context, CommonUtils.ServerUrlConfirmTwo, params, responseHandler);
     }
 
     public static void get(Context context, String url, RequestParams params, String filestr, FileAsyncHttpResponseHandler responseHandler) {
         client.setUserAgent(USER_AGENT);
         client.addHeader("Range", "bytes=" + UpdateUtil.getFileLength(filestr) + "-");
+/*
         setProxy(UpdateUtil.getFotaProxy(context));
+*/
         client.setConnectTimeout(30 * 1000);
         client.setResponseTimeout(30 * 1000);
         Log.d(TAG, "USER_AGENT = " + USER_AGENT);
-        client.get(context, getAbsoluteUrl(url, context), params, responseHandler);
+        client.get(context,url, params, responseHandler);
     }
 
     public static void cancleRequest(boolean mayInterruptIfRunning) {

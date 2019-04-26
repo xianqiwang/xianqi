@@ -40,138 +40,9 @@ public class DownloadTask {
     public boolean isPause = false;
     public int progress_g;
     public static OnDownloadProgress downloadProgress;
-    public CustomDialog customDialog_2;
-    public Handler handler =new Handler (Looper.myLooper ()){
 
-        @Override
-        public void handleMessage (Message msg) {
-            super.handleMessage (msg);
-            switch (msg.what){
-                case 1:
-                DialogCategorical.N_0645_s01 (mContext,progress_g,R.string.download_progress,is_Finish);
-                if(is_Finish){
-                    if(getState ()==1){
-                DialogCategorical.N_0670_s01 (mContext,R.string.download_finish
-                        ,R.string.b_now_update
-                        ,R.string.b_set_time)
-                        .setOkClickListener (new OnOkListener () {
-                        @Override
-                        public void onOkKey () {
-
-                            CommonUtils.showUpdateNowDialog (mContext,new File (DownloadService.DOWNLOAD_PATH));
-
-                        }
-
-                    @Override
-                    public void onCenterKey () {
-
-                    }
-
-                    @Override
-                    public void onCancelKey () {
-
-                        CommonUtils.setTimePicker (mContext);
-
-                    }
-
-                    @Override
-                    public void onSpinnerSelect () {
-
-                    }
-                });
-                    }else{
-                      DialogCategorical.N_0671_s01 (mContext,
-                                R.string.download_progress_set_time
-                                ,R.string.b_now_update
-                                ,R.string.b_set_time,R.string.cancel)
-                                .setOkClickListener (new OnOkListener () {
-                            @Override
-                            public void onOkKey () {
-                                CommonUtils.showUpdateNowDialog (mContext,new File (DownloadService.DOWNLOAD_PATH));
-                            }
-
-                            @Override
-                            public void onCenterKey () {
-
-                                CommonUtils.setTimePicker (mContext);
-
-                            }
-
-                            @Override
-                            public void onCancelKey () {
-                                final Intent intent = new Intent();
-                                intent.setClass(mContext, MainActivity.class);
-                                mContext.startActivity(intent);
-                            }
-
-                            @Override
-                            public void onSpinnerSelect () {
-
-                            }
-                        });
-                    }
-                }
-                    break;
-                case 2:
-                    showDialog();
-                    break;
-            }
-
-        }
-    };
-
-    public int getState() {
-
-        SharedPreferences sp = mContext.getSharedPreferences("debug_comm", mContext.MODE_PRIVATE);
-        int i    = sp.getInt ("AUTO_UPDATE",1);
-        return i;
-
-    }
-
-
-    public void showDialog(){
-
-
-        new CustomDialog.Builder(mContext,200,200)
-                .setMessage(mContext.getResources ().getString (R.string.download_fail))
-                .setPositiveButton("Ok", new View.OnClickListener () {
-                    @Override
-                    public void onClick (View v) {
-
-                        customDialog_2.show ();
-
-                    }        })
-                .setNegativeButton ("NO", new View.OnClickListener () {
-                    @Override
-                    public void onClick (View v) {
-                        final Intent intent = new Intent();
-                        intent.setClass(mContext, MainActivity.class);
-                        mContext.startActivity(intent);
-                    }
-                }).createTwoButtonDialog().show ();
-        customDialog_2=  new CustomDialog.Builder(mContext,200,200)
-                .setMessage(mContext.getResources ().getString (R.string.contenus_progress))
-                .setPositiveButton("Ok", new View.OnClickListener () {            @Override
-                public void onClick (View v) {
-
-                    DialogCategorical.N_0645_s01 (mContext,progress_g,R.string.download_progress,is_Finish);
-
-
-                }        })
-                .setNegativeButton ("NO", new View.OnClickListener () {
-                    @Override
-                    public void onClick (View v) {
-
-                        DialogCategorical.N_0645_s01 (mContext,progress_g,R.string.download_progress,is_Finish);
-
-
-                    }
-                }).createTwoButtonDialog();
-
-    }
-
-    public DownloadTask(android.content.Context mContext, FileInfo mFileInfo) {
-        this.mContext = mContext;
+    public DownloadTask(Context context, FileInfo mFileInfo) {
+        this.mContext = context;
         this.mFileInfo = mFileInfo;
         mThreadDAO = new ThreadDAOImpl(mContext);
     }
@@ -192,7 +63,7 @@ public class DownloadTask {
     }
 
     interface OnDownloadProgress{
-       void onDownloadProgress(int progress);
+       void onDownloadProgress(int progress,boolean is_finish);
     }
 
     public static void setOnDownloadProgress(OnDownloadProgress onDownloadProgress){
@@ -213,14 +84,10 @@ public class DownloadTask {
         public void run() {
             httpDownLoad();
         }
-        
+
         private void httpDownLoad() {
-            Message msg=new Message ();
             //向数据库插入线程信息
             android.util.Log.e("isExists==", mThreadDAO.isExists(threadInfo.getUrl(), threadInfo.getId()) + "");
-            if (!mThreadDAO.isExists(threadInfo.getUrl(), threadInfo.getId())) {
-                mThreadDAO.insertThread(threadInfo);
-            }
             java.net.HttpURLConnection connection;
             java.io.RandomAccessFile raf;
             java.io.InputStream is;
@@ -231,16 +98,22 @@ public class DownloadTask {
                 connection.setConnectTimeout(10000);
 				connection.setReadTimeout(25000);
                 connection.setRequestMethod("GET");
+                connection.setRequestProperty ("User-Agent","SB-901SI");
+                connection.setRequestProperty("Charset", "UTF-8");
+                connection.setRequestProperty(
+                        "Accept",
+                        "image/gif, image/jpeg, image/pjpeg, image/pjpeg, application/x-shockwave-flash, application/xaml+xml, application/vnd.ms-xpsdocument, application/x-ms-xbap, application/x-ms-application, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*");
+                connection.setRequestProperty("Connection", "Keep-Alive");
                 //设置下载位置
                 long start = threadInfo.getStart() + threadInfo.getFinish();
-                connection.setRequestProperty("Range", "bytes=" + start + "-" + threadInfo.getEnd());         
+                connection.setRequestProperty("Range", "bytes=" + start + "-" + threadInfo.getEnd());
                 android.content.Intent intent = new android.content.Intent(DownloadService.ACTION_UPDATE);
                 mFinished += threadInfo.getFinish();
                 android.util.Log.e("getResponseCode ===", connection.getResponseCode() + "");
                 String fingerprint = connection.getHeaderField("fingerprint");
                 String md5 = connection.getHeaderField("md5");
 				file = new java.io.File(DownloadService.DOWNLOAD_PATH, mFileInfo.getFileName());
-				//!fingerprint.equals(Build.FINGERPRINT) 
+				//!fingerprint.equals(Build.FINGERPRINT)
 				if (false) {
 					android.util.Log.e("DownloadTask", "fingerprint compare fail!");
 					if (connection != null) {
@@ -257,9 +130,8 @@ public class DownloadTask {
                 raf.seek(start);
 
                 //开始下载
-                if (connection.getResponseCode() == java.net.HttpURLConnection.HTTP_PARTIAL) {
-                    msg.what=1;
-                    handler.sendMessage (msg);
+                if (connection.getResponseCode() == HttpURLConnection.HTTP_PARTIAL) {
+
                     android.util.Log.e("getContentLength==", connection.getContentLength() + "");
                     //读取数据
                     is = connection.getInputStream();
@@ -270,8 +142,7 @@ public class DownloadTask {
 
                         //下载暂停时，保存进度
                         if (isPause) {
-                            msg.what=2;
-                            handler.sendMessage (msg);
+
                             android.util.Log.e("mfinished==", mFinished + "");
                             mThreadDAO.updateThread(mFileInfo.getUrl(), mFileInfo.getId(), mFinished);
                             return;
@@ -287,12 +158,11 @@ public class DownloadTask {
                             progress_g=(int)(mFinished * 100 / mFileInfo.getLength());
                             mContext.sendBroadcast(intent);
                             android.util.Log.e(" mFinished percent===", mFinished * 100 / mFileInfo.getLength() + "");
-                            downloadProgress.onDownloadProgress ((int)(mFinished * 100 / mFileInfo.getLength()));
+                            downloadProgress.onDownloadProgress ((int)(mFinished * 100 / mFileInfo.getLength()),is_Finish);
                         }
 
                     }
-                    msg.what=1;
-                    handler.sendMessage (msg);
+
                     is_Finish=true;
 					android.content.Intent completeIntent = new android.content.Intent();
 					completeIntent.setAction("com.wtwd.action.download.success");
@@ -334,7 +204,7 @@ public class DownloadTask {
 //                }
 //            }
         }
-	
+
 	}
 
 }

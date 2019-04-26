@@ -28,6 +28,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+
+import com.nfp.update.DownloadTask.OnDownloadProgress;
+import com.nfp.update.download.Download;
 import com.nfp.update.nfpapp.app.util.NfpSoftkeyGuide;
 import com.nfp.update.R;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -40,19 +43,16 @@ import static java.lang.Thread.sleep;
 
 public class SoftwareUpdate extends Activity{
     private String TAG = "SoftwareUpdate";
-    private TextView mTextView;
-    private SharedPreferences spref;
-    private Activity activity;
     CustomDialog dialog_0642_D1;
     CustomDialog dialog_0642_D2;
     CustomDialog dialog_0642_D3;
     CustomDialog dialog_0642_D4;
     CustomDialog dialog_0642_D5;
     CustomDialog dialog_0642_D6;
-
     private static Context context;
     private Intent intent;
-    private Handler mhandler;
+    private SharedPreferences spref;
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -61,6 +61,12 @@ public class SoftwareUpdate extends Activity{
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPause () {
+        super.onPause ();
+        dismissAll ();
     }
 
     @Override
@@ -76,15 +82,18 @@ public class SoftwareUpdate extends Activity{
         connectServer();
     }
 
+
+
     public void connectServer(){
+
         dismissAll();
         dialog_0642_D1.show();
-        if(UpdateUtil.checkNetworkConnection ()){
+        if(!UpdateUtil.checkNetworkConnection ()){
             dismissAll();
             dialog_0642_D4.show ();
         }
-        HttpClient httpClient=new HttpClient ();
-        httpClient.get(context, CommonUtils.ServerUrlConfirm, null, new AsyncHttpResponseHandler() {
+
+        HttpClient.get(context, CommonUtils.ServerUrlConfirmTwo, null, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
 
@@ -100,7 +109,7 @@ public class SoftwareUpdate extends Activity{
 
                         case "error00":
                              dismissAll ();
-                             if(UpdateUtil.getAvailableInternalMemorySize()>100){
+                             if(UpdateUtil.getAvailableInternalMemorySize()<100){
                                  dialog_0642_D5.show ();
                              }else{
 
@@ -164,17 +173,18 @@ public class SoftwareUpdate extends Activity{
 
             }
 
-            @Override
-            public void onProgress(long bytesWritten, long totalSize) {
-
-            }
-
         });
 
     }
 
     public void checkVersion(){
+/*
         HandlerHttpServer.checkUpdate (this);
+*/
+    Intent intent=new Intent ();
+    intent.setClass (this,Download.class);
+    startActivity (intent);
+
     }
 
     private void initializateDialogFor0402(){
@@ -187,14 +197,11 @@ public class SoftwareUpdate extends Activity{
 
                     @Override
                     public void onClick (View v) {
-                        /*final Intent intent = new Intent();
-                        intent.setClass(SoftwareUpdate.this, MainActivity.class);
-                        startActivity(intent);*/
                         dialog_0642_D2.dismiss();
                     }
 
                 }).createSingleButtonDialog();
-        // dialog_0642_D3
+
         dialog_0642_D3= new CustomDialog.Builder(SoftwareUpdate.this,200,200)
                 .setMessage(res.getString (R.string.up_to_date))
                 .setSingleButton("OK", new View.OnClickListener () {
@@ -234,18 +241,21 @@ public class SoftwareUpdate extends Activity{
                 }).createSingleButtonDialog();
         dialog_0642_D6= new CustomDialog.Builder(SoftwareUpdate.this,200,200)
                 .setMessage(res.getString (R.string.soft_download))
-                .setPositiveButton("Ok", new View.OnClickListener () {            @Override
-                public void onClick (View v) {
+                .setPositiveButton("Ok", new View.OnClickListener () {
+                    @Override
+                    public void onClick (View v) {
 
-                    try{
+                        try{
 
-                        checkVersion();
+                            checkVersion();
+                            dialog_0642_D6.dismiss ();
 
-                    }catch(Exception e){
-                        Log.e("AlertDialog  Exception:" , e.getMessage());
-                    }
 
-                }        })
+                        }catch(Exception e){
+                            Log.e("AlertDialog  Exception:" , e.getMessage());
+                        }
+
+                    }        })
                 .setNegativeButton ("NO", new View.OnClickListener () {
                     @Override
                     public void onClick (View v) {

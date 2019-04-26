@@ -219,7 +219,9 @@
         <activity android:name="com.loopj.android.http.sample.DigestAuthSample" />
         <activity android:name="com.loopj.android.http.sample.UsePoolThreadSample" />
         <activity android:name="com.loopj.android.http.sample.RequestParamsDebug" />
-
+        <activity
+            android:name="com.nfp.update.download.Download" >
+        </activity>
         <service android:name="com.loopj.android.http.sample.services.ExampleIntentService" />
 
         <service android:name=".DownloadService" />

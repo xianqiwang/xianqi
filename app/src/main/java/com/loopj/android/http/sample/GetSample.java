@@ -24,6 +24,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestHandle;
 import com.loopj.android.http.ResponseHandlerInterface;
+import com.nfp.update.CommonUtils;
 import com.nfp.update.R;
 
 import cz.msebera.android.httpclient.Header;
@@ -55,7 +56,7 @@ public class GetSample extends SampleParentActivity {
 
     @Override
     public String getDefaultURL() {
-        return "http://p9008-ipngnfx01funabasi.chiba.ocn.ne.jp/cgi-bin/bcmdiff/confirm.cgi?VER=SII%20901SI%20v000%20/l000%20123456788103254%2000000001234%20000000000001234%20001%206259";
+        return CommonUtils.ServerUrlConfirmTwo;
     }
 
     @Override

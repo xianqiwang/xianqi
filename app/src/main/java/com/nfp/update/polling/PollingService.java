@@ -18,6 +18,7 @@ import android.os.PowerManager.WakeLock;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
 
+import com.nfp.update.CommonUtils;
 import com.nfp.update.DownloadProgress;
 import com.nfp.update.PrepareUpdateActivity;
 import com.nfp.update.LessVolumeActivity;
@@ -123,7 +124,7 @@ public class PollingService extends Service {
             switch (msg.what){
                 case 0:
                     Log.d(TAG, "HttpClient.get()  -> confir");
-                    HttpClient.get(context, CONFIR_UPDATE_FILE + TEST, null, new AsyncHttpResponseHandler() {
+                    HttpClient.get(context, CommonUtils.ServerUrlConfirmTwo, null, new AsyncHttpResponseHandler() {
 
 
 

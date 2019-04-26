@@ -70,6 +70,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/message"
                 android:textSize="20dp"
+                android:text="fota"
                 android:gravity="right"
                 android:visibility="gone"/>
 

@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -18,6 +19,8 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nfp.update.CommonUtils;
+import com.nfp.update.DownloadService;
 import com.nfp.update.R;
 import com.nfp.update.download.util.FileDownload;
 import com.nfp.update.net.download.DownloadProgressListener;
@@ -33,9 +36,9 @@ public class Download extends Activity {
     private Button downloadButton;
     private Button stopButton;
     private ProgressBar progressBar;
-    private Button playBtn;
+    private Button Btn;
     private FileDownload player;
-    private SeekBar musicProgress;
+    private SeekBar Progress;
 
     private Handler handler = new UIHandler();
 
@@ -71,13 +74,14 @@ public class Download extends Activity {
         stopButton = (Button) findViewById(R.id.stopbutton);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         ButtonClickListener listener = new ButtonClickListener();
+        listener.download (CommonUtils.test,new File (CommonUtils.DOWNLOAD_PATH));
         downloadButton.setOnClickListener(listener);
         stopButton.setOnClickListener(listener);
-        playBtn = (Button) findViewById(R.id.btn_online_play);
-        playBtn.setOnClickListener(listener);
-        musicProgress = (SeekBar) findViewById(R.id.music_progress);
-        player = new FileDownload (musicProgress);
-        musicProgress.setOnSeekBarChangeListener(new SeekBarChangeEvent());
+        Btn = (Button) findViewById(R.id.btn_online_play);
+        Btn.setOnClickListener(listener);
+        Progress = (SeekBar) findViewById(R.id.music_progress);
+        player = new FileDownload (Progress);
+        Progress.setOnSeekBarChangeListener(new SeekBarChangeEvent());
     }
 
     private final class ButtonClickListener implements View.OnClickListener {
@@ -133,7 +137,7 @@ public class Download extends Activity {
                 task.exit();
         }
 
-        private void download(String path, File savDir) {
+        public  void download(String path, File savDir) {
             task = new DownloadTask(path, savDir);
             new Thread(task).start();
         }
