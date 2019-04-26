@@ -53,12 +53,12 @@ public class HttpClient {
 
     public static void get(Context context, String url, RequestParams params, String filestr, FileAsyncHttpResponseHandler responseHandler) {
         client.setUserAgent(USER_AGENT);
-        client.addHeader("Range", "bytes=" + UpdateUtil.getFileLength(filestr) + "-");
-/*
+    /*    client.addHeader("Range", "bytes=" + UpdateUtil.getFileLength(filestr) + "-");
+*//*
         setProxy(UpdateUtil.getFotaProxy(context));
-*/
+*//*
         client.setConnectTimeout(30 * 1000);
-        client.setResponseTimeout(30 * 1000);
+        client.setResponseTimeout(30 * 1000);*/
         Log.d(TAG, "USER_AGENT = " + USER_AGENT);
         client.get(context,url, params, responseHandler);
     }

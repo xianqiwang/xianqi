@@ -185,7 +185,6 @@ The update time is currently set to </string>
         Download of new software is complete.\n
         Please software update automatically at the following date and time.\n
         All functions can not be used while updating.\n
-        M月DD日hh:mm
     </string>
 
     <string name ="battery_insufficient">The battery level is insufficient. Please try again after charging.</string>
@@ -319,6 +318,6 @@ The update time is currently set to </string>
     <string name="error">Download error</string>
     <string name="stopbutton">Suspend download</string>
     <string name="sdcarderror">No SD card</string>
-    <string name="fileaddress">http://static3.iyuba.cn/android/apk/news/news.apk</string>
+    <string name="fileaddress2">http://static3.iyuba.cn/android/apk/news/news.apk</string>
 
 </resources>

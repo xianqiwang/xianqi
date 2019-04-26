@@ -95,13 +95,13 @@ public class UpdateSchedule extends Activity implements TimePickerDialog.OnTimeS
 
         int defaule=sprefs.getInt("AUTO_UPDATE", 1);
 
-if(defaule==1){
-    checkList.add(0,true);
-    checkList.add(1,false);
-}else{
-    checkList.add(0,false);
-    checkList.add(1,true);
-}
+        if(defaule==1){
+            checkList.add(0,true);
+            checkList.add(1,false);
+        }else{
+            checkList.add(0,false);
+            checkList.add(1,true);
+        }
 
         myAdapter = new MyAdapter(this, list);
         listview.setAdapter(myAdapter);

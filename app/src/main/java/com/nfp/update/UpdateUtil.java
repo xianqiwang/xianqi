@@ -141,7 +141,7 @@ public class UpdateUtil {
     /**start auto update timer, flag = 1 is defined auto update schedure broadcast
      flag = 2 is defined auto update install broadcast.
      **/
-    @android.support.annotation.RequiresApi (api = android.os.Build.VERSION_CODES.KITKAT)
+
     public static void startUpdateService (Context context, int flag) {
         int hour = 0;
         int minute = 0;
@@ -156,7 +156,6 @@ public class UpdateUtil {
 
         if (sprefs.getInt ("AUTO_UPDATE", 0) != 1) {
 
-            Log.d ("kevin", "111");
             long timeInMillis = 0;
             long deltaTimes = 0;
             Intent intent;
@@ -199,7 +198,6 @@ public class UpdateUtil {
                 intent = new Intent ("com.nfp.update.UPDATE");
                 pi = PendingIntent.getBroadcast (context, 2, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                 closePollingTime (context);
-                Log.i ("kevin", "timeInMillis  5 minutes  run reboot ");
 
             }
 
@@ -209,12 +207,7 @@ public class UpdateUtil {
             setUpdateTime (context, timeInMillis);
             String str = String.format ("%tF %<tT", timeInMillis);
             String start_update = str.replace ("-", "/");
-            Log.d ("kevin", "startUpdateService =-> " + start_update);
 
-            Log.i ("kevin", "system time is == " + getTimeFromMillisecond (System.currentTimeMillis ()));
-            Log.i ("kevin", "set alarm  time is == " + getTimeFromMillisecond (timeInMillis));
-            Log.d ("kevin", "222");
-            Log.d ("kevin", "deltaTimes=" + deltaTimes);
         }
     }
 
@@ -761,6 +754,7 @@ public class UpdateUtil {
     }
 
     public static boolean checkNetworkConnection () {
+
         ConnectivityManager connec = (ConnectivityManager) getContext ().getSystemService (getContext ().CONNECTIVITY_SERVICE);
         if (connec.getNetworkInfo (0).getState () ==
                 android.net.NetworkInfo.State.CONNECTED ||
@@ -827,6 +821,19 @@ public class UpdateUtil {
         //SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences sharedPreferences = context.getSharedPreferences ("debug_comm", 0);
         return sharedPreferences.getBoolean ("first_boot", true);
+    }
+
+
+    public static boolean is_last_finish(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences ("debug_comm", 0);
+        return sharedPreferences.getBoolean ("isfinish", true);
+    }
+
+    public static void set_last_finish(Context context,boolean flag){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences (context);
+        SharedPreferences.Editor pEdit = sharedPreferences.edit ();
+        pEdit.putBoolean ("isfinish", flag);
+        pEdit.commit ();
     }
 
     public static void setNitz (Context context, Boolean flag) {

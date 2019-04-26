@@ -41,6 +41,7 @@ public class FileSample extends SampleParentActivity {
     @Override
     public ResponseHandlerInterface getResponseHandler() {
         return new FileAsyncHttpResponseHandler(this) {
+
             @Override
             public void onStart() {
                 clearOutputs();

@@ -74,7 +74,7 @@ public class Download extends Activity {
         stopButton = (Button) findViewById(R.id.stopbutton);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         ButtonClickListener listener = new ButtonClickListener();
-        listener.download (CommonUtils.test,new File (CommonUtils.DOWNLOAD_PATH));
+        listener.download (getResources ().getString (R.string.fileaddress2),new File (CommonUtils.DOWNLOAD_PATH));
         downloadButton.setOnClickListener(listener);
         stopButton.setOnClickListener(listener);
         Btn = (Button) findViewById(R.id.btn_online_play);

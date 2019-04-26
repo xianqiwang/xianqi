@@ -62,11 +62,11 @@ public class DialogCategorical {
 
         DefDialog  mDefDialog = new DefDialog (context, R.style.styledialog);
         Resources r=context.getResources();
-
         mDefDialog.setProgressGone ();
         mDefDialog.setMessageLVisible ();
         mDefDialog.setCancelable(false);
         mDefDialog.setCenterKeyGone();
+        mDefDialog.setTitle (r.getString (R.string.software_update));
         mDefDialog.setSpinnerGone();
         mDefDialog.setMessage (r.getString (msg));
         mDefDialog.setListViewGone ();
@@ -87,21 +87,22 @@ public class DialogCategorical {
     public  static DefDialog N_0671_s01(Context context,int msg,int button1,int button2,int button3){
 
         DefDialog  mDefDialog = new DefDialog (context, R.style.styledialog);
+
         Resources r=context.getResources();
         mDefDialog.setProgressGone ();
-        mDefDialog.setMessageLVisible ();
+        mDefDialog.setMessageLGone ();
+        mDefDialog.setPercentGone ();
         mDefDialog.setCancelable(false);
         mDefDialog.setSpinnerGone();
-        mDefDialog.setMessage (r.getString (msg));
+        mDefDialog.setMessage (r.getString (msg)+CommonUtils.getDateAndTime ()
+                +UpdateUtil.getHourTemp (context)+":"+UpdateUtil.getMinuteTemp (context));
         mDefDialog.setListViewGone ();
-        mDefDialog.setViewTwoVisible ();
+        mDefDialog.setViewTwoGone ();
+        mDefDialog.setViewOneGone ();
+        mDefDialog.setTitle (r.getString (R.string.software_update));
         mDefDialog.setButtonConfirm (r.getString (button1));
-        mDefDialog.setButtonCancel (r.getString (button2));
-        mDefDialog.setButtonCenter (r.getString (button3));
-        mDefDialog.setMessageLCenter ();
-        mDefDialog.setViewOneheight (100);
-        mDefDialog.setViewTwoheight (50);
-        mDefDialog.setMessageLSize (30);
+        mDefDialog.setButtonCancel (r.getString (button3));
+        mDefDialog.setButtonCenter (r.getString (button2));
         mDefDialog.setMessageLVisible ();
         mDefDialog.setMessageSize (30);
         mDefDialog.show();
@@ -1591,7 +1592,6 @@ public class DialogCategorical {
         mDefDialog.setMessageLGone ();
         mDefDialog.setSpinnerGone ();
         mDefDialog.setProgressVisible();
-        mDefDialog.setPercent();
         mDefDialog.show();
     }
 

@@ -31,10 +31,12 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
+import com.nfp.update.DefDialog.OnOkListener;
 import com.nfp.update.DownloadTask.OnDownloadProgress;
 
 import java.io.File;
@@ -54,27 +56,20 @@ public class DownLoadProgress extends Activity {
     private String messages;
     public String packageName;
     public SharedPreferences spref;
-    public static final String DEFAULT_FILE = "/storage/emulated/0/software.dat";
-    public static final String FOTA_FILE = "/fota/softwareupdate.dat";
-    private final static String DOWNLOAD_UPDATE_FILE = "download.cgi";
     private static String TEST = "?VER=SII%20602SI%20v001%20/l001%20356475080000000%2000000001234%20000000000001234%20001%20B162";
     private final static int INT_DOWNLOAD_UPDATE_FILE = 0x03;
+    private final static int INT_DOWNLOAD_UPDATE_STATUS = 0x02;
+    private final static int INT_DOWNLOAD_UPDATE_STATUSONE = 0x01;
+    final Message msg=new Message ();
     private long hadDownload = 0;
-    Handler mmHandler = new Handler (){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            pb.setProgress(msg.what);
-            percent.setText(""+pro+"%");
-        }
-    };
-
+    public CustomDialog N0645_D1;
+    private DefDialog defDialog;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                this.finish(); // back button
+                this.finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -91,18 +86,6 @@ public class DownLoadProgress extends Activity {
         mTextView=(TextView)findViewById(R.id.tv);
         percent=(TextView)findViewById(R.id.percent);
         messages = this.getResources().getString(R.string.downlaod_back_idle);
-
-        DownloadTask.setOnDownloadProgress (new OnDownloadProgress () {
-            @Override
-            public void onDownloadProgress (int progress, boolean is_finish) {
-                pb.setProgress (progress);
-                Log.v ("yingbo","mesgsdgfuishiuhfi_________--");
-
-                percent.setText (""+progress+"%");
-            }
-
-        });
-
         spref = PreferenceManager.getDefaultSharedPreferences(DownLoadProgress.this);
         try{
             TEST = UpdateUtil.getTestVersion(DownLoadProgress.this);
@@ -113,21 +96,26 @@ public class DownLoadProgress extends Activity {
         startDownload();
     }
 
-
-
     private Handler mhandler = new Handler() {
         @Override
-        public void handleMessage(Message msg) {
+        public void handleMessage(final Message msg) {
             switch (msg.what){
                 case INT_DOWNLOAD_UPDATE_FILE:
-                    HttpClient.get(DownLoadProgress.this, CommonUtils.ServerUrlDownloadTwo, null, FOTA_FILE, new FileAsyncHttpResponseHandler(new File(FOTA_FILE), true) {
 
-                        @android.support.annotation.RequiresApi (api = android.os.Build.VERSION_CODES.KITKAT)
+                    if (UpdateUtil.is_last_finish (DownLoadProgress.this)){
+
+                        CommonUtils.is_delete (CommonUtils.DOWNLOAD_PATH);
+
+                    }
+                    HttpClient.get(DownLoadProgress.this, CommonUtils.ServerUrlDownloadTwo, null, CommonUtils.DOWNLOAD_PATH, new FileAsyncHttpResponseHandler(new File(CommonUtils.DOWNLOAD_PATH+CommonUtils.UpdateFileName), true) {
+
                         @Override
                         public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, File file) {
+                            UpdateUtil.set_last_finish (DownLoadProgress.this,true);
                             Log.d(TAG,"Download -> onSuccess");
                             String fileName = null;
-                            pb.setProgress(0);
+                            pb.setVisibility (View.GONE);
+                            mTextView.setVisibility (View.GONE);
                             for (cz.msebera.android.httpclient.Header header : headers){
                                 Log.d(TAG,"head = " + header.getName() + ":" + header.getValue());
                                 if (header.getName().equals("Content-Disposition")
@@ -154,16 +142,18 @@ public class DownLoadProgress extends Activity {
                             }
                         }
 
-                        @android.support.annotation.RequiresApi (api = android.os.Build.VERSION_CODES.KITKAT)
                         @Override
                         public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers,
                                               Throwable throwable, File file) {
-                            Log.d(TAG,"Download -> onFailure");
+
+                            UpdateUtil.set_last_finish (DownLoadProgress.this,false);
                             insertEventLog(getApplicationContext (),0, getString(R.string.download), 0, getString(R.string.fail), null, null);
                             UpdateUtil.showFotaNotification(DownLoadProgress.this, R.string.Notification_download_failed, 0);
                             HttpClient.cancleRequest(true);
                             UpdateUtil.judgePolState(DownLoadProgress.this, 0);
                             downResult(false);
+
+
                             restartPolling();
                         }
 
@@ -180,14 +170,165 @@ public class DownLoadProgress extends Activity {
                             }
                             int count = (int) (((bytesWritten + hadDownload) * 1.0 / total) * 100);
                             Log.d(TAG, "Download -> onProgress, count = " + count);
+                            mTextView.setText (count+"%");
                             pb.setProgress(count);
                         }
                     });
                     break;
             }
+
         };
     };
+
+    private void downResult(boolean flag) {
+        Intent mIntent = new Intent();
+
+        if(spref.getBoolean("download_notification", false)){
+
+            UpdateUtil.setDownloadNotification(DownLoadProgress.this, false);
+
+        }
+
+        if(flag){
+            is_update_schedule();
+            UpdateUtil.startUpdateService(getApplicationContext(), 1);
+
+        }else{
+
+            showDialog();
+
+        }
+    }
+
+    public int getState() {
+
+        SharedPreferences sp = getSharedPreferences("debug_comm", MODE_PRIVATE);
+        int i    = sp.getInt ("AUTO_UPDATE",1);
+        return i;
+
+    }
+
+
+    public void showDialog(){
+
+        new CustomDialog.Builder(this,200,200)
+                .setMessage(getResources ().getString (R.string.download_fail))
+                .setPositiveButton("Ok", new View.OnClickListener () {
+                    @Override
+                    public void onClick (View v) {
+
+                        N0645_D1.show ();
+
+                    }        })
+                .setNegativeButton ("NO", new View.OnClickListener () {
+                    @Override
+                    public void onClick (View v) {
+                        final Intent intent = new Intent();
+                        intent.setClass(DownLoadProgress.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+                }).createTwoButtonDialog().show ();
+        N0645_D1=  new CustomDialog.Builder(this,200,200)
+                .setMessage(getResources ().getString (R.string.contenus_progress))
+                .setPositiveButton("Ok", new View.OnClickListener () {
+                    @Override
+                    public void onClick (View v) {
+                        N0645_D1.dismiss ();
+                    }})
+                .setNegativeButton ("NO", new View.OnClickListener () {
+                    @Override
+                    public void onClick (View v) {
+
+                        final Intent intent = new Intent();
+                        intent.setClass(DownLoadProgress.this, MainActivity.class);
+                        startActivity(intent);
+
+                    }
+                }).createTwoButtonDialog();
+
+    }
+
+    public void is_update_schedule(){
+
+        if(getState ()==1){
+            defDialog=  DialogCategorical.N_0670_s01 (DownLoadProgress.this,R.string.download_finish
+                    ,R.string.b_now_update
+                    ,R.string.b_set_time);
+            defDialog.setOkClickListener (new OnOkListener () {
+                @Override
+                public void onOkKey () {
+
+
+                    CommonUtils.showUpdateNowDialog (DownLoadProgress.this
+                            ,new File (DownloadService.DOWNLOAD_PATH));
+
+                    defDialog.dismiss ();
+
+
+                }
+
+                @Override
+                public void onCenterKey () {
+                }
+
+                @Override
+                public void onCancelKey () {
+
+                    CommonUtils.setTimePicker (DownLoadProgress.this);
+                    defDialog.dismiss ();
+
+                }
+
+                @Override
+                public void onSpinnerSelect () {
+
+                }
+            });
+        }else{
+
+            defDialog= DialogCategorical.N_0671_s01 (DownLoadProgress.this,
+                    R.string.download_progress_set_time
+                    ,R.string.b_now_update
+                    ,R.string.b_set_time,R.string.cancel);
+            defDialog.setOkClickListener (new OnOkListener () {
+                @Override
+                public void onOkKey () {
+
+                    CommonUtils.showUpdateNowDialog (DownLoadProgress.this,new File (DownloadService.DOWNLOAD_PATH));
+                    defDialog.dismiss ();
+
+                }
+
+                @Override
+                public void onCenterKey () {
+
+                    CommonUtils.setTimePicker (DownLoadProgress.this);
+                    defDialog.dismiss ();
+
+                }
+
+                @Override
+                public void onCancelKey () {
+
+
+                    final Intent intent = new Intent();
+                    intent.setClass(DownLoadProgress.this, MainActivity.class);
+                    startActivity(intent);
+                    defDialog.dismiss ();
+
+                }
+
+                @Override
+                public void onSpinnerSelect () {
+
+                }
+            });
+        }
+
+    }
+
     private android.net.Uri insertEventLog(android.content.Context context, int eventNo, String eventName, int tid, String factor1, String factor2, String factor3) {
+
         final android.net.Uri uri = android.net.Uri.parse("content://com.ssol.eventlog/eventlog");
 
         android.content.ContentResolver mContentResolver=context.getContentResolver();
@@ -202,11 +343,11 @@ public class DownLoadProgress extends Activity {
             values.put("EVENT_NAME", eventName);
         }
 
-        /*if (tid < 1 || tid > 256) {
+        if (tid < 1 || tid > 256) {
             Log.w(TAG, "Invalid tid : " + tid);
         } else {
             values.put("TID", new Integer(tid));
-        }*/
+        }
 
         if (! android.text.TextUtils.isEmpty(factor1)) {
             values.put("FACTOR1", factor1);
@@ -223,41 +364,25 @@ public class DownLoadProgress extends Activity {
         return  mContentResolver.insert (uri,values);
 
     }
+
     private void startDownload() {
+
         HttpClient.cancleRequest(true);
         initialProgress();
-        insertEventLog(getApplicationContext (),0, getString(R.string.download), 0, getString(R.string.start), null, null);
+        insertEventLog(getApplicationContext (),
+                0, getString(R.string.download),
+                0, getString(R.string.start),
+                null, null);
         Message message = new Message();
         message.what = INT_DOWNLOAD_UPDATE_FILE;
         mhandler.removeMessages(INT_DOWNLOAD_UPDATE_FILE);
         mhandler.sendMessage(message);
-    }
 
-
-    @android.support.annotation.RequiresApi (api = android.os.Build.VERSION_CODES.KITKAT)
-    private void downResult(boolean flag) {
-        Intent mIntent = new Intent();
-        Log.d(TAG,"hadDownload =111 " );
-        if(spref.getBoolean("download_notification", false)){
-            Log.d(TAG,"hadDownload =222 ");
-            UpdateUtil.setDownloadNotification(DownLoadProgress.this, false);
-            mIntent.setClass(DownLoadProgress.this, SoftwareUpdate.class);
-            mIntent.addFlags(mIntent.FLAG_ACTIVITY_NEW_TASK);
-            mIntent.putExtra("download_results", flag);
-            this.startActivity(mIntent);
-        }else{
-            Log.d(TAG,"hadDownload =333 ");
-            mIntent.putExtra("download_result", flag);
-            setResult(1, mIntent);
-        }
-
-        if(flag)
-            UpdateUtil.startUpdateService(getApplicationContext(), 1);
-        finish();
     }
 
     private void initialProgress() {
-        hadDownload = UpdateUtil.getFileLength(FOTA_FILE);
+
+        hadDownload = UpdateUtil.getFileLength(CommonUtils.DOWNLOAD_PATH);
         long total = spref.getLong("total_size", 0);
         if(hadDownload!= 0 && total!=0){
             int count = (int) ((hadDownload * 1.0 /total ) * 100);
@@ -267,7 +392,6 @@ public class DownLoadProgress extends Activity {
             pb.setProgress(0);
         }
 
-        Log.d(TAG,"hadDownload = " + hadDownload);
     }
 
     private void backTopActivity() {
@@ -294,11 +418,9 @@ public class DownLoadProgress extends Activity {
 
             }
         }
-        Log.e("kevin", "getFileSize="+String.valueOf(size));
         return size;
     }
 
-    @android.support.annotation.RequiresApi (api = android.os.Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void cancleDownload() {
         HttpClient.cancleRequest(true);
         UpdateUtil.judgePolState(DownLoadProgress.this, 0);
@@ -351,39 +473,4 @@ public class DownLoadProgress extends Activity {
         }
     }
 
-    @android.support.annotation.RequiresApi (api = android.os.Build.VERSION_CODES.JELLY_BEAN_MR1)
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if(keyCode ==KeyEvent.KEYCODE_DPAD_CENTER||keyCode ==KeyEvent.KEYCODE_BACK){
-            cancleDownload();
-            return true;
-        }
-        return super.onKeyUp(keyCode,event);
-    }
-/*       new Thread(new Runnable() {
-           @Override
-           public void run() {
-               int max = pb.getMax();
-               try {
-                   //子线程循环间隔消息
-                   while (pro < max) {
-                       pro += 10;
-                       Message msg = new Message();
-                       msg.what = pro;
-
-                       if(msg == null){
-
-                           mHandler.postDelayed(this, 2000L);
-
-                       }
-
-                       mHandler.sendMessage(msg);
-
-                       Thread.sleep(1000);
-                   }
-               } catch (InterruptedException e) {
-                   e.printStackTrace();
-               }
-           }
-       }).start();*/
 }

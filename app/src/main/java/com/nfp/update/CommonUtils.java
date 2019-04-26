@@ -20,6 +20,7 @@ import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -45,7 +46,7 @@ import static android.content.Context.BATTERY_SERVICE;
 
 public class CommonUtils {
 
-    private int mProgress;
+    private static int mProgress;
     public static final String UpdateFileName="update.zip";
     public static String DOWNLOAD_PATH = "/cache/";
     public static final String ServerUrlConfirm="http://p9008-ipngnfx01funabasi.chiba.ocn.ne.jp/cgi-bin/bcmdiff/confirm.cgi?VER=SII%20901SI%20v000%20/l000%20123456788103254%2000000001234%20000000000001234%20001%206259";
@@ -57,18 +58,19 @@ public class CommonUtils {
     public static final String ServerUrlConfirmThree="http://p9008-ipngnfx01funabasi.chiba.ocn.ne.jp/cgi-bin/bcmdiff/confirm.cgi?VER=SII%20901SI%20v003%20/l000%20123456788103254%2000000001234%20000000000001234%20001%200D06";
     public static final String ServerUrlDownloadThree="http://p9008-ipngnfx01funabasi.chiba.ocn.ne.jp/cgi-bin/bcmdiff/download.cgi?VER=SII%20901SI%20v003%20/l000%20123456788103254%2000000001234%20000000000001234%20001%200D06";
 
-
 /*    v000/l000 ==> v001/l000 : dummy file
     v001/l000 ==> v002/l000 : update.zip (in Large folder)
     v002/l000 ==> v003/l000 : update.zip (in Small folder)*/
-
-
     private static final String TAG = "CommonUtils";
     private static CustomDialog mDialog_0641_D1;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
             "android.permission.READ_EXTERNAL_STORAGE",
             "android.permission.WRITE_EXTERNAL_STORAGE" };
+    private static CustomDialog    customDialog;
+    private static CustomDialog    mDialog_0670_D3;
+    private static DialogCategorical dialogCategorical;
+
     public static boolean isBlank(String str) {
         
         int strLen;
@@ -102,6 +104,7 @@ public class CommonUtils {
             @Override
             public void onTimeSet (TimePicker view, int hourOfDay, int minute) {
 
+                UpdateUtil.setHourMinute (context,hourOfDay,minute);
                 SharedPreferences sprefs = context.getSharedPreferences ("debug_comm", 0);
 
                 SharedPreferences.Editor editor = sprefs.edit();
@@ -114,7 +117,7 @@ public class CommonUtils {
         }, hour, minute, true);
 
         tp.setTitle(context.getString (R.string.update_schedule_title));
-
+        tp.show ();
     }
 
 
@@ -177,6 +180,19 @@ public class CommonUtils {
         return false;
     }
 
+    public static String getDateAndTime() {
+
+        Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int date = c.get(Calendar.DATE);
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
+        int second = c.get(Calendar.SECOND);
+        String time = year + "/" + (month+1) + "月" + date + "日" +hour + ":" +minute + ":" + second;
+        return (month+1) + "月" + date + "日";
+    }
+
     public static void verifyStoragePermissions(Activity activity) {
 
         try {
@@ -205,7 +221,7 @@ public class CommonUtils {
 
                      mDialog_0641_D1= new CustomDialog.Builder(context,200,200)
                                 .setMessage(context.getResources ().getString (R.string.only_hand_update))
-                                .setSingleButton("Ok", new View.OnClickListener () {
+                                .setSingleButton("Ok", new OnClickListener () {
                                     @Override
                                     public void onClick (View v) {
                                         mDialog_0641_D1.dismiss ();
@@ -224,6 +240,7 @@ public class CommonUtils {
 
         });
     }
+
 
 
 
@@ -303,46 +320,56 @@ public class CommonUtils {
         }
         return null;
     }
-    private static DialogCategorical dialogCategorical;
-    public static void showUpdateNowDialog(final Context context, final File file) {
 
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
-        final View view = layoutInflater.inflate (R.layout.dialog_layout, null);
-        final AlertDialog.Builder builder = new android.app.AlertDialog.Builder(context);
-        builder.setTitle("Download Success");
-        builder.setMessage("Update Now?");
-        builder.setPositiveButton("OK", new android.content.DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //Execute System Update
-                int mBatteryPercent = CommonUtils.getBatteryPercent(context);
-                android.util.Log.d(TAG, "Current BatteryPercent --> " + mBatteryPercent);
-                if (mBatteryPercent >= 30) {
+    public static void is_delete(String path){
 
-
-                    updateFirmware(context, file);
-
-                    dialogCategorical = new DialogCategorical (context);
-/*
-                    dialogCategorical.N_0646_S01 (50, R.string.fota_install);
-*/
-                } else {
-
-                    new CustomDialog.Builder(context,200,200)
-                            .setMessage(context.getResources ().getString (R.string.battery_insufficient))
-                            .setPositiveButton ("Ok", new View.OnClickListener () {
-                                @Override
-                                public void onClick (View v) {
-                                    final Intent intent = new Intent();
-                                    intent.setClass(context, MainActivity.class);
-                                    context.startActivity(intent);
-                                }
-                            }).createSingleButtonDialog ().show ();
-
-                }
-
+            File file = new File(path);
+            if(file.exists()){
+                file.delete();
             }
-        }).setNegativeButton("Cancel", null).show ();
+    }
+
+    public static void showUpdateNowDialog(final Context context, final File file) {
+       customDialog=  new CustomDialog.Builder(context,200,200)
+                .setMessage(context.getResources ().getString (R.string.not_using_while_update))
+                .setPositiveButton("Ok", new OnClickListener () {
+                    @Override
+                    public void onClick (View v) {
+
+                        //Execute System Update
+                        int mBatteryPercent = CommonUtils.getBatteryPercent(context);
+                        android.util.Log.d(TAG, "Current BatteryPercent --> " + mBatteryPercent);
+                        if (mBatteryPercent >= 30) {
+
+                            installProgress(context);
+                            updateFirmware(context, file);
+
+                        } else {
+
+                            mDialog_0670_D3= new CustomDialog.Builder(context,200,200)
+                                    .setMessage(context.getResources ().getString (R.string.battery_insufficient))
+                                    .setSingleButton("Ok", new OnClickListener () {
+                                        @Override
+                                        public void onClick (View v) {
+                                            mDialog_0670_D3.dismiss ();
+                                        }
+                                    }).createSingleButtonDialog();
+                            mDialog_0670_D3.show ();
+
+                        }
+
+                    }        }).setNegativeButton ("ON", new OnClickListener () {
+                   @Override
+                   public void onClick (View v) {
+                       final Intent intent = new Intent();
+                       intent.setClass(context, MainActivity.class);
+                       context.startActivity (intent);
+                       customDialog.dismiss ();
+
+                   }
+               })
+                .createTwoButtonDialog ();
+                customDialog.show ();
 
     }
     public static void showDownloadFailDialog(final android.content.Context context) {
@@ -390,7 +417,7 @@ public class CommonUtils {
         }
         catch (Exception e) {
             //System.out.println("复制单个文件操作出错");
-            Log.e("lhc","复制单个文件操作出错"+e.toString()
+            Log.e("lhc",e.toString()
 
             );
             e.printStackTrace();
@@ -416,15 +443,17 @@ public class CommonUtils {
 
     }
 
-    public int installProgress(){
+    public static int installProgress (final Context context){
 
         try {
 
-            RecoverySystem.verifyPackage(new File (""), new RecoverySystem.ProgressListener(){
+            RecoverySystem.verifyPackage(new File ("/cache/update.zip"), new RecoverySystem.ProgressListener(){
 
                 @Override
                 public void onProgress (int progress) {
-                    mProgress=progress;
+
+                    dialogCategorical.N_0646_S01 (context,progress, R.string.fota_install);
+
                 }
             } , null);
 

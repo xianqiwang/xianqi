@@ -40,7 +40,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.sample.WaypointsActivity;
+import com.nfp.update.DefDialog.OnOkListener;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class MainActivity extends Activity {
@@ -57,7 +59,7 @@ public class MainActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                this.finish(); // back button
+                this.finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -70,31 +72,23 @@ public class MainActivity extends Activity {
         if(spref.getInt("IS_OPEN", 0)==1){
             finish();
         }
-/*
-        test();
-*/
         context = this;
         CommonUtils.verifyStoragePermissions (this);
         CommonUtils.isUpdateFile (context);
         HttpClient.cancleRequest(true);
         UpdateUtil.judgePolState(this, 0);
-        boolean manually=false;
+
     }
-    public void test(){
-        Intent intent = new Intent(this, DownloadService.class);
-        intent.setAction(DownloadService.ACTION_START);
-        intent.putExtra("fileinfo",
-                new FileInfo(0, "http://static3.iyuba.cn/android/apk/news/news.apk",
-                        "update.zip", 0, 0));
-        startService(intent);
-    }
+
+
     public void handlerListView(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if(!Settings.canDrawOverlays(getApplicationContext())) {
-                //启动Activity让用户授权
+
                 Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
                 intent.setData(Uri.parse("package:" + getPackageName()));
                 startActivityForResult(intent,100);
+
             }
         }
         final Intent intent = new Intent();
@@ -132,6 +126,7 @@ public class MainActivity extends Activity {
     }
 
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -144,7 +139,7 @@ public class MainActivity extends Activity {
                     params.format = PixelFormat.RGBA_8888;
                     // windowManager.addView(view,params);
                 }else {
-                    Toast.makeText(this,"ACTION_MANAGE_OVERLAY_PERMISSION权限已被拒绝",Toast.LENGTH_SHORT).show();;
+                    Toast.makeText(this,"ACTION_MANAGE_OVERLAY_PERMISSION",Toast.LENGTH_SHORT).show();;
                 }
             }
 

@@ -5,6 +5,7 @@ import android.content.Context;
 
 import android.content.res.Resources;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -330,6 +331,11 @@ class DefDialog extends Dialog {
         mMessage.setGravity(Gravity.CENTER_HORIZONTAL);
 
     }
+    public void setMessageLLeft(){
+
+        mMessage.setGravity(Gravity.LEFT);
+
+    }
     public void setMessage(String message){
         mMessage.setText (message);
     }
@@ -337,8 +343,11 @@ class DefDialog extends Dialog {
         return (String) mMessage.getText ();
     }
 
-    public void setPercent(){
+    public void setPercentVisible(){
         percent.setVisibility(View.VISIBLE);
+    }
+    public void setPercentGone(){
+        percent.setVisibility(View.GONE);
     }
     public void setMessageLSize(int size){
 
@@ -418,7 +427,15 @@ class DefDialog extends Dialog {
     public void setMessageLGone(){
         mMessageL.setVisibility (android.view.View.GONE);
     }
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                cancel (); // back button
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
     public void setConfirmGone(){
         mConfirm.setVisibility(View.GONE);
     }
@@ -430,9 +447,9 @@ class DefDialog extends Dialog {
         listView.setLayoutParams(params);
 
     }
-public ListView getListView(){
-        return listView;
-}
+    public ListView getListView(){
+            return listView;
+    }
     public void setMessageLVisible(){
         mMessageL.setVisibility (android.view.View.VISIBLE);
     }

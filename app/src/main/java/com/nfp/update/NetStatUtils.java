@@ -6,16 +6,11 @@ import android.net.NetworkInfo;
 import static android.net.ConnectivityManager.TYPE_WIFI;
 import static android.net.ConnectivityManager.TYPE_MOBILE;
 
-/**
- * Created by wesker on 2018/6/14 9:45.
- */
+
 
 public class NetStatUtils {
-    /**
-     *
-     * @return 是否有活动的网络连接
-     */
-    public final boolean hasNetWorkConnection(android.content.Context context){
+
+    public static boolean hasNetWorkConnection(Context context){
         //获取连接活动管理器
         final android.net.ConnectivityManager connectivityManager= (android.net.ConnectivityManager) context.
                 getSystemService(android.content.Context.CONNECTIVITY_SERVICE);
