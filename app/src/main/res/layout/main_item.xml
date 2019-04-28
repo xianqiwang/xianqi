@@ -2,12 +2,9 @@
     android:id="@+id/text1"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:duplicateParentState="true"
-    android:ellipsize="marquee"
-    android:marqueeRepeatLimit="marquee_forever"
-    android:singleLine="true"
-    android:textAppearance="?android:attr/textAppearanceMedium"
-    android:gravity="center_vertical"
-    android:paddingStart="?android:attr/listPreferredItemPaddingStart"
-    android:paddingEnd="?android:attr/listPreferredItemPaddingEnd" />
+    android:paddingTop="@dimen/text_size_small"
+    android:paddingLeft="@dimen/text_size_small"
+    android:textSize="@dimen/text_size_large"
+    android:textStyle="bold"
+    />
 
