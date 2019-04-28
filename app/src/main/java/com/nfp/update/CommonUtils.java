@@ -211,23 +211,28 @@ public class CommonUtils {
     public static void isUpdateFile(final Context context){
          final SharedPreferences spref = context.getSharedPreferences("debug_comm", 0);
 
+                mDialog_0641_D1= new CustomDialog.Builder(context,400,250)
+                        .setMessage(context.getResources ().getString (R.string.only_hand_update))
+                        .setSingleButton(context.getResources ().getString (R.string.ok)
+                                , new OnClickListener () {
+                            @Override
+                            public void onClick (View v) {
+                                mDialog_0641_D1.dismiss ();
+                            }
+                        }).createSingleButtonDialog();
+                mDialog_0641_D1.show ();
+
         HttpClient.get (context,ServerUrlConfirmTwo,null,new AsyncHttpResponseHandler (){
 
             @Override
             public void onSuccess (int statusCode, Header[] headers, byte[] responseBody) {
+
                 String error = new String(responseBody);
                 if(error.equals ("error00")){
                     if(spref.getInt ("AUTO_UPDATE",1)==0){
 
-                     mDialog_0641_D1= new CustomDialog.Builder(context,200,200)
-                                .setMessage(context.getResources ().getString (R.string.only_hand_update))
-                                .setSingleButton("Ok", new OnClickListener () {
-                                    @Override
-                                    public void onClick (View v) {
-                                        mDialog_0641_D1.dismiss ();
-                                    }
-                                }).createSingleButtonDialog();
-                     mDialog_0641_D1.show ();
+
+
                     }
                 }
                 return;
@@ -235,6 +240,7 @@ public class CommonUtils {
 
             @Override
             public void onFailure (int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
                 return;
             }
 

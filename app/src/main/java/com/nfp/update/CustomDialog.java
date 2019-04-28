@@ -2,6 +2,7 @@ package com.nfp.update;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,7 +40,7 @@ public class CustomDialog extends Dialog {
         private View.OnClickListener positiveButtonClickListener;
         private View.OnClickListener negativeButtonClickListener;
         private View.OnClickListener singleButtonClickListener;
-        private static int Width,Height;
+        private static int Width,Height,Pwidth,Pheight;
         private View layout;
         private CustomDialog dialog;
         public Builder(Context context,int width,int height) {
@@ -48,6 +49,20 @@ public class CustomDialog extends Dialog {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             layout = inflater.inflate(R.layout.new_dialog, null);
             dialog.addContentView(layout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            DisplayMetrics dm = context.getResources ().getDisplayMetrics();
+            Pwidth = dm.widthPixels;
+            Pheight = dm.heightPixels;
+            LinearLayout linearLayout=layout.findViewById (R.id.content_linear);
+            LinearLayout.LayoutParams params= (LinearLayout.LayoutParams) linearLayout.getLayoutParams();
+            if (width<Pwidth&&height<Pheight){
+                params.height= height ;
+                params.width = width;
+            }else{
+                params.height=Pheight;
+                params.width=Pwidth;
+            }
+
+            linearLayout.setLayoutParams(params);
             Width=width;
             Height=height;
 
@@ -117,7 +132,9 @@ public class CustomDialog extends Dialog {
             } else if (contentView != null) {
                 ((LinearLayout) layout.findViewById(R.id.content)).removeAllViews();
                 ((LinearLayout) layout.findViewById(R.id.content))
-                        .addView(contentView, new ViewGroup.LayoutParams(Width/*ViewGroup.LayoutParams.MATCH_PARENT*/,Height/* ViewGroup.LayoutParams.MATCH_PARENT*/));
+                        .addView(contentView
+                                , new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
+                                        , ViewGroup.LayoutParams.MATCH_PARENT));
             }
             dialog.setContentView(layout);
             dialog.setCancelable(true);

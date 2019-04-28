@@ -48,7 +48,7 @@ public class HttpClient {
         client.setConnectTimeout(30 * 1000);
         client.setResponseTimeout(30 * 1000);
 
-        client.get(context, CommonUtils.ServerUrlConfirmTwo, params, responseHandler);
+        client.get(context, url, params, responseHandler);
     }
 
     public static void get(Context context, String url, RequestParams params, String filestr, FileAsyncHttpResponseHandler responseHandler) {

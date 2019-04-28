@@ -73,8 +73,9 @@ public class MainActivity extends Activity {
             finish();
         }
         context = this;
-        CommonUtils.verifyStoragePermissions (this);
         CommonUtils.isUpdateFile (context);
+
+        CommonUtils.verifyStoragePermissions (this);
         HttpClient.cancleRequest(true);
         UpdateUtil.judgePolState(this, 0);
 

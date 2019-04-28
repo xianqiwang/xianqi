@@ -5,13 +5,12 @@
     <string name="pb_continue" translatable="false">contenue</string>
     <string name="pb_open" translatable="false">open</string>
 
-    <string name="only_hand_update">There is new software. This software is
-                                        Manual download only
-                                        It is available.</string>
-    <string name="Network_error"> Network error has occurred. \n Please go again at a later time</string>
+    <string name="only_hand_update">There is new software.\n
+        This software is Manual download only It is available.</string>
+    <string name="Network_error" translatable="false"> Network error has occurred. \n Please go again at a later time</string>
     <string name="Conn_ser"> Connecting to server</string>
     <string name="no_space">  Insufficient storage space
-   \n Please try again after securing the free space</string>
+                 \n Please try again after securing the free space</string>
 
     <string name="soft_download"> There is a new software. Do you want to download</string>
 
