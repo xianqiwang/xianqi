@@ -17,12 +17,6 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-/**
- * 滚动选择器 更多详解见博客http://blog.csdn.net/zhongkejingwang/article/details/38513301
- * 
- * @author chenjing
- * 
- */
 public class PickerView extends View
 {
 
@@ -117,6 +111,12 @@ public class PickerView extends View
 		invalidate();
 	}
 
+
+	public String getSelected(){
+
+		return mDataList.get (mCurrentSelected);
+
+	}
 	/**
 	 * 选择选中的item的index
 	 * 

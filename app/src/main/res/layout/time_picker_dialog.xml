@@ -6,25 +6,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/message"
-        android:layout_width="match_parent"
-        android:layout_height="34dp" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="129dp"
         android:gravity="center"
         android:orientation="horizontal">
 
-        <com.nfp.update.WheelPicker
+        <com.nfp.update.CustomNumberPicker
             android:id="@+id/hour"
             android:layout_width="36dp"
             android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:background="#000000"
-            aigestudio:wheel_cyclic="true"
-            aigestudio:wheel_item_text_size="24dp" />
+            android:backgroundTint="@color/white"
+            android:background="@drawable/textviewstyle"
+            android:layout_gravity="center_horizontal"/>
 
         <TextView
             android:layout_width="35dp"
@@ -33,14 +27,13 @@
             android:text=":"
             android:textSize="@dimen/text_size_large" />
 
-        <com.nfp.update.WheelPicker
+        <com.nfp.update.CustomNumberPicker
             android:id="@+id/minute"
             android:layout_width="38dp"
+            android:backgroundTint="@color/white"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
-            android:background="#000000"
-            aigestudio:wheel_cyclic="true"
-            aigestudio:wheel_item_text_size="24dp" />
+            android:background="@drawable/textviewstyle"/>
 
     </LinearLayout>
 

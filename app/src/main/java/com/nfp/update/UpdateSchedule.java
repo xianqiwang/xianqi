@@ -140,7 +140,7 @@ public class UpdateSchedule extends Activity implements TimeFotaDialog.OnTimeSet
     @Override
     public void onTimeSet (int hourOfDay, int minute) {
         setTime(this, hourOfDay, minute);
-
+        Log.v ("yingbo","update"+hourOfDay+":"+minute);
         if(scheduleValue ==1){
             UpdateUtil.setTempHourMinute(this, hourOfDay, minute);
             startUpdateSchedule(hourOfDay, minute);
