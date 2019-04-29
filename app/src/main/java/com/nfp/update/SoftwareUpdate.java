@@ -189,7 +189,7 @@ public class SoftwareUpdate extends Activity{
 
         Resources res = getResources();
 
-        dialog_0642_D2= new CustomDialog.Builder(SoftwareUpdate.this,200,200)
+        dialog_0642_D2= new CustomDialog.Builder(SoftwareUpdate.this,400,200)
                 .setMessage(res.getString (R.string.check_up))
                 .setSingleButton("Cancel", new View.OnClickListener () {
 
@@ -200,7 +200,7 @@ public class SoftwareUpdate extends Activity{
 
                 }).createSingleButtonDialog();
 
-        dialog_0642_D3= new CustomDialog.Builder(SoftwareUpdate.this,200,200)
+        dialog_0642_D3= new CustomDialog.Builder(SoftwareUpdate.this,400,200)
                 .setMessage(res.getString (R.string.up_to_date))
                 .setSingleButton("OK", new View.OnClickListener () {
 
@@ -212,7 +212,7 @@ public class SoftwareUpdate extends Activity{
                     }
 
                 }).createSingleButtonDialog();
-        dialog_0642_D4= new CustomDialog.Builder(SoftwareUpdate.this,200,200)
+        dialog_0642_D4= new CustomDialog.Builder(SoftwareUpdate.this,400,200)
                 .setMessage(res.getString (R.string.Network_error))
                 .setSingleButton("OK", new View.OnClickListener () {
 
@@ -225,7 +225,7 @@ public class SoftwareUpdate extends Activity{
 
                 }).createSingleButtonDialog();
 
-        dialog_0642_D5= new CustomDialog.Builder(SoftwareUpdate.this,200,200)
+        dialog_0642_D5= new CustomDialog.Builder(SoftwareUpdate.this,400,200)
                 .setMessage(res.getString (R.string.no_space))
                 .setSingleButton("OK", new View.OnClickListener () {
 
@@ -237,7 +237,7 @@ public class SoftwareUpdate extends Activity{
                     }
 
                 }).createSingleButtonDialog();
-        dialog_0642_D6= new CustomDialog.Builder(SoftwareUpdate.this,200,200)
+        dialog_0642_D6= new CustomDialog.Builder(SoftwareUpdate.this,400,200)
                 .setMessage(res.getString (R.string.soft_download))
                 .setPositiveButton("Ok", new View.OnClickListener () {
                     @Override
@@ -261,7 +261,7 @@ public class SoftwareUpdate extends Activity{
                     }
                 }).createTwoButtonDialog();
 
-        dialog_0642_D1= new CustomDialog.Builder(SoftwareUpdate.this,200,200)
+        dialog_0642_D1= new CustomDialog.Builder(SoftwareUpdate.this,400,200)
                 .setMessage(res.getString (R.string.Conn_ser))
                 .setSingleButton("Cancel", new View.OnClickListener () {
 

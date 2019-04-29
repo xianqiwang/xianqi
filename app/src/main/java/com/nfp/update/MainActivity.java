@@ -74,8 +74,6 @@ public class MainActivity extends Activity {
         }
         context = this;
         CommonUtils.isUpdateFile (context);
-
-        CommonUtils.setTimePicker (this);
         CommonUtils.verifyStoragePermissions (this);
         HttpClient.cancleRequest(true);
         UpdateUtil.judgePolState(this, 0);
