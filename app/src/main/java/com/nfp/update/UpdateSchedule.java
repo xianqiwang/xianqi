@@ -3,13 +3,13 @@ package com.nfp.update;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.RequiresApi;
@@ -28,13 +28,15 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.nfp.update.widget.TimeFotaDialog;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class UpdateSchedule extends Activity implements TimePickerDialog.OnTimeSetListener, DialogInterface.OnCancelListener{
+public class UpdateSchedule extends Activity implements TimeFotaDialog.OnTimeSetListener ,DialogInterface.OnCancelListener{
 
     public int scheduleValue = 0;
     private ListView listview;
@@ -49,7 +51,6 @@ public class UpdateSchedule extends Activity implements TimePickerDialog.OnTimeS
                 Log.e("lhc","defaule:"+position);
                 if(position==0){
                     SharedPreferences sprefs = getSharedPreferences("debug_comm", 0);
-
                     SharedPreferences.Editor editor = sprefs.edit();
                     editor.putInt("AUTO_UPDATE", 1);
                     editor.commit();
@@ -63,14 +64,15 @@ public class UpdateSchedule extends Activity implements TimePickerDialog.OnTimeS
                         hour = UpdateUtil.getHour(this);
                         minute = UpdateUtil.getMinute(this);
                     }
-                    TimePickerDialog tp = new TimePickerDialog(this, AlertDialog.THEME_HOLO_LIGHT, this, hour, minute, true);
+                    TimeFotaDialog tp = new TimeFotaDialog(this
+                            , AlertDialog.THEME_HOLO_LIGHT, this
+                            , hour, minute, true);
                     tp.setTitle(getString(R.string.update_schedule_title));
                     tp.show();
                 }else{
 
                     Toast.makeText(UpdateSchedule.this,getResources().getString(R.string.set_off),Toast.LENGTH_LONG).show();
                     SharedPreferences sprefs = getSharedPreferences("debug_comm", 0);
-
                     SharedPreferences.Editor editor = sprefs.edit();
                     editor.putInt("AUTO_UPDATE", 0);
                     editor.commit();
@@ -134,9 +136,9 @@ public class UpdateSchedule extends Activity implements TimePickerDialog.OnTimeS
         showDialog(0);
     }
 
-    @android.support.annotation.RequiresApi (api = android.os.Build.VERSION_CODES.KITKAT)
+    @RequiresApi (api = VERSION_CODES.KITKAT)
     @Override
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+    public void onTimeSet (int hourOfDay, int minute) {
         setTime(this, hourOfDay, minute);
 
         if(scheduleValue ==1){
@@ -149,9 +151,8 @@ public class UpdateSchedule extends Activity implements TimePickerDialog.OnTimeS
         }
 
         Toast.makeText(this, R.string.auto_change, Toast.LENGTH_LONG).show();
-      //  finish();
+        //  finish();
     }
-
     @Override
     public Dialog onCreateDialog(int id) {
         final Calendar calendar = Calendar.getInstance();
@@ -164,7 +165,9 @@ public class UpdateSchedule extends Activity implements TimePickerDialog.OnTimeS
             hour = UpdateUtil.getHour(this);
             minute = UpdateUtil.getMinute(this);
         }
-        TimePickerDialog tp = new TimePickerDialog(this, AlertDialog.THEME_HOLO_LIGHT, this, hour, minute, true);
+        TimeFotaDialog tp = new TimeFotaDialog(this
+                , AlertDialog.THEME_HOLO_LIGHT, this
+                , hour, minute, true);
         tp.setTitle(getString(R.string.update_schedule_title));
 
         //tp.setOnCancelListener();
@@ -267,6 +270,8 @@ public class UpdateSchedule extends Activity implements TimePickerDialog.OnTimeS
 
         }
     };
+
+
 
     //自定义adapter
     private class MyAdapter extends BaseAdapter {
