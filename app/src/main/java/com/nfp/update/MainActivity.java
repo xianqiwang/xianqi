@@ -77,20 +77,20 @@ public class MainActivity extends Activity {
         CommonUtils.verifyStoragePermissions (this);
         HttpClient.cancleRequest(true);
         UpdateUtil.judgePolState(this, 0);
-
     }
 
 
     public void handlerListView(){
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if(!Settings.canDrawOverlays(getApplicationContext())) {
-
                 Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
                 intent.setData(Uri.parse("package:" + getPackageName()));
                 startActivityForResult(intent,100);
 
             }
         }
+
         final Intent intent = new Intent();
         setContentView(R.layout.activity_list);
         getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -186,4 +186,5 @@ public class MainActivity extends Activity {
             return 1;
         }
     }
+
 }

@@ -120,7 +120,7 @@ String hour=String.valueOf(spref.getInt("update_hour", 1));
                 }
                 //   if (UpdateUtil.getFirstBoot(context)) {
                 //  UpdateUtil.setBoot(context, false);
-                mDialog = new CustomDialog.Builder(context, 60, 120)
+                mDialog = new CustomDialog.Builder(context, 400, 480)
                         .setMessage("Automatic software updates" + "\n" +
                                 ", automatic update time" + "\n" +
                                 "has been set as follows.\n" +

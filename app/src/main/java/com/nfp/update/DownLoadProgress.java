@@ -152,7 +152,10 @@ public class DownLoadProgress extends Activity {
                             UpdateUtil.judgePolState(DownLoadProgress.this, 0);
                             downResult(false);
 
-
+                            SharedPreferences.Editor pEdits = spref.edit();
+                            pEdits.putInt("click_cancel_download",1);
+                            pEdits.commit();
+                            backTopActivity();
                             restartPolling();
                         }
 
@@ -419,50 +422,6 @@ public class DownLoadProgress extends Activity {
         }
         return size;
     }
-
-    private void cancleDownload() {
-        HttpClient.cancleRequest(true);
-        UpdateUtil.judgePolState(DownLoadProgress.this, 0);
-        String confirmation = this.getResources().getString(R.string.confirmation);
-        String messages = this.getResources().getString(R.string.cancel_download);
-        String yes = this.getResources().getString(R.string.yes);
-        String no = this.getResources().getString(R.string.no);
-
-        SharedPreferences.Editor pEdits = spref.edit();
-        pEdits.putInt("click_cancel_download",0);
-        pEdits.commit();
-
-        AlertDialog.Builder mbuild = new AlertDialog.Builder(this)
-                .setTitle(confirmation)
-                .setIcon(R.drawable.ic_dialog_confirm)
-                .setMessage(messages)
-                .setNegativeButton(no, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                //startDownload();
-                            }
-                        }
-                )
-                .setPositiveButton(yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                SharedPreferences.Editor pEdits = spref.edit();
-                                pEdits.putInt("click_cancel_download",1);
-                                pEdits.commit();
-                                backTopActivity();
-                                restartPolling();
-                            }
-                        }
-                ).setOnDismissListener(new DialogInterface.OnDismissListener (){
-                    @Override
-                    public void onDismiss(DialogInterface dialog){
-                        if(spref.getInt("click_cancel_download",0)!= 1)
-                            startDownload();
-                    }
-                });
-        mbuild.show();
-    }
-
 
 
     public void restartPolling() {
