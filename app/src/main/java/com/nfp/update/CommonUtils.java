@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
-import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,7 +25,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
-
+import com.nfp.update.widget.TimeFotaDialog;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -100,10 +99,10 @@ public class CommonUtils {
             hour = UpdateUtil.getHour(context);
             minute = UpdateUtil.getMinute(context);
         }
-        TimePickerDialog tp = new TimePickerDialog (context, AlertDialog.THEME_HOLO_LIGHT, new OnTimeSetListener () {
-            @Override
-            public void onTimeSet (TimePicker view, int hourOfDay, int minute) {
+        TimeFotaDialog tp = new TimeFotaDialog (context, AlertDialog.THEME_HOLO_LIGHT, new TimeFotaDialog.OnTimeSetListener () {
 
+            @Override
+            public void onTimeSet (int hourOfDay, int minute) {
                 UpdateUtil.setHourMinute (context,hourOfDay,minute);
                 SharedPreferences sprefs = context.getSharedPreferences ("debug_comm", 0);
 
@@ -114,10 +113,15 @@ public class CommonUtils {
                 CommonUtils.showToastInService(context,R.string.auto_change);
 
             }
+
         }, hour, minute, true);
+        Context context_1 = tp.getContext();
+
+        int divierId = context_1.getResources().getIdentifier("android:id/titleDivider", null, null);
 
         tp.setTitle(context.getString (R.string.update_schedule_title));
         tp.show ();
+
     }
 
 
