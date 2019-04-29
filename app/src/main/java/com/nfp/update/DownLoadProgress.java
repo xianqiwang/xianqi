@@ -83,7 +83,6 @@ public class DownLoadProgress extends Activity {
         DataCache.getInstance(this).setDownloadPath(DownloadService.DOWNLOAD_PATH);
 
         pb=(ProgressBar)findViewById(R.id.down_pb);
-        mTextView=(TextView)findViewById(R.id.tv);
         percent=(TextView)findViewById(R.id.percent);
         messages = this.getResources().getString(R.string.downlaod_back_idle);
         spref = PreferenceManager.getDefaultSharedPreferences(DownLoadProgress.this);
@@ -115,7 +114,7 @@ public class DownLoadProgress extends Activity {
                             Log.d(TAG,"Download -> onSuccess");
                             String fileName = null;
                             pb.setVisibility (View.GONE);
-                            mTextView.setVisibility (View.GONE);
+                            percent.setVisibility (View.GONE);
                             for (cz.msebera.android.httpclient.Header header : headers){
                                 Log.d(TAG,"head = " + header.getName() + ":" + header.getValue());
                                 if (header.getName().equals("Content-Disposition")
@@ -170,7 +169,7 @@ public class DownLoadProgress extends Activity {
                             }
                             int count = (int) (((bytesWritten + hadDownload) * 1.0 / total) * 100);
                             Log.d(TAG, "Download -> onProgress, count = " + count);
-                            mTextView.setText (count+"%");
+                            percent.setText (count+"%");
                             pb.setProgress(count);
                         }
                     });

@@ -7,17 +7,29 @@
     android:paddingTop="150dp"
     android:orientation="vertical" >
 
-    <TextView  android:id="@+id/tv"
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="match_parent"
+        android:layout_height="128dp"
+        android:layout_marginTop="-60dp"
+        android:gravity="center"
+        android:text="@string/download_progress" />
+
+    <TextView
+        android:id="@+id/percent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/download_progress" />
+        android:layout_below="@+id/message"
+        android:textSize="20dp"
+        android:text="51%"
+        android:gravity="right"/>
 
     <ProgressBar
         android:id="@+id/down_pb"
         style="?android:attr/progressBarStyleHorizontal"
-        android:progressDrawable="@drawable/progress_style"
         android:layout_width="match_parent"
         android:layout_height="15dp"
-        android:max="100" />
+        android:max="100"
+        android:progressDrawable="@drawable/progress_style" />
 
 </LinearLayout> 

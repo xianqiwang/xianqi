@@ -91,7 +91,7 @@ public class SoftwareUpdate extends Activity{
             dialog_0642_D4.show ();
         }
 
-        HttpClient.get(context, CommonUtils.ServerUrlConfirmThree, null, new AsyncHttpResponseHandler() {
+        HttpClient.get(context, CommonUtils.ServerUrlConfirmTwo, null, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
 
@@ -112,7 +112,6 @@ public class SoftwareUpdate extends Activity{
                              }else{
 
                                  dialog_0642_D6.show ();
-
                              }
                             break;
                         case "error23":
