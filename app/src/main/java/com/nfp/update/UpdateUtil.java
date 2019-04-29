@@ -680,7 +680,7 @@ public class UpdateUtil {
             notificationIntent = new android.content.Intent (mcontext, com.nfp.update.UpdateFailActivity.class);
             contentIntent = android.app.PendingIntent.getActivity (mcontext, 0, notificationIntent, 0);
         } else if (type == 6) {
-            notificationIntent = new android.content.Intent (mcontext, com.nfp.update.DownloadProgress.class);
+            notificationIntent = new android.content.Intent (mcontext, com.nfp.update.DownLoadProgress.class);
             //notificationIntent.putExtra("DOWNLOAD_FROM_NOTIFICATION", true);
             contentIntent = android.app.PendingIntent.getActivity (mcontext, 0, notificationIntent, 0);
             setDownloadNotification (context, true);

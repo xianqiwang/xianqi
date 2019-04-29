@@ -19,7 +19,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
 
 import com.nfp.update.CommonUtils;
-import com.nfp.update.DownloadProgress;
+import com.nfp.update.DownLoadProgress;
 import com.nfp.update.PrepareUpdateActivity;
 import com.nfp.update.LessVolumeActivity;
 import com.nfp.update.HttpClient;
