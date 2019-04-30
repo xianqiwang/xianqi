@@ -47,9 +47,9 @@ public class SoftwareUpdate extends Activity{
     }
 
     @Override
-    protected void onPause () {
-        super.onPause ();
-        dismissAll ();
+    protected void onDestroy () {
+        super.onDestroy ();
+        dismissAll();
     }
 
     @Override
@@ -142,14 +142,14 @@ public class SoftwareUpdate extends Activity{
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
 
+                dismissAll ();
+                dialog_0642_D4.show();
                 String errorValue = String.valueOf(statusCode);
                 String errorCode = "404";
                 String a = context.getResources().getString(R.string.network_connect_error);
                 String connectError = String.format(a, errorCode);
                 HttpClient.cancleRequest(true);
                 UpdateUtil.judgePolState(context, 0);
-                dismissAll ();
-                dialog_0642_D4.show();
 
             }
 
@@ -180,7 +180,7 @@ public class SoftwareUpdate extends Activity{
                         dialog_0642_D2.dismiss();
                     }
 
-                }).createSingleButtonDialog();
+                }).setProgressBarVisible().createSingleButtonDialog();
 
         dialog_0642_D3= new CustomDialog.Builder(SoftwareUpdate.this,400,200)
                 .setMessage(res.getString (R.string.up_to_date))

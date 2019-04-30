@@ -75,10 +75,9 @@ public class UpdateUtil {
         insertEventLog (context, 0, context.getString (R.string.polling), 0, context.getString (R.string.start), null, null);
         insertEventLog (context, 0, context.getString (R.string.polling_time_setting), 0, setPollTimeEvent (startTime), null, null);
         AlarmManager manager = (AlarmManager) context.getSystemService (Context.ALARM_SERVICE);
-
         Intent intent = new Intent ("com.nfp.update.ALARM");
-        PendingIntent pendingIntent = PendingIntent.getBroadcast (context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
+        PendingIntent pendingIntent = PendingIntent.getBroadcast (context, 0,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
         String str = String.format ("%tF %<tT", startTime);
         String startPol = str.replace ("-", "/");
         pEdits.putLong ("pol_time_mm", startTime);
@@ -104,11 +103,11 @@ public class UpdateUtil {
             values.put ("EVENT_NAME", eventName);
         }
 
-        /*if (tid < 1 || tid > 256) {
+        if (tid < 1 || tid > 256) {
             Log.w(TAG, "Invalid tid : " + tid);
         } else {
             values.put("TID", new Integer(tid));
-        }*/
+        }
 
         if (! android.text.TextUtils.isEmpty (factor1)) {
             values.put ("FACTOR1", factor1);
@@ -139,11 +138,15 @@ public class UpdateUtil {
         manager.cancel (pendingIntent);
     }
 
-    /**start auto update timer, flag = 1 is defined auto update schedure broadcast
-     flag = 2 is defined auto update install broadcast.
-     **/
+   /*
+    *
+    * start auto update timer, flag = 1 is defined auto update schedure broadcast
+    *flag = 2 is defined auto update install broadcast.
+    *
+    */
 
     public static void startUpdateService (Context context, int flag) {
+
         int hour = 0;
         int minute = 0;
         SharedPreferences sprefs = context.getSharedPreferences ("debug_comm", 0);
@@ -552,7 +555,6 @@ public class UpdateUtil {
             pollStart.add (Calendar.SECOND, Integer.parseInt (randomTime[ 2 ]));
         }
 
-
         int retry = getRetryTime (context);
         if (retry != - 1) {
             int hour = retry / 60;
@@ -710,7 +712,6 @@ public class UpdateUtil {
            // mNotificationManager.notify (0x01, notification);
         }
 
-
         android.content.SharedPreferences sharedPreferences = context.getSharedPreferences ("debug_comm", 0);
         android.content.SharedPreferences.Editor pEdit = sharedPreferences.edit ();
         pEdit.putInt ("notification_type", type);
@@ -743,7 +744,7 @@ public class UpdateUtil {
                 result = false;
                 break;
         }
-        Log.d (TAG, result ? "有SIM卡" : "无SIM卡");
+        Log.d (TAG, result ? "sim" : "no sim");
         return result;
     }
 

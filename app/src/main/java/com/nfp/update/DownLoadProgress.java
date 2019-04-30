@@ -96,6 +96,7 @@ public class DownLoadProgress extends Activity {
     }
 
     private Handler mhandler = new Handler() {
+
         @Override
         public void handleMessage(final Message msg) {
             switch (msg.what){
@@ -165,22 +166,22 @@ public class DownLoadProgress extends Activity {
                         }
 
                         @Override
-                        public void onProgress(long bytesWritten, long totalSize) {
-                            // TODO Auto-generated method stub
-                            //int count = (int) ((bytesWritten * 1.0 / totalSize) * 100);
-                            long total = totalSize + hadDownload;
-                            if(downFlag){
-                                downFlag = false;
-                                SharedPreferences.Editor pEdit = spref.edit();
-                                pEdit.putLong("total_size", total);
-                                pEdit.commit();
-                            }
-                            int count = (int) (((bytesWritten + hadDownload) * 1.0 / total) * 100);
-                            Log.d(TAG, "Download -> onProgress, count = " + count);
-                            percent.setText (count+"%");
-                            pb.setProgress(count);
-                        }
-                    });
+                    public void onProgress(long bytesWritten, long totalSize) {
+                    // TODO Auto-generated method stub
+                    //int count = (int) ((bytesWritten * 1.0 / totalSize) * 100);
+                    long total = totalSize + hadDownload;
+                    if(downFlag){
+                        downFlag = false;
+                        SharedPreferences.Editor pEdit = spref.edit();
+                        pEdit.putLong("total_size", total);
+                        pEdit.commit();
+                    }
+                    int count = (int) (((bytesWritten + hadDownload) * 1.0 / total) * 100);
+                    Log.d(TAG, "Download -> onProgress, count = " + count);
+                    percent.setText (count+"%");
+                    pb.setProgress(count);
+                }
+            });
                     break;
             }
 
@@ -214,11 +215,11 @@ public class DownLoadProgress extends Activity {
         return i;
 
     }
-
+    CustomDialog  N0645;
 
     public void showDialog(){
 
-        new CustomDialog.Builder(this,200,200)
+         N0645=  new CustomDialog.Builder(this,200,200)
                 .setMessage(getResources ().getString (R.string.download_fail))
                 .setPositiveButton("Ok", new View.OnClickListener () {
                     @Override
@@ -234,7 +235,8 @@ public class DownLoadProgress extends Activity {
                         intent.setClass(DownLoadProgress.this, MainActivity.class);
                         startActivity(intent);
                     }
-                }).createTwoButtonDialog().show ();
+                }).createTwoButtonDialog();
+        N0645.show ();
         N0645_D1=  new CustomDialog.Builder(this,200,200)
                 .setMessage(getResources ().getString (R.string.contenus_progress))
                 .setPositiveButton("Ok", new View.OnClickListener () {
@@ -254,7 +256,16 @@ public class DownLoadProgress extends Activity {
                 }).createTwoButtonDialog();
 
     }
-
+    public void dismissAll(){
+        defDialog.dismiss ();
+        N0645_D1.dismiss ();
+        N0645.dismiss ();
+    }
+    @Override
+    protected void onDestroy () {
+        super.onDestroy ();
+        dismissAll();
+    }
     public void is_update_schedule(){
 
         if(getState ()==1){
@@ -390,6 +401,7 @@ public class DownLoadProgress extends Activity {
         }
         return size;
     }
+
 
 
     public void restartPolling() {
