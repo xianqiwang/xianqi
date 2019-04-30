@@ -46,7 +46,6 @@ public class Service2 extends android.app.Service {
 		startService1();
 	}
 
-	@SuppressLint("NewApi")
 	public void onCreate() {
 		startService1();
 	}

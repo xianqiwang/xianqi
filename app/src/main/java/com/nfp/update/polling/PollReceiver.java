@@ -243,6 +243,7 @@ String hour=String.valueOf(spref.getInt("update_hour", 1));
         String result = "";
 
         File file = new File(filePath);
+        
         if (file == null|| !file.exists()) {
             return "";
         }

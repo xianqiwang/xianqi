@@ -34,7 +34,6 @@ import android.view.Gravity;
 import android.os.Handler;
 import android.os.Message;
 import android.content.SharedPreferences;
-import com.nfp.update.nfpapp.app.util.NfpSoftkeyGuide;
 import com.nfp.update.R;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
@@ -42,7 +41,6 @@ public class PrepareUpdateActivity extends Activity{
     private String TAG = "PrepareUpdateActivity";
     private TextView mTextView;
     private Intent intent;
-
     private boolean isConnect = false;
     private boolean isDown = false;
     private Message message;

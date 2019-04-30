@@ -25,6 +25,9 @@ import com.nfp.update.LessVolumeActivity;
 import com.nfp.update.widget.HttpClient;
 import com.nfp.update.UpdateUtil;
 import com.nfp.update.R;
+import com.nfp.update.widget.NetStatUtils;
+
+import cz.msebera.android.httpclient.Header;
 
 public class PollingService extends Service {
 
@@ -55,7 +58,6 @@ public class PollingService extends Service {
         return null;
     }
 
-    @android.annotation.SuppressLint ("InvalidWakeLockTag")
     @Override
     public void onCreate() {
         super.onCreate();
@@ -93,7 +95,8 @@ public class PollingService extends Service {
         String packageFile = sp.getString("PAC_NAME", null);
         File files = new File("/cache/update.zip");
         if(packageFile == null||!files.exists()){
-            if (UpdateUtil.hasSimCard(PollingService.this)){
+
+            if (NetStatUtils.hasNetWorkConnection(PollingService.this)){
                 if (UpdateUtil.checkNetworkConnection()){
                     if (UpdateUtil.getAvailableInternalMemorySize() > 100){
                         UpdateUtil.judgePolState(context, 1);
@@ -108,7 +111,6 @@ public class PollingService extends Service {
                     Intent mIntent = new Intent();
                     mIntent.setAction("android.intent.action.RETRY");
                     mIntent.setComponent(new ComponentName("com.nfp.update","com.nfp.update.polling.PollReceiver"));
-
                     context.sendBroadcast(mIntent);
                 }
             } else {
@@ -142,7 +144,7 @@ public class PollingService extends Service {
                                     if(!wakeLock.isHeld())
                                         wakeLock.acquire();
 
-                                    insertEventLog(context,0, getString(R.string.polling_result), 0, getString(R.string.check_new_file), null, null);
+                                    UpdateUtil.insertEventLog(context,0, getString(R.string.polling_result), 0, getString(R.string.check_new_file), null, null);
                                     Message message = new Message();
                                     message.what = 1;
                                     mhandler.sendMessage(message);
@@ -151,7 +153,7 @@ public class PollingService extends Service {
                                         wakeLock.release();
                                     break;
                                 case "error23":
-                                    insertEventLog(context,0, getString(R.string.polling_result), 0, getString(R.string.check_old_file), null, null);
+                                   UpdateUtil.insertEventLog(context,0, getString(R.string.polling_result), 0, getString(R.string.check_old_file), null, null);
                                     Log.d(TAG, "This is the newest version!");
                                     break;
                                 case "error24":
@@ -220,7 +222,10 @@ public class PollingService extends Service {
                     if(hadDownload > 0){
                         UpdateUtil.showFotaNotification(context, R.string.Notification_download_ing, 6);
                     }
-                    HttpClient.get(context, DOWNLOAD_UPDATE_FILE + TEST, null, FOTA_FILE, new FileAsyncHttpResponseHandler(new File(FOTA_FILE), true) {
+                    HttpClient.get(context, CommonUtils.ServerUrlDownloadTwo, null
+                            , CommonUtils.DOWNLOAD_PATH
+                            , new FileAsyncHttpResponseHandler(new File(
+                                    CommonUtils.DOWNLOAD_PATH+CommonUtils.UpdateFileName), true) {
 
                         @android.support.annotation.RequiresApi (api = android.os.Build.VERSION_CODES.KITKAT)
                         @Override
@@ -230,7 +235,7 @@ public class PollingService extends Service {
                                 wakeLock.acquire();
                             UpdateUtil.judgePolState(context, 0);
                             String fileName = null;
-                            for (cz.msebera.android.httpclient.Header header : headers){
+                            for (Header header : headers){
                                 if (header.getName().equals("Content-disposition")
                                         || header.getName().equals("Content-Disposition")){
                                     String string = header.getValue();
@@ -259,7 +264,7 @@ public class PollingService extends Service {
                         }
 
                         @Override
-                        public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, Throwable throwable, java.io.File file) {
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, java.io.File file) {
                             if(!wakeLock.isHeld())
                                 wakeLock.acquire();
                             UpdateUtil.showFotaNotification(context, R.string.Notification_download_failed, 0);
@@ -291,43 +296,7 @@ public class PollingService extends Service {
         };
     };
 
-    private android.net.Uri insertEventLog(Context context, int eventNo, String eventName,
-                                           int tid, String factor1, String factor2, String factor3) {
-        final android.net.Uri uri = android.net.Uri.parse("content://com.ssol.eventlog/eventlog");
 
-        android.content.ContentResolver mContentResolver=context.getContentResolver();
-
-        mContentResolver.acquireContentProviderClient (uri);
-
-        android.content.ContentValues values = new android.content.ContentValues ();
-
-        if (android.text.TextUtils.isEmpty(eventName)) {
-            throw new IllegalArgumentException("Invalid event name : " + eventName);
-        } else {
-            values.put("EVENT_NAME", eventName);
-        }
-
-        /*if (tid < 1 || tid > 256) {
-            Log.w(TAG, "Invalid tid : " + tid);
-        } else {
-            values.put("TID", new Integer(tid));
-        }*/
-
-        if (! android.text.TextUtils.isEmpty(factor1)) {
-            values.put("FACTOR1", factor1);
-        }
-
-        if (! android.text.TextUtils.isEmpty(factor2)) {
-            values.put("FACTOR2", factor2);
-        }
-
-        if (! android.text.TextUtils.isEmpty(factor3)) {
-            values.put("FACTOR3", factor3);
-        }
-
-        return  mContentResolver.insert (uri,values);
-
-    }
 
     @android.support.annotation.RequiresApi (api = android.os.Build.VERSION_CODES.KITKAT)
     public void prepareUpdate() {
