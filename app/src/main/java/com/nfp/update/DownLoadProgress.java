@@ -42,6 +42,8 @@ import com.nfp.update.DownloadTask.OnDownloadProgress;
 import java.io.File;
 import java.io.FileInputStream;
 
+import cz.msebera.android.httpclient.Header;
+
 public class DownLoadProgress extends Activity {
 
     private final static String TAG = "DownloadProgress";
@@ -131,7 +133,10 @@ public class DownLoadProgress extends Activity {
                                 if (fileName != null && fileName.length() > 0){
                                     if (file != null && file.exists()){
                                         Log.d(TAG,"renameTo successed");
-                                        insertEventLog(getApplicationContext (),0, getString(R.string.download), 0, getString(R.string.end), null, null);
+                                       UpdateUtil.insertEventLog(getApplicationContext (),
+                                               0, getString(R.string.download)
+                                               , 0, getString(R.string.end)
+                                               , null, null);
                                         SharedPreferences.Editor pEdit = spref.edit();
                                         pEdit.putString("PAC_NAME", "softwareupdate.dat");
                                         pEdit.commit();
@@ -142,16 +147,18 @@ public class DownLoadProgress extends Activity {
                         }
 
                         @Override
-                        public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers,
+                        public void onFailure(int statusCode, Header[] headers,
                                               Throwable throwable, File file) {
 
                             UpdateUtil.set_last_finish (DownLoadProgress.this,false);
-                            insertEventLog(getApplicationContext (),0, getString(R.string.download), 0, getString(R.string.fail), null, null);
-                            UpdateUtil.showFotaNotification(DownLoadProgress.this, R.string.Notification_download_failed, 0);
+                            UpdateUtil.insertEventLog(getApplicationContext ()
+                                    ,0, getString(R.string.download)
+                                    , 0, getString(R.string.fail), null, null);
+                            UpdateUtil.showFotaNotification(DownLoadProgress.this
+                                    , R.string.Notification_download_failed, 0);
                             HttpClient.cancleRequest(true);
                             UpdateUtil.judgePolState(DownLoadProgress.this, 0);
                             downResult(false);
-
                             SharedPreferences.Editor pEdits = spref.edit();
                             pEdits.putInt("click_cancel_download",1);
                             pEdits.commit();
@@ -296,7 +303,8 @@ public class DownLoadProgress extends Activity {
                 @Override
                 public void onOkKey () {
 
-                    CommonUtils.showUpdateNowDialog (DownLoadProgress.this,new File (DownloadService.DOWNLOAD_PATH));
+                    CommonUtils.showUpdateNowDialog (DownLoadProgress.this
+                            ,new File (DownloadService.DOWNLOAD_PATH));
                     defDialog.dismiss ();
 
                 }
@@ -329,49 +337,11 @@ public class DownLoadProgress extends Activity {
 
     }
 
-    private android.net.Uri insertEventLog(android.content.Context context, int eventNo, String eventName, int tid, String factor1, String factor2, String factor3) {
-
-        final android.net.Uri uri = android.net.Uri.parse("content://com.ssol.eventlog/eventlog");
-
-        android.content.ContentResolver mContentResolver=context.getContentResolver();
-
-        mContentResolver.acquireContentProviderClient (uri);
-
-        android.content.ContentValues values = new android.content.ContentValues ();
-
-        if (android.text.TextUtils.isEmpty(eventName)) {
-            throw new IllegalArgumentException("Invalid event name : " + eventName);
-        } else {
-            values.put("EVENT_NAME", eventName);
-        }
-
-        if (tid < 1 || tid > 256) {
-            Log.w(TAG, "Invalid tid : " + tid);
-        } else {
-            values.put("TID", new Integer(tid));
-        }
-
-        if (! android.text.TextUtils.isEmpty(factor1)) {
-            values.put("FACTOR1", factor1);
-        }
-
-        if (! android.text.TextUtils.isEmpty(factor2)) {
-            values.put("FACTOR2", factor2);
-        }
-
-        if (! android.text.TextUtils.isEmpty(factor3)) {
-            values.put("FACTOR3", factor3);
-        }
-
-        return  mContentResolver.insert (uri,values);
-
-    }
-
     private void startDownload() {
 
         HttpClient.cancleRequest(true);
         initialProgress();
-        insertEventLog(getApplicationContext (),
+        UpdateUtil.insertEventLog(getApplicationContext (),
                 0, getString(R.string.download),
                 0, getString(R.string.start),
                 null, null);

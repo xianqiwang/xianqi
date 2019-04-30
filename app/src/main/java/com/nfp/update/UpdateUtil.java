@@ -33,6 +33,7 @@ import android.content.Intent;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.telephony.TelephonyManager;
@@ -88,7 +89,7 @@ public class UpdateUtil {
         manager.set (AlarmManager.RTC_WAKEUP, startTime, pendingIntent);
     }
 
-    private static android.net.Uri insertEventLog (Context context, int eventNo, String eventName, int tid, String factor1, String factor2, String factor3) {
+    public static Uri insertEventLog (Context context, int eventNo, String eventName, int tid, String factor1, String factor2, String factor3) {
         final android.net.Uri uri = android.net.Uri.parse ("content://com.ssol.eventlog/eventlog");
 
         android.content.ContentResolver mContentResolver = context.getContentResolver ();
