@@ -41,7 +41,7 @@ public class DebugReceiver extends BroadcastReceiver {
             data = intent.getIntExtra("setData", 0);
         }
         StartDebugService(name, sread, url, data);
-        Log.d("kevin", "receive debug broadcast");
+        Log.d("lhc", "receive debug broadcast");
     }
 
     public void StartDebugService(String cname, String sr, String url,  int cdata) {

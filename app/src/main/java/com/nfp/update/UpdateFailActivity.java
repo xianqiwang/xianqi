@@ -42,7 +42,7 @@ public class UpdateFailActivity extends Activity{
         public void onReceive(Context context, Intent intent) {
             // TODO Auto-generated method stub
             if(action.equals(intent.getAction())){
-                Log.d("kevin", "UpdateFailActivity start polling");
+                Log.d("lhc", "UpdateFailActivity start polling");
                 UpdateUtil.stopUpdateService(UpdateFailActivity.this, 1);
                 UpdateUtil.stopUpdateService(UpdateFailActivity.this, 2);
                 UpdateUtil.stopPollingService(UpdateFailActivity.this);

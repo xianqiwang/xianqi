@@ -17,13 +17,19 @@
 package com.nfp.update;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -137,7 +143,7 @@ public class DownLoadProgress extends Activity {
                                                , 0, getString(R.string.end)
                                                , null, null);
                                         SharedPreferences.Editor pEdit = spref.edit();
-                                        pEdit.putString("PAC_NAME", "softwareupdate.dat");
+                                        pEdit.putString("PAC_NAME", "update.zip");
                                         pEdit.commit();
                                         downResult(true);
                                     }
@@ -400,6 +406,49 @@ public class DownLoadProgress extends Activity {
             }
         }
         return size;
+    }
+
+    private void cancleDownload() {
+        HttpClient.cancleRequest(true);
+        UpdateUtil.judgePolState(DownLoadProgress.this, 0);
+        String confirmation = this.getResources().getString(R.string.confirmation);
+        String messages = this.getResources().getString(R.string.cancel_download);
+        String yes = this.getResources().getString(R.string.yes);
+        String no = this.getResources().getString(R.string.no);
+
+        SharedPreferences.Editor pEdits = spref.edit();
+        pEdits.putInt("click_cancel_download",0);
+        pEdits.commit();
+
+        AlertDialog.Builder mbuild = new AlertDialog.Builder(this)
+                .setTitle(confirmation)
+                .setIcon(R.drawable.ic_dialog_confirm)
+                .setMessage(messages)
+                .setNegativeButton(no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                //startDownload();
+                            }
+                        }
+                )
+                .setPositiveButton(yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                SharedPreferences.Editor pEdits = spref.edit();
+                                pEdits.putInt("click_cancel_download",1);
+                                pEdits.commit();
+                                backTopActivity();
+                                restartPolling();
+                            }
+                        }
+                ).setOnDismissListener(new DialogInterface.OnDismissListener (){
+                    @Override
+                    public void onDismiss(DialogInterface dialog){
+                        if(spref.getInt("click_cancel_download",0)!= 1)
+                            startDownload();
+                    }
+                });
+        mbuild.show();
     }
 
 

@@ -48,7 +48,7 @@ public class PollReceiver extends BroadcastReceiver {
         if (intent.getAction().equals(ACTION_BOOT)){
             Log.d(TAG, "BOOT_COMPLETED");
             boolean updateFlag = false;
-            int isAuto = spref.getInt("AUTO_UPDATE", 0);
+            int isAuto = spref.getInt("AUTO_UPDATE", 1);
             UpdateUtil.setBoot(context, true);
             boolean date_changed = sharedPreferences.getBoolean("date_changed", false);
             boolean hadPoll = sharedPreferences.getBoolean("had_poll", false);
@@ -59,7 +59,7 @@ public class PollReceiver extends BroadcastReceiver {
             installResult = readCacheResult(INSTALL);
             Log.d(TAG, "installResult = " + installResult);
             if(installResult != null && !installResult.equals("")){
-                Log.d("kevin", "update complete!!");
+                Log.d("lhc", "update complete!!");
                 updateFlag = true;
                 deleteUpdatePackage();
                 installValue = installResult.substring(0, 1);
@@ -78,14 +78,14 @@ public class PollReceiver extends BroadcastReceiver {
             }
 
             if (UpdateUtil.getInstallSchedule(context)){
-              //  UpdateUtil.showFotaNotification(context, R.string.Notification_schedule, 2);
+               UpdateUtil.showFotaNotification(context, R.string.Notification_schedule, 2);
             }
-            /*if (UpdateUtil.getFirstBoot(context)) {
+            if (UpdateUtil.getFirstBoot(context)) {
                 UpdateUtil.setFirstBoot(context, false);
                 SharedPreferences.Editor editor = spref.edit();
                 editor.putInt("AUTO_UPDATE", 1);
                 editor.commit();
-            }*/
+            }
 String hour=String.valueOf(spref.getInt("update_hour", 1));
             String minute=String.valueOf(spref.getInt("update_minute", 1));
             Log.d(TAG, "AUTO_UPDATE:"+spref.getInt("AUTO_UPDATE", 1)+"hour:"+hour+"---"+"minute:"+minute+"--switch:"+spref.getInt("dialog_switch", 1));
@@ -145,17 +145,17 @@ String hour=String.valueOf(spref.getInt("update_hour", 1));
 
             if (UpdateUtil.getFirstBoot(context)){
                 //UpdateUtil.showFotaNotification(context, R.string.Notification_schedule, 2);
-                if (UpdateUtil.getNitz(context)){
+                //if (UpdateUtil.getNitz(context)){
                     UpdateUtil.startPollingService(context, UpdateUtil.getPollStartTime(context));
                     UpdateUtil.setBoot(context, false);
                     UpdateUtil.setNitz(context, false);
                     UpdateUtil.setFirstBoot(context, false);
-                }
+               // }
             } else {
                 if(!updateFlag){
-                    File files = new File("/fota/softwareupdate.dat");
+                    File files = new File("/cache/update.zip");
                     int type = spref.getInt("notification_type", 0);
-                    Log.d("kevin", "update updateFlag!!=="+String.valueOf(type));
+                    Log.d("lhc", "update updateFlag!!=="+String.valueOf(type));
                     if((type == 1||type == 3)&&files.exists()){
                         UpdateUtil.showFotaNotification(context, R.string.Notification_download_successed, type);
                     }
@@ -178,7 +178,7 @@ String hour=String.valueOf(spref.getInt("update_hour", 1));
                         Calendar calendar = Calendar.getInstance();
                         Long cur = calendar.getTimeInMillis();
                         Long tt = sharedPreferences.getLong("pol_time_mm", 0);
-                        Log.d("kevin","cur="+cur+"; tt="+tt);
+                        Log.d("lhc","cur="+cur+"; tt="+tt);
                         if(cur>tt){
                             UpdateUtil.startPollingService(context, UpdateUtil.getRetryPollStartTime(context));
                             SharedPreferences.Editor pEdit = sharedPreferences.edit();
@@ -217,7 +217,7 @@ String hour=String.valueOf(spref.getInt("update_hour", 1));
                 UpdateUtil.startPollingService(context, UpdateUtil.getPollStartTime(context));
             }
         }else if (intent.getAction().equals(CLEAR_FOTA_DATA)){
-            Log.d("kevin", "clear fota data");
+            Log.d("lhc", "clear fota data");
             UpdateUtil.stopPollingService(context);
             UpdateUtil.startPollingService(context, UpdateUtil.getPollStartTime(context));
         }else  if (intent.getAction().equals(Intent.ACTION_SHUTDOWN)) {
@@ -268,7 +268,7 @@ String hour=String.valueOf(spref.getInt("update_hour", 1));
 
    @android.support.annotation.RequiresApi (api = android.os.Build.VERSION_CODES.KITKAT)
    public void setNewUpdateTime(Context context) {
-        Log.d("kevin", "start setNewUpdateTime !!");
+        Log.d("lhc", "start setNewUpdateTime !!--"+UpdateUtil.getUpdateState(context));
         if (UpdateUtil.getUpdateState(context)==1){
             UpdateUtil.startUpdateService(context, 1);
         }
@@ -297,8 +297,8 @@ String hour=String.valueOf(spref.getInt("update_hour", 1));
     }
 
    public void deleteUpdatePackage() {
-        Log.d("kevin", "start delete !!");
-        File files = new File("/fota/softwareupdate.dat");
+        Log.d("lhc", "start delete !!");
+        File files = new File("/cache/update.zip");
         if (files.exists()){
             files.delete();
         }

@@ -28,6 +28,7 @@ import java.util.Date;
 import java.util.Calendar;
 
 import android.app.NotificationChannel;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.app.AlarmManager;
@@ -76,8 +77,9 @@ public class UpdateUtil {
         insertEventLog (context, 0, context.getString (R.string.polling_time_setting), 0, setPollTimeEvent (startTime), null, null);
         AlarmManager manager = (AlarmManager) context.getSystemService (Context.ALARM_SERVICE);
         Intent intent = new Intent ("com.nfp.update.ALARM");
-        PendingIntent pendingIntent = PendingIntent.getBroadcast (context, 0,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        intent.setComponent(new ComponentName("com.nfp.update","com.nfp.update.receiver.AlarmReceiver"));
+        PendingIntent pendingIntent = PendingIntent.getBroadcast (context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
         String str = String.format ("%tF %<tT", startTime);
         String startPol = str.replace ("-", "/");
         pEdits.putLong ("pol_time_mm", startTime);
@@ -133,6 +135,8 @@ public class UpdateUtil {
         pEdits.commit ();
         AlarmManager manager = (AlarmManager) context.getSystemService (Context.ALARM_SERVICE);
         Intent intent = new Intent ("com.nfp.update.ALARM");
+        intent.setComponent(new ComponentName("com.nfp.update","com.nfp.update.receiver.AlarmReceiver"));
+
         PendingIntent pendingIntent = PendingIntent.getBroadcast (context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         Log.d (TAG, "manager.cancel()");
         manager.cancel (pendingIntent);
@@ -158,7 +162,7 @@ public class UpdateUtil {
             minute = getMinute (context);
         }
 
-        if (sprefs.getInt ("AUTO_UPDATE", 0) != 1) {
+        if (sprefs.getInt ("AUTO_UPDATE", 1) != 1) {
 
             long timeInMillis = 0;
             long deltaTimes = 0;
@@ -180,15 +184,18 @@ public class UpdateUtil {
                 if (deltaTimes <= 0) {
 
                     timeInMillis = calendar.getTimeInMillis () + AlarmManager.INTERVAL_DAY;
-                    Log.i ("kevin", "timeInMillis +1day-5min");
+                    Log.i ("lhc", "timeInMillis +1day-5min"+timeInMillis);
 
                 } else {
                     closePollingTime (context);
                     timeInMillis = calendar.getTimeInMillis ();
-                    Log.i ("kevin", "timeInMillis ");
+                    Log.i ("lhc", "timeInMillis "+timeInMillis);
                 }
 
                 intent = new Intent ("com.nfp.update.SCHEDULE");
+                intent.setComponent(new ComponentName("com.nfp.update","com.nfp.update.receiver.AlarmReceiver"));
+                Log.i ("lhc", "timeInMillis111 "+deltaTimes);
+
                 intent.putExtra ("delta_times", deltaTimes);
                 pi = PendingIntent.getBroadcast (context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -200,11 +207,13 @@ public class UpdateUtil {
                 calendar.set (Calendar.MILLISECOND, 0);
                 timeInMillis = calendar.getTimeInMillis () + 300000;
                 intent = new Intent ("com.nfp.update.UPDATE");
+                intent.setComponent(new ComponentName("com.nfp.update","com.nfp.update.receiver.AlarmReceiver"));
+
                 pi = PendingIntent.getBroadcast (context, 2, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                 closePollingTime (context);
 
             }
-
+            Log.i ("lhc", "timeInMillis1112222 "+timeInMillis);
             alarm.setExact (AlarmManager.RTC_WAKEUP, timeInMillis, pi);
             //alarm.setAlarmClock(new AlarmManager.AlarmClockInfo(timeInMillis, pi), pi);
 
@@ -244,6 +253,8 @@ public class UpdateUtil {
 
         AlarmManager alarm = (AlarmManager) context.getSystemService (context.ALARM_SERVICE);
         Intent intent = new Intent ("com.nfp.update.SCHEDULE");
+        intent.setComponent(new ComponentName("com.nfp.update","com.nfp.update.receiver.AlarmReceiver"));
+
         PendingIntent pi = PendingIntent.getBroadcast (context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         alarm.setExact (AlarmManager.RTC_WAKEUP, updateTime, pi);
         //alarm.setAlarmClock(new AlarmManager.AlarmClockInfo(updateTime, pi), pi);
@@ -252,12 +263,12 @@ public class UpdateUtil {
         String str = String.format ("%tF %<tT", updateTime);
         String start_update = str.replace ("-", "/");
         Log.d (TAG, "startUpdateServiceNext =-> " + start_update);
-        Log.d ("kevin", "222 NEXT getUpdateTime(context,updateTime)==" + getUpdateTime (context));
+        Log.d ("lhc", "222 NEXT getUpdateTime(context,updateTime)==" + getUpdateTime (context));
     }
 
     //stop auto update timer
     public static void stopUpdateService (Context context, int flag) {
-        Log.d ("kevin", "333  cancel update");
+        Log.d ("lhc", "333  cancel update");
         String action = "";
 
         if (flag == 1) {
@@ -268,6 +279,8 @@ public class UpdateUtil {
 
         AlarmManager manager = (AlarmManager) context.getSystemService (Context.ALARM_SERVICE);
         Intent intent = new Intent (action);
+        intent.setComponent(new ComponentName("com.nfp.update","com.nfp.update.receiver.AlarmReceiver"));
+
         PendingIntent pendingIntent = PendingIntent.getBroadcast (context, flag, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         manager.cancel (pendingIntent);
         setUpdateTime (context, 0);
@@ -275,7 +288,7 @@ public class UpdateUtil {
 
     public static void closePollingTime (Context context) {
         SharedPreferences spref = PreferenceManager.getDefaultSharedPreferences (context);
-        File files = new File ("/fota/softwareupdate.dat");
+        File files = new File ("/cache/update.zip");
         if (spref.getInt ("pol_switch", 1) == 0 && files.exists ())
             stopPollingService (context);
     }
@@ -464,7 +477,7 @@ public class UpdateUtil {
             week_num = week_num + 6;
         }
 
-        Log.d ("kevin", "week_num=" + String.valueOf (week_num) + "  week=" + String.valueOf (week));
+        Log.d ("lhc", "week_num=" + String.valueOf (week_num) + "  week=" + String.valueOf (week));
         return week_num;
     }
 
@@ -744,7 +757,7 @@ public class UpdateUtil {
                 result = false;
                 break;
         }
-        Log.d (TAG, result ? "sim" : "no sim");
+        Log.d (TAG, result ? "有SIM卡" : "无SIM卡");
         return result;
     }
 
@@ -984,7 +997,7 @@ public class UpdateUtil {
 
     @android.support.annotation.RequiresApi (api = android.os.Build.VERSION_CODES.JELLY_BEAN)
     public static void showUpdateResult(Context context) {
-        File files = new File("/fota/softwareupdate.dat");
+        File files = new File("/cache/update.zip");
         if(files.exists()){
             files.delete();
         }

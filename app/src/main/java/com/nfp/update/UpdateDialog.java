@@ -139,7 +139,7 @@ public class UpdateDialog extends Activity implements OnCancelListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        android.util.Log.i("kevin","UpdateDialog onDestroy =");
+        android.util.Log.i("lhc","UpdateDialog onDestroy =");
         UpdateUtil.stopUpdateService(getApplicationContext(), 2);
         UpdateUtil.startUpdateService(getApplicationContext(), 1);
        // if(batteryReceiver !=null)

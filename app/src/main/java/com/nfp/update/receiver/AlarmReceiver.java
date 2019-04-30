@@ -47,7 +47,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         WakeLock mWake = pm.newWakeLock(ACQUIRE_CAUSES_WAKEUP|SCREEN_DIM_WAKE_LOCK, "SimpleT");
 
         if (intent.getAction().equals("com.nfp.update.ALARM")) {
-            Log.d("kevin", "receive polling services broadcast");
+            Log.d("lhc", "receive polling services broadcast");
             mWakelock.acquire();
             intents= new Intent(context, PollingService.class);
             intents.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -55,7 +55,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             if(mWakelock.isHeld())
                 mWakelock.release();
         }else if (intent.getAction().equals("com.nfp.update.SCHEDULE")) {
-            Log.d("kevin", "receive schedule services broadcast");
+            Log.d("lhc", "receive schedule services broadcast");
             long updateTime = UpdateUtil.getUpdateTime(context);
             long currentTime = System.currentTimeMillis();
             long uTime = updateTime/(1000*60);
@@ -65,7 +65,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 UpdateUtil.setUpdateTime(context,0);
                 TelephonyManager tm = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
                 if(tm.getCallState()!=TelephonyManager.CALL_STATE_IDLE){
-                    Log.d("kevin", "Do not  rebootToInstall getCallState  = "+tm.getCallState());
+                    Log.d("lhc", "Do not  rebootToInstall getCallState  = "+tm.getCallState());
                     UpdateUtil.startUpdateService(context, 1);
                 }else{
                     intents= new Intent(context, UpdateDialog.class);
@@ -81,7 +81,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 UpdateUtil.startUpdateService(context, 1);
             }
         }else if (intent.getAction().equals("com.nfp.update.UPDATE")) {
-            Log.d("kevin", "receive schedule update broadcast");
+            Log.d("lhc", "receive schedule update broadcast");
            UpdateUtil.insertEventLog(context,0, context.getString(R.string.install)
                    , 0, context.getString(R.string.auto_install)
                    , null, null);

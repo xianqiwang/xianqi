@@ -92,13 +92,13 @@ public class CheckDeltaProgressDialog extends Activity{
         if(wakeLock.isHeld())
             wakeLock.release();
         ActivityManagerUtil.turnOnListenerKey(this, false);
-        android.util.Log.i("kevin","CheckDeltaProgressDialog onDestroy =");
+        android.util.Log.i("lhc","CheckDeltaProgressDialog onDestroy =");
     }
 
    @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if(keyCode ==KeyEvent.KEYCODE_ENDCALL){
-            Log.d("kevin", "clickj end key");
+            Log.d("lhc", "clickj end key");
             return true;
         }
         return super.onKeyUp(keyCode,event);

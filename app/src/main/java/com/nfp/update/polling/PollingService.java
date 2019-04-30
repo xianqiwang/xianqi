@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 
 import android.app.Service;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,6 +19,8 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
 
 import com.nfp.update.widget.CommonUtils;
+
+import com.nfp.update.PrepareUpdateActivity;
 import com.nfp.update.LessVolumeActivity;
 import com.nfp.update.widget.HttpClient;
 import com.nfp.update.UpdateUtil;
@@ -28,10 +31,11 @@ public class PollingService extends Service {
     private static final String TAG = "PollingService";
 
     public static final String DEFAULT_FILE = "/storage/emulated/0/software.dat";
-    public static final String FOTA_FILE = "/fota/softwareupdate.dat";
+    public static final String FOTA_FILE = "/cache/update.zip";
     private final static String CONFIR_UPDATE_FILE = "confirm.cgi";
     private final static String DOWNLOAD_UPDATE_FILE = "download.cgi";
-    private static String TEST = "?VER=SII%20602SI%20v001%20/l001%20356475080000000%2000000001234%20000000000001234%20001%20B162";
+    private static String TEST = "?VER=SII%20901SI%20v002%20/l000%20123456788103254%2000000001234%20000000000001234%20001%202833";
+
     private long hadDownload = 0;
     private static Context context;
     private SharedPreferences sp;
@@ -58,7 +62,7 @@ public class PollingService extends Service {
         Log.d(TAG, "PollingService -> onCreate");
         context = PollingService.this;
         try{
-            TEST = UpdateUtil.getTestVersion(context);
+           // TEST = UpdateUtil.getTestVersion(context);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -87,7 +91,7 @@ public class PollingService extends Service {
         }
 
         String packageFile = sp.getString("PAC_NAME", null);
-        File files = new File("/fota/softwareupdate.dat");
+        File files = new File("/cache/update.zip");
         if(packageFile == null||!files.exists()){
             if (UpdateUtil.hasSimCard(PollingService.this)){
                 if (UpdateUtil.checkNetworkConnection()){
@@ -103,6 +107,8 @@ public class PollingService extends Service {
                 } else {
                     Intent mIntent = new Intent();
                     mIntent.setAction("android.intent.action.RETRY");
+                    mIntent.setComponent(new ComponentName("com.nfp.update","com.nfp.update.polling.PollReceiver"));
+
                     context.sendBroadcast(mIntent);
                 }
             } else {
@@ -241,7 +247,7 @@ public class PollingService extends Service {
                                         UpdateUtil.stopPollingService(context);
                                         SharedPreferences spref = PreferenceManager.getDefaultSharedPreferences(context);
                                         SharedPreferences.Editor editor = spref.edit();
-                                        editor.putString("PAC_NAME", "softwareupdate.dat");
+                                        editor.putString("PAC_NAME", "update.zip");
                                         editor.commit();
                                         prepareUpdate();
                                     }
@@ -326,7 +332,7 @@ public class PollingService extends Service {
     @android.support.annotation.RequiresApi (api = android.os.Build.VERSION_CODES.KITKAT)
     public void prepareUpdate() {
         SharedPreferences spref = this.getSharedPreferences("debug_comm", 0);
-        if(spref.getInt("AUTO_UPDATE", 0) ==0){
+        if(spref.getInt("AUTO_UPDATE", 1) ==0){
             Log.d(TAG, " download complete ,start to new actvity");
             /*Intent intent = new Intent();
             intent.setClass(PollingService.this, PrepareUpdateActivity.class);
@@ -379,7 +385,7 @@ public class PollingService extends Service {
 
             }
         }
-        Log.e("kevin", "getFileSize="+String.valueOf(size));
+        Log.e("lhc", "getFileSize="+String.valueOf(size));
         return size;
     }
 

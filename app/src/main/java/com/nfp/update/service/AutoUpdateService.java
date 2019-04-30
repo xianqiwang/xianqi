@@ -55,7 +55,7 @@ public class AutoUpdateService extends Service {
                 int scale = intent.getIntExtra("scale", 100);
                 int curLevel = (level*100)/scale;
                 String sss= "current battery level ="+((level*100)/scale)+"%";
-                Log.d("kevin","batteryLevel ="+sss);
+                Log.d("lhc","batteryLevel ="+sss);
                 if(curLevel<30){
                     lowBattery();
                     UpdateUtil.showFotaNotification(context, R.string.Notification_battery_low, 7);
@@ -98,7 +98,7 @@ public class AutoUpdateService extends Service {
 
     @android.support.annotation.RequiresApi (api = android.os.Build.VERSION_CODES.JELLY_BEAN)
     public void rebootToInstall(Context context) {
-        File files = new File("/fota/softwareupdate.dat");
+        File files = new File("/cache/update.zip");
         if(files.exists()){
             startWaitUpdate();
             PropertyUtils.set("sys.verify_delta","1" );
@@ -132,7 +132,7 @@ public class AutoUpdateService extends Service {
                BufferedReader bufReader = new BufferedReader(inputReader);
                result = bufReader.readLine();
                file.delete();
-               Log.d("kevin","start to run  judge result="+result);
+               Log.d("lhc","start to run  judge result="+result);
 
               if(result.substring(0,1).equals("0")){
                   checkComplete();
@@ -141,12 +141,12 @@ public class AutoUpdateService extends Service {
                  printVerifyLogs();
                  judge_fail = true;
              }
-              Log.d("kevin","start to run  judge result="+result.substring(0,1));
+              Log.d("lhc","start to run  judge result="+result.substring(0,1));
             } catch (IOException e) {
                 e.printStackTrace();
             }
          }
-         Log.d("kevin","start to run reboot judgeUpdateFile");
+         Log.d("lhc","start to run reboot judgeUpdateFile");
          if(count==12||judge_fail){
              UpdateUtil.showUpdateResult(context);
              checkComplete();
@@ -164,9 +164,9 @@ public class AutoUpdateService extends Service {
                bufReader = new BufferedReader(inputReader);
                result = bufReader.readLine();
                while ((result=bufReader.readLine())!=null)
-                   Log.d("kevin",result);
+                   Log.d("lhc",result);
             }catch(Exception e){
-                   Log.d("kevin","read logs(/cache/redbend/ualog.txt) failed ");
+                   Log.d("lhc","read logs(/cache/redbend/ualog.txt) failed ");
                    e.printStackTrace();
             }finally{
 		try{
@@ -178,7 +178,7 @@ public class AutoUpdateService extends Service {
 
     public void startUpdate(Context context) {
         try{
-            Log.d("kevin","start = recovery mode");
+            Log.d("lhc","start = recovery mode");
             UpdateUtil.resetFotareference(context);
             RecoverySystem.installPackage(context, new File("/fota/rb_ota.zip"));
         }catch(IOException e){
@@ -190,7 +190,7 @@ public class AutoUpdateService extends Service {
     @android.annotation.SuppressLint ("WrongConstant")
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d("kevin","AutoUpdateService onStartCommand");
+        Log.d("lhc","AutoUpdateService onStartCommand");
         if(intent!=null){
             prepareInstall();
         }

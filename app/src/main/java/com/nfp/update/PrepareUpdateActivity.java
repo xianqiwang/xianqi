@@ -103,7 +103,7 @@ public class PrepareUpdateActivity extends Activity{
             String dateTime = formatter.format(d);*/
             long updateTime = UpdateUtil.getUpdateTime(this);
             String str = String.format("%tF %<tT", updateTime);
-            Log.d("kevin", "startUpdate install timer  =-> " + str);
+            Log.d("lhc", "startUpdate install timer  =-> " + str);
 
             if(UpdateUtil.getTempTImeFlag(this)==1){
                 hour = UpdateUtil.autoGenericCode(String.valueOf(UpdateUtil.getHourTemp(this)), 2);
@@ -117,7 +117,7 @@ public class PrepareUpdateActivity extends Activity{
             String updateDone = getString(R.string.update_done);
             sDownload = String.format(updateDone, str.substring(5, 7), str.substring(8,10), hour, minute);
             mTextView.setGravity(Gravity.START);
-            Log.d("kevin","timer="+timer);
+            Log.d("lhc","timer="+timer);
         //}else{
        //     sDownload = getString(R.string.update_done);
         //    mTextView.setGravity(Gravity.CENTER);

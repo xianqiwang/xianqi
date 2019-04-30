@@ -187,7 +187,7 @@ public class UpdateSchedule extends Activity implements TimeFotaDialog.OnTimeSet
 
         Date updateDate = (Date) c.getTime();
         String dateTime = formatter.format(updateDate);
-        Log.d("kevin","updates chedule dateTime="+ dateTime);
+        Log.d("lhc","updates chedule dateTime="+ dateTime);
         insertEventLog(context,0, context.getString(R.string.auto_update_setting), 0, dateTime, null, null);
     }
 
@@ -231,12 +231,12 @@ public class UpdateSchedule extends Activity implements TimeFotaDialog.OnTimeSet
     public void startUpdateSchedule(int hourOfDay, int minute){
         SharedPreferences spref = PreferenceManager.getDefaultSharedPreferences(UpdateSchedule.this);
         SharedPreferences sprefs = getSharedPreferences("debug_comm", 0);
-        File files = new File("/fota/softwareupdate.dat");
+        File files = new File("/fota/update.zip");
         String packageFile = spref.getString("PAC_NAME", null);
         if(packageFile!=null&&files.exists()){
             UpdateUtil.stopUpdateService(getApplicationContext(), 1);
-            if(sprefs.getInt("AUTO_UPDATE", 0) == 0){
-                Log.d("kevin","11133"+ "  hour="+String.valueOf(hourOfDay)+"   minute="+String.valueOf(minute));
+            if(sprefs.getInt("AUTO_UPDATE", 1) == 0){
+                Log.d("lhc","11133"+ "  hour="+String.valueOf(hourOfDay)+"   minute="+String.valueOf(minute));
                 UpdateUtil.startUpdateService(getApplicationContext(), 1);
             }
         }
