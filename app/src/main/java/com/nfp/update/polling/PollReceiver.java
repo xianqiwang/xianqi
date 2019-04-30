@@ -65,12 +65,12 @@ public class PollReceiver extends BroadcastReceiver {
                 installValue = installResult.substring(0, 1);
                 if(installValue.equals("0")){
                     UpdateUtil.showFotaNotification(context, R.string.Notification_update_success, 4);
-                    insertEventLog(context,0, context.getString(R.string.update_result), 0, context.getString(R.string.success), null, null);
-                    insertEventLog(context,0, context.getString(R.string.install_result), 0, context.getString(R.string.success), null, null);
+                   UpdateUtil.insertEventLog(context,0, context.getString(R.string.update_result), 0, context.getString(R.string.success), null, null);
+                   UpdateUtil.insertEventLog(context,0, context.getString(R.string.install_result), 0, context.getString(R.string.success), null, null);
                 }else{
                     UpdateUtil.showFotaNotification(context, R.string.Notification_update_fail, 5);
-                    insertEventLog(context,0, context.getString(R.string.update_result), 0, context.getString(R.string.fail), null, null);
-                    insertEventLog(context,0, context.getString(R.string.install_result), 0, context.getString(R.string.fail), context.getString(R.string.other), null);
+                    UpdateUtil.insertEventLog(context,0, context.getString(R.string.update_result), 0, context.getString(R.string.fail), null, null);
+                    UpdateUtil.insertEventLog(context,0, context.getString(R.string.install_result), 0, context.getString(R.string.fail), context.getString(R.string.other), null);
                 }
                 if(sharedPreferences.getInt("pol_switch", 1)==0)
                     UpdateUtil.stopPollingService(context);
@@ -229,42 +229,7 @@ String hour=String.valueOf(spref.getInt("update_hour", 1));
         }
     }
 
-    private android.net.Uri insertEventLog(Context context, int eventNo, String eventName, int tid, String factor1, String factor2, String factor3) {
-        final android.net.Uri uri = android.net.Uri.parse("content://com.ssol.eventlog/eventlog");
 
-        android.content.ContentResolver mContentResolver=context.getContentResolver();
-
-        mContentResolver.acquireContentProviderClient (uri);
-
-        android.content.ContentValues values = new android.content.ContentValues ();
-
-        if (android.text.TextUtils.isEmpty(eventName)) {
-            throw new IllegalArgumentException("Invalid event name : " + eventName);
-        } else {
-            values.put("EVENT_NAME", eventName);
-        }
-
-        /*if (tid < 1 || tid > 256) {
-            Log.w(TAG, "Invalid tid : " + tid);
-        } else {
-            values.put("TID", new Integer(tid));
-        }*/
-
-        if (! android.text.TextUtils.isEmpty(factor1)) {
-            values.put("FACTOR1", factor1);
-        }
-
-        if (! android.text.TextUtils.isEmpty(factor2)) {
-            values.put("FACTOR2", factor2);
-        }
-
-        if (! android.text.TextUtils.isEmpty(factor3)) {
-            values.put("FACTOR3", factor3);
-        }
-
-        return  mContentResolver.insert (uri,values);
-
-    }
 
    @android.support.annotation.RequiresApi (api = android.os.Build.VERSION_CODES.KITKAT)
    public void setNewUpdateTime(Context context) {

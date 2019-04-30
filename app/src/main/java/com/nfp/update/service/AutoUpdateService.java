@@ -44,6 +44,7 @@ public class AutoUpdateService extends Service {
     private int count = 0;
     private boolean isCheckComplete = false;
     private BatteryReceiver batteryReceiver = null;
+
     class BatteryReceiver extends BroadcastReceiver{
         @android.support.annotation.RequiresApi (api = android.os.Build.VERSION_CODES.JELLY_BEAN)
         @Override
