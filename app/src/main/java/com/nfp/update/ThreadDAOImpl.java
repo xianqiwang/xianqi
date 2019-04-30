@@ -1,13 +1,7 @@
 package com.nfp.update;
 
-import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
-
-import java.util.ArrayList;
-import java.util.List;
+import com.nfp.update.widget.MyDBHelper;
 
 /**
  * @author MR.ZHANG

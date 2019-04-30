@@ -70,7 +70,7 @@
         <activity android:name=".SoftwareUpdate"
             android:label="@string/new_hand_update"
             />
-        <activity android:name=".DialogText" />
+        <activity android:name=".widget.DialogText" />
         <activity
             android:name=".PrepareUpdateActivity"
             android:allowTaskReparenting="true" />
@@ -115,7 +115,7 @@
         <!-- <activity android:name=".UpdateDialog" android:launchMode="singleInstance"/> -->
 
         <activity
-            android:name=".CheckDeltaProgressDialog"
+            android:name=".widget.CheckDeltaProgressDialog"
             android:launchMode="singleInstance" />
         <activity
             android:name=".UpdateSchedule"
@@ -123,7 +123,7 @@
             android:launchMode="singleInstance" />
 
         <service
-            android:name=".DebugService"
+            android:name=".service.DebugService"
             android:launchMode="singleInstance" />
 
         <activity
@@ -139,14 +139,14 @@
             android:label="@string/new_hand_update"
             />
         <receiver
-            android:name=".DebugReceiver"
+            android:name=".receiver.DebugReceiver"
             android:process=":remote">
             <intent-filter>
                 <action android:name="com.android.nfp.updateDebug" />
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".AlarmReceiver"
+            android:name=".receiver.AlarmReceiver"
             android:process=":remote">
             <intent-filter>
                 <action android:name="com.nfp.update.ALARM" />
@@ -155,7 +155,7 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".AutoUpdateService" />
+        <service android:name=".service.AutoUpdateService" />
         <service android:name=".polling.PollingService" />
 
         <receiver android:name=".polling.PollReceiver">
@@ -168,7 +168,7 @@
                 <action android:name="android.intent.action.ACTION_SHUTDOWN" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".TimeChangeReceiver">
+        <receiver android:name=".receiver.TimeChangeReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.TIME_SET" />
             </intent-filter>
@@ -224,7 +224,7 @@
         </activity>
         <service android:name="com.loopj.android.http.sample.services.ExampleIntentService" />
 
-        <service android:name=".DownloadService" />
+        <service android:name=".service.DownloadService" />
         <service
             android:name=".nfpapp.app.core.Service1"
             android:enabled="true"
@@ -235,7 +235,7 @@
             android:enabled="true"
             android:process=":service2">
         </service>
-        <receiver android:name=".WtwdReceive">
+        <receiver android:name=".service.WtwdReceive">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <action android:name="com.wtwd.action.checkupdate" />

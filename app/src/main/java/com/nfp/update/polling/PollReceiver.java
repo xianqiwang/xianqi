@@ -3,7 +3,6 @@ package com.nfp.update.polling;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -20,10 +19,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Calendar;
 
-import com.nfp.update.CustomDialog;
-import com.nfp.update.MainActivity;
+import com.nfp.update.widget.CustomDialog;
 import com.nfp.update.UpdateUtil;
-import com.nfp.update.DebugReceiver;
 import com.nfp.update.R;
 
 public class PollReceiver extends BroadcastReceiver {

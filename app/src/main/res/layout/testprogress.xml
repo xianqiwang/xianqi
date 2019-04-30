@@ -5,7 +5,7 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <com.nfp.update.CustomProgressBar
+    <com.nfp.update.widget.CustomProgressBar
         android:id="@+id/icon_text_progressbar"
         style="@android:style/Widget.ProgressBar.Horizontal"
         android:layout_width="330dp"

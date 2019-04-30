@@ -1,42 +1,25 @@
 package com.nfp.update;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Calendar;
-import java.util.Locale;
-
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.res.Resources;
-import android.os.Build;
-import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.RequiresApi;
 import android.util.Log;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.view.MenuItem;
-import android.widget.TextView;
-import android.widget.ProgressBar;
-import android.view.KeyEvent;
 import android.view.View;
-import android.os.Handler;
-import android.os.Message;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.nfp.update.DownloadTask.OnDownloadProgress;
-import com.nfp.update.download.Download;
-import com.nfp.update.nfpapp.app.util.NfpSoftkeyGuide;
-import com.nfp.update.R;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import android.net.Uri;
+import com.nfp.update.service.DownloadService;
+import com.nfp.update.widget.CommonUtils;
+import com.nfp.update.widget.CustomDialog;
+import com.nfp.update.widget.DataCache;
+import com.nfp.update.widget.HttpClient;
+import com.nfp.update.widget.NetStatUtils;
+
 import cz.msebera.android.httpclient.Header;
-import java.io.File;
 
 import static java.lang.Thread.sleep;
 

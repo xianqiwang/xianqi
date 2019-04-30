@@ -1,0 +1,97 @@
+/*
+ * Copyright (C) 2017 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.nfp.update.receiver;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
+import android.telephony.TelephonyManager;
+import android.util.Log;
+
+import com.nfp.update.service.AutoUpdateService;
+import com.nfp.update.R;
+
+import com.nfp.update.UpdateDialog;
+import com.nfp.update.UpdateUtil;
+import com.nfp.update.polling.PollingService;
+
+import static android.os.PowerManager.*;
+
+
+public class AlarmReceiver extends BroadcastReceiver {
+
+    Intent intents;
+
+    @Override
+    public void onReceive(final Context context, Intent intent) {
+
+        PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        WakeLock mWakelock = pm.newWakeLock(PARTIAL_WAKE_LOCK, "SimpleTimer");
+
+        WakeLock mWake = pm.newWakeLock(ACQUIRE_CAUSES_WAKEUP|SCREEN_DIM_WAKE_LOCK, "SimpleT");
+
+        if (intent.getAction().equals("com.nfp.update.ALARM")) {
+            Log.d("kevin", "receive polling services broadcast");
+            mWakelock.acquire();
+            intents= new Intent(context, PollingService.class);
+            intents.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startService(intents);
+            if(mWakelock.isHeld())
+                mWakelock.release();
+        }else if (intent.getAction().equals("com.nfp.update.SCHEDULE")) {
+            Log.d("kevin", "receive schedule services broadcast");
+            long updateTime = UpdateUtil.getUpdateTime(context);
+            long currentTime = System.currentTimeMillis();
+            long uTime = updateTime/(1000*60);
+            long cTime = currentTime/(1000*60);
+            if(cTime<=uTime){
+                mWake.acquire();
+                UpdateUtil.setUpdateTime(context,0);
+                TelephonyManager tm = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
+                if(tm.getCallState()!=TelephonyManager.CALL_STATE_IDLE){
+                    Log.d("kevin", "Do not  rebootToInstall getCallState  = "+tm.getCallState());
+                    UpdateUtil.startUpdateService(context, 1);
+                }else{
+                    intents= new Intent(context, UpdateDialog.class);
+                    intents.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intents);
+                    UpdateUtil.startUpdateService(context, 2);
+                    if(UpdateUtil.getTempTImeFlag(context)==1)
+                        UpdateUtil.clearTempHourMinute(context);
+                }
+                mWake.release();
+            }else{
+                UpdateUtil.stopUpdateService(context, 1);
+                UpdateUtil.startUpdateService(context, 1);
+            }
+        }else if (intent.getAction().equals("com.nfp.update.UPDATE")) {
+            Log.d("kevin", "receive schedule update broadcast");
+           UpdateUtil.insertEventLog(context,0, context.getString(R.string.install)
+                   , 0, context.getString(R.string.auto_install)
+                   , null, null);
+
+            mWake.acquire();
+            UpdateUtil.setUpdateTime(context,0);
+            intents= new Intent(context, AutoUpdateService.class);
+            intents.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startService(intents);
+            mWake.release();
+        }
+    }
+}

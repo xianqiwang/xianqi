@@ -1,35 +1,12 @@
 package com.nfp.update;
 
-import android.app.AlertDialog;
-import android.app.TimePickerDialog;
-import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
-import android.preference.PreferenceManager;
-import android.util.Log;
-import android.os.Build;
-import android.view.View;
-import android.widget.TimePicker;
 
-import com.nfp.update.DefDialog.OnOkListener;
+import com.nfp.update.service.DownloadService;
+import com.nfp.update.widget.CommonUtils;
+import com.nfp.update.widget.FileInfo;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;
-import java.net.URL;
-import java.security.cert.CertificateException;
-import java.util.Calendar;
-import java.util.List;
-
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.X509TrustManager;
 
 public class DownloadTask {
     private android.content.Context mContext = null;

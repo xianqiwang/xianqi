@@ -1,16 +1,11 @@
 package com.loopj.android.http.sample;
 
-import android.util.Log;
-
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
 import com.loopj.android.http.RequestHandle;
 import com.loopj.android.http.ResponseHandlerInterface;
-import com.loopj.android.http.sample.util.FileUtil;
 
-import java.io.File;
-
-import com.nfp.update.CommonUtils;
+import com.nfp.update.widget.CommonUtils;
 import com.nfp.update.R;
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.HttpEntity;

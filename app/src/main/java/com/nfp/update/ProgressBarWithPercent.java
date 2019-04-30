@@ -1,15 +1,6 @@
 package com.nfp.update;
 
-import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.RectF;
-import android.os.Bundle;
-import android.os.Parcelable;
-import android.util.AttributeSet;
-import android.view.View;
+import com.nfp.update.widget.OnProgressBarListener;
 
 public class ProgressBarWithPercent extends android.view.View {
 

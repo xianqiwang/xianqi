@@ -4,22 +4,13 @@ package com.nfp.update;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.RecoverySystem;
 import android.content.Context;
-import android.util.Log;
-import android.content.SharedPreferences;
 
-import android.content.BroadcastReceiver;
-import android.content.IntentFilter;
-import com.nfp.update.R;
-
-import java.io.File;
-import java.io.IOException;
+import com.nfp.update.service.AutoUpdateService;
 
 public class UpdateDialog extends Activity implements OnCancelListener {
 

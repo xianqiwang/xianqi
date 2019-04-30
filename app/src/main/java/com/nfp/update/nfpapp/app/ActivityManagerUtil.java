@@ -15,11 +15,7 @@
 */
 package com.nfp.update.nfpapp.app;
 
-import android.content.Context;
-import android.app.Activity;
-import android.util.Log;
-
-import com.nfp.update.CheckDeltaProgressDialog;
+import com.nfp.update.widget.CheckDeltaProgressDialog;
 
 
 public class ActivityManagerUtil {

@@ -1,31 +1,18 @@
 package com.nfp.update.widget;
 
-import android.annotation.TargetApi;
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build.VERSION_CODES;
-import android.support.annotation.RequiresApi;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.NumberPicker;
-import android.widget.TextView;
 
-import com.nfp.update.CustomNumberPicker;
-import com.nfp.update.PickerView;
 import com.nfp.update.R;
-import com.nfp.update.WheelPicker;
-import com.nfp.update.WheelPicker.OnItemSelectedListener;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
 
 public class TimeFotaDialog  extends Dialog {
     private CustomNumberPicker hour_1;

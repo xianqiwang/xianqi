@@ -9,10 +9,10 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.os.SystemClock;
 import android.util.Log;
-import com.nfp.update.CommonUtils;
-import com.nfp.update.DataCache;
+import com.nfp.update.widget.CommonUtils;
+import com.nfp.update.widget.DataCache;
 import java.util.Calendar;
-import com.nfp.update.WtwdReceive;
+import com.nfp.update.service.WtwdReceive;
 import android.content.IntentFilter;
 
 

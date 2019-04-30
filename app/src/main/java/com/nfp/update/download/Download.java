@@ -5,7 +5,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -19,8 +18,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.nfp.update.CommonUtils;
-import com.nfp.update.DownloadService;
+import com.nfp.update.widget.CommonUtils;
 import com.nfp.update.R;
 import com.nfp.update.download.util.FileDownload;
 import com.nfp.update.net.download.DownloadProgressListener;

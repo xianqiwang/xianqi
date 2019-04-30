@@ -18,17 +18,8 @@
 
 package com.loopj.android.http.sample;
 
-import android.widget.Toast;
-
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestHandle;
-import com.loopj.android.http.ResponseHandlerInterface;
-import com.nfp.update.CommonUtils;
+import com.nfp.update.widget.CommonUtils;
 import com.nfp.update.R;
-
-import cz.msebera.android.httpclient.Header;
-import cz.msebera.android.httpclient.HttpEntity;
 
 public class GetSample extends SampleParentActivity {
     private static final String LOG_TAG = "GetSample";

@@ -3,7 +3,6 @@ package com.nfp.update;
 import android.app.Dialog;
 import android.content.Context;
 
-import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,23 +14,22 @@ import android.widget.AbsListView;
 import android.widget.TextView;
 import android.widget.Button;
 import android.view.WindowManager.LayoutParams;
-import android.app.AlertDialog;
-import android.view.KeyEvent;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import android.widget.SimpleAdapter;
-import android.content.DialogInterface;
 import android.widget.ProgressBar;
 import android.os.Handler;
 import android.os.Message;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+
+import com.nfp.update.widget.MyAdapter;
+import com.nfp.update.widget.entity;
 
 class DefDialog extends Dialog {
 
@@ -903,7 +901,7 @@ public void addListview_AN_09(){
 
     public void setSpinner(ArrayList<entity> data){
 
-        myAdadpter = new MyAdapter<entity>(data,R.layout.item_spin) {
+        myAdadpter = new MyAdapter<entity> (data,R.layout.item_spin) {
             @Override
             public void bindView (MyAdapter.ViewHolder holder, entity obj) {
 

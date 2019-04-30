@@ -8,6 +8,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 
+import com.nfp.update.widget.CustomProgressBar;
+
 import java.lang.ref.WeakReference;
 
 public class TestProgress extends Activity implements View.OnClickListener {

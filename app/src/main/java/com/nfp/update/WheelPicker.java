@@ -1,27 +1,7 @@
 package com.nfp.update;
 
-import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.Camera;
-import android.graphics.Canvas;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.Region;
-import android.graphics.Typeface;
-import android.os.Build;
-import android.os.Handler;
-import android.text.TextUtils;
-import android.util.AttributeSet;
-import android.util.Log;
-import android.view.MotionEvent;
-import android.view.VelocityTracker;
-import android.view.View;
-import android.view.ViewConfiguration;
-import android.widget.Scroller;
-
-import java.util.Arrays;
-import java.util.List;
+import com.nfp.update.widget.IDebug;
+import com.nfp.update.widget.IWheelPicker;
 
 /**
  * 滚轮选择器

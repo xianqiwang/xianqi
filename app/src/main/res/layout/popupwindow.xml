@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <com.nfp.update.CustomNumberPicker
+        <com.nfp.update.widget.CustomNumberPicker
             android:id="@+id/numberPicker"
             android:layout_width="60dp"
             android:layout_height="wrap_content"

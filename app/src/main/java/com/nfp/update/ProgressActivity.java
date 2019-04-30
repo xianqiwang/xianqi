@@ -1,5 +1,7 @@
 package com.nfp.update;
 
+import com.nfp.update.widget.OnProgressBarListener;
+
 public class ProgressActivity extends android.app.Activity {
 
     private java.util.Timer timer;
@@ -11,7 +13,7 @@ public class ProgressActivity extends android.app.Activity {
         super.onCreate (savedInstanceState);
         setContentView (R.layout.progressactivity);
         progressBarWithPercent = (ProgressBarWithPercent) findViewById(R.id.progressBarWithPercent);
-        progressBarWithPercent.setOnProgressBarListener(new OnProgressBarListener(){
+        progressBarWithPercent.setOnProgressBarListener(new OnProgressBarListener (){
 
             @Override
             public void onProgressChange (int current, int max) {

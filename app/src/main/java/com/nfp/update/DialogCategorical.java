@@ -2,12 +2,10 @@ package com.nfp.update;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.View;
 import android.content.res.Resources;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.nfp.update.widget.CommonUtils;
+
 public class DialogCategorical {
 /*
 * 每个页面的对话框在这里调用

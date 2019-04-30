@@ -1,11 +1,10 @@
 package com.nfp.update.nfpapp.app.core;
 
 import android.annotation.SuppressLint;
-import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.RemoteException;
-import com.nfp.update.CommonUtils;
+import com.nfp.update.widget.CommonUtils;
 
 
 public class Service2 extends android.app.Service {

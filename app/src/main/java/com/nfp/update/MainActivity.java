@@ -1,30 +1,14 @@
 package com.nfp.update;
 
 import android.app.Activity;
-import android.app.PendingIntent;
-import android.app.admin.DevicePolicyManager;
-import android.content.ComponentName;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.graphics.PixelFormat;
 import android.net.Uri;
-import android.os.PowerManager;
-import android.os.PowerManager.WakeLock;
-import android.os.Process;
-import android.provider.FontsContract.FontInfo;
 import android.provider.Settings;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
-import android.os.RecoverySystem;
-import android.support.v4.app.ActivityCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,16 +17,14 @@ import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.loopj.android.http.sample.WaypointsActivity;
-import com.nfp.update.DefDialog.OnOkListener;
+import com.nfp.update.widget.CommonUtils;
+import com.nfp.update.widget.HttpClient;
 
-import java.io.File;
 import java.util.ArrayList;
 
 public class MainActivity extends Activity {

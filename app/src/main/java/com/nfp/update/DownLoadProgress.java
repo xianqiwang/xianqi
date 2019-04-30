@@ -17,19 +17,13 @@
 package com.nfp.update;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -37,7 +31,11 @@ import android.widget.TextView;
 
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
 import com.nfp.update.DefDialog.OnOkListener;
-import com.nfp.update.DownloadTask.OnDownloadProgress;
+import com.nfp.update.service.DownloadService;
+import com.nfp.update.widget.CommonUtils;
+import com.nfp.update.widget.CustomDialog;
+import com.nfp.update.widget.DataCache;
+import com.nfp.update.widget.HttpClient;
 
 import java.io.File;
 import java.io.FileInputStream;

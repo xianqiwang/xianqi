@@ -2,13 +2,13 @@ package com.nfp.update;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
-import android.view.View;
 
-import java.io.File;
+import com.nfp.update.service.DownloadService;
+import com.nfp.update.widget.CommonUtils;
+import com.nfp.update.widget.FileInfo;
+import com.nfp.update.widget.NetStatUtils;
 
 public class HandlerHttpServer {
 
@@ -44,7 +44,7 @@ public class HandlerHttpServer {
                                     Intent intent = new Intent(mContext, DownloadService.class);
                                     intent.setAction(DownloadService.ACTION_START);
                                     intent.putExtra("fileinfo",
-                                            new FileInfo(0, CommonUtils.ServerUrlDownloadTwo,
+                                            new FileInfo (0, CommonUtils.ServerUrlDownloadTwo,
                                                     "update.zip", 0, 0));
                                     mContext.startService(intent);
 

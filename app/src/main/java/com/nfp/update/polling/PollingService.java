@@ -13,18 +13,14 @@ import android.util.Log;
 import android.os.Message;
 import android.os.Handler;
 import android.os.PowerManager;
-import android.os.PowerManager.WakeLock;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.FileAsyncHttpResponseHandler;
 
-import com.nfp.update.CommonUtils;
-import com.nfp.update.DownLoadProgress;
-import com.nfp.update.PrepareUpdateActivity;
+import com.nfp.update.widget.CommonUtils;
 import com.nfp.update.LessVolumeActivity;
-import com.nfp.update.HttpClient;
+import com.nfp.update.widget.HttpClient;
 import com.nfp.update.UpdateUtil;
-import com.nfp.update.DebugReceiver;
 import com.nfp.update.R;
 
 public class PollingService extends Service {
